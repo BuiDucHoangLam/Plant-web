@@ -20,14 +20,14 @@ const Footer = () => {
                       <div className="row">
                           <div className="col">
                               <div className="headinga">
-                                  <h3>Address</h3>
+                                  <h3>Địa chỉ</h3>
                                   <span>01 Phù Đổng Thiên Vương, Phường 8, Thành Phố Đà Lạt</span>
                                   <p>(+084 123456789)</p>
                               </div>
                           </div>
                           <div className="col-6">
                             <div className="headinga">
-                              <h3>Social Link</h3>
+                              <h3>Mạng xã hội</h3>
                               <ul className="location_icon">
                                 
                                 <li> <a href="#"><img src={facebook}/></a></li>
@@ -44,14 +44,14 @@ const Footer = () => {
                                       <ul className="link">
                                           <div className="row g-2">
                                               <div className="col-md-6">
-                                                  <li> <a href="#">Home</a></li>
-                                                  <li> <a href="#">About</a></li>
-                                                  <li> <a href="#">Plant</a></li>
+                                                  <li> <a href="#">Trang chủ</a></li>
+                                                  <li> <a href="#">Liên hệ</a></li>
+                                                  <li> <a href="#">Thông tin</a></li>
                                               </div>
                                               <div className="col-md-6">
-                                                  <li> <a href="#">Gallery</a></li>
-                                                  <li> <a href="#">Statistics</a></li>
-                                                  <li> <a href="#">Help</a></li>
+                                                  <li> <a href="#">Bộ sưu tập</a></li>
+                                                  <li> <a href="#">Thống kê</a></li>
+                                                  <li> <a href="#">Trơ giúp</a></li>
                                               </div>
                                           </div>
                                       </ul>

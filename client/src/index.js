@@ -7,6 +7,7 @@ import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
+import "antd/dist/antd.css"
 import rootReducer from './redux'
 
 const store = createStore(rootReducer,composeWithDevTools())

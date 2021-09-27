@@ -1,0 +1,16 @@
+.carousel .thumb{
+  width: 5%;
+  height: 50px;
+}
+
+.carousel {
+  text-align: center;
+}
+
+.carousel.carousel-slider {
+  width: 50% !important;
+}
+
+.carousel .thumbs-wrapper {
+  display: none;
+}

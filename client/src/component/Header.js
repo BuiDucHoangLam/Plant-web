@@ -28,12 +28,12 @@ const Header = () => {
                         <div className="limit-box">
                             <nav className="main-menu">
                               <ul className="menu-area-main">
-                                  <li className="active"> <a href="/">Home</a> </li>
-                                  <li> <a href="/about">About</a> </li>
-                                  <li><a href="/plant">Plant</a></li>
-                                  <li><a href="/search">Search</a></li>
-                                  <li><a href="/statistics">Statistics</a></li>
-                                  <li><a href="/help">Help</a></li>
+                                  <li className="active"> <a href="/">Trang chủ</a> </li>
+                                  <li> <a href="/about">Liên hệ</a> </li>
+                                  <li><a href="/plant">Thông tin</a></li>
+                                  <li><a href="/search">Tìm kiếm</a></li>
+                                  {/* <li><a href="/statistics">Thống kê</a></li> */}
+                                  <li><a href="/help">Trợ giúp</a></li>
                                   <li className="last"><a href="/search"><img src={search_icon} alt="icon" /></a></li>
                               </ul>
                             </nav>

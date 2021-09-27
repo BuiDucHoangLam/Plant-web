@@ -15,7 +15,7 @@ mongoose.connect(process.env.DATABASE,{
 }).then(()=> console.log('DB connect success'))
 .catch(err => console.log('DB connect error',err))
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '50mb', extended: true}))
 
 readdirSync('./route')
 .map(r=> 

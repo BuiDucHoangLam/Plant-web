@@ -15,3 +15,13 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+.login {
+  line-height: 20px;
+  font-size: 16px;
+  display: block;
+  font-weight: 500;
+  color: #3b3b3b;
+  padding: 22px 26px;
+  text-transform: uppercase;
+}

@@ -437,7 +437,7 @@ a.readmore_bt {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   min-height: 110px;
-  padding-top: 45px;
+  margin-top:45px;
 }
 
 .logo {

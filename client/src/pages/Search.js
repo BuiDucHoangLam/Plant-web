@@ -4,6 +4,7 @@ import { SearchOutlined } from '@ant-design/icons'
 import { Avatar,Badge } from 'antd'
 import {Link} from 'react-router-dom'
 import { getPlants,getPlantsFilter } from '../api/plant'
+import { getResultSearch } from '../api/search'
 import '../css/style.css'
 import '../css/responsive.css'
 import '../css/search.css'
@@ -42,6 +43,7 @@ const Search = () => {
     const [source,setSource] = useState('')
     const [distribution,setDistribution] = useState('')
     const {text} = search
+    const [flower,setFlower] = useState({status:'',accuracy:'',predict:'',label:''})
 
     const dispatch = useDispatch()
 
@@ -71,13 +73,19 @@ const Search = () => {
         loadPlantsQuery({otherData:otherData})
     },[otherData])
 
+
+
     const loadSearchByImage = () => 
-         getPlants().then(res => {
-             const arr = []
-            res.data.map(r => arr.push(r.slug))
-            setSlug(arr)
+        //  getPlants().then(res => {
+        //      const arr = []
+        //     res.data.map(r => arr.push(r.slug))
+        //     setSlug(arr)
+        // })
+        getResultSearch().then(res =>{
+            // setFlower(res.data)
+            // console.log(flower);
+            console.log(res.data)
         })
-        
         .then(document.getElementById('search-img__list').classList.remove('hidden'))
         .catch(err => console.log(err))
 
@@ -161,22 +169,16 @@ const Search = () => {
                             
                             {/* placeholder= {<span className="dandev_insert_attach"><i className="dandev-plus">+</i></span>} */}
                             </Badge> }
-                            <input 
-                                id="file_input_file"
-                                type="file" 
-                                multiple 
-                                placeholder ='+'
-                                
-                                // accept='images/*'
-                                onChange ={fileUpload}
-                            />
+                            <a href="http://localhost:5000/upload-image">
+                           <div>Chọn tệp</div>
+                            </a>
                         </div>
                     </div>
                 {/* <!-- </div> --> */}
 
                 <div>
                     
-                    <input type="submit" className="img_search" value="Search" onClick ={loadSearchByImage}/>
+                    <input type='submit' className="img_search" value="Search" onClick ={loadSearchByImage}/>
                     
                 </div>
             </div>
@@ -348,7 +350,7 @@ const Search = () => {
                             type='search' 
                             value ={bibliography} 
                             className ='form-control mr-sm-2'
-                            placeholder='Search Name'
+                            placeholder='Search Bibliography'
                         />
                         <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
                     </form>
@@ -361,7 +363,7 @@ const Search = () => {
                             type='search' 
                             value ={source} 
                             className ='form-control mr-sm-2'
-                            placeholder='Search Name'
+                            placeholder='Search Source'
                         />
                         <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
                     </form>
