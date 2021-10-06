@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom'
 const {Meta} = Card
 
 const SpecieCard = ({specie,handleRemove}) => {
-  const {name,vnName,description,images,slug} = specie
+  const {name,vnName,description,slug} = specie
   return (
     <Card
       cover ={
-        <Link to = {`/details/${slug}`}>
-           <img src = {images.length && images[0].url} alt ='img' style ={{height:'150px',objectFit:'cover'}} className ='m-2'/>
+        <Link to = {`/details-specie/${slug}`} style ={{display:'flex',justifyContent:'center'}}>
+           <img src = {Object.values(specie.images).flat().length && Object.values(specie.images).flat()[0].url} alt ='img' style ={{height:'150px',objectFit:'cover'}} className ='m-2'/>
         </Link>
       }
       actions ={[

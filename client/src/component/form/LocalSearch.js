@@ -1,6 +1,9 @@
 import React from 'react'
+import { useTranslation } from "react-i18next";
 
 const LocalSearch = ({keyword,setKeyword}) => {
+  const {t} = useTranslation()
+
   const handleSearchChange = e => {
     e.preventDefault()
     setKeyword(e.target.value.toLowerCase())
@@ -8,7 +11,7 @@ const LocalSearch = ({keyword,setKeyword}) => {
 
   return (
     <input
-      placeholder='Tìm kiếm'
+      placeholder={t('search')}
       value= {keyword}
       onChange ={handleSearchChange}
       type='text'

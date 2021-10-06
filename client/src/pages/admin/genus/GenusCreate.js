@@ -9,15 +9,29 @@ import { toast } from 'react-toastify'
 import {EditOutlined,DeleteOutlined} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import ImageUpload from '../../../component/form/ImageUpload'
+import { useTranslation } from "react-i18next";
+
+const initialState = {
+  name:'',
+  ordo:'',
+  familia:'',
+  distribution:'',
+  description:'',
+  images:[],
+  value:'',
+  enDistribution:'',
+  enDescription:'',
+  enValue:'',
+}
 
 const GenusCreate = () => {
-  const [name,setName] = useState('')
+  const [values,setValues] = useState(initialState)
   const [loading,setLoading] = useState('')
   const [familias,setFamilias] = useState([])
-  const [familia,setFamilia] = useState('')
   const [ordos,setOrdos] = useState([])
-  const [ordo,setOrdo] = useState('Chưa có')
   const [genusList,setGenusList] = useState([])
+  const {t} = useTranslation()
 
   const [keyword,setKeyword] = useState('')
 
@@ -43,30 +57,34 @@ const GenusCreate = () => {
   },[])
 
   const handleRemove = async (slug) => {
-    if(window.confirm(`Bạn thực sự muốn xóa chi ${slug}?`)) {
+    if(window.confirm(`${t('reallyDeleteGenus')} ${slug}?`)) {
       setLoading(true)
       deleteGenus(user.token,slug).then(res => {
         console.log(res);
         setLoading(false)
-        toast.info(`Đã xóa chi '${res.data.name}'`)
+        toast.info(`${t('successDeleteGenus')} '${res.data.name}'`)
         loadGenusList()
       }).catch(err => {
         console.log('Delete genus',err);
-        toast.error(`Chưa thể xóa chi '${err}'`)
+        toast.error(`${t('failDeleteGenus')} '${err}'`)
       })
     }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    createGenus(user.token,name,ordo,familia).then(res => {
+    createGenus(user.token,values).then(res => {
       console.log(res);
       setLoading(false)
       loadGenusList()
-      toast.success(`Thêm chi ${name} thành công!`)
+      toast.success(`Thêm chi ${values.name} thành công!`)
     }).catch(err => {
       console.log(err);
-      toast.error(`Không thể thêm chi ${name}!`)
+      // toast.error(`Không thể thêm chi ${values.name}!`)
+      if(err.response.status === 400){
+        setLoading(false)
+        toast.error(err.message.data)
+      }
     })
   }
 
@@ -75,9 +93,8 @@ const GenusCreate = () => {
   }
 
   const handleChange = e => {
-    setFamilia(e.target.value)
-    // if(familia) setOrdo(ordos.find(({_id}) => _id === familia.ordo).name)
-    console.log(familia);
+    e.preventDefault()
+    setValues({...values,[e.target.name]:e.target.value})
   }
 
   return (
@@ -89,15 +106,15 @@ const GenusCreate = () => {
         <div className = "col"> 
           {loading 
           ? <h3 className='text'>Loading ...</h3> 
-          : <h3 style ={{textAlign:'center'}}>Tạo chi mới</h3>
+          : <h3 style ={{textAlign:'center'}}>{t('createGenus')}</h3>
           }
           <div className='form-group'>
-            <label>Tên bộ</label>
+            <label>{t('ordo')}</label>
             <select 
               name="ordo" 
               className='form-control'
               onChange ={e => {
-                setOrdo(e.target.value)
+                setValues({...values,ordo:e.target.value})
                 getOrdoListFamilia(e.target.value).then(res => {
                   console.log(res.data);
                   setFamilias(res.data)
@@ -105,7 +122,7 @@ const GenusCreate = () => {
               }}
               // disabled
             >
-              <option>Chọn tên bộ</option>
+              <option>{t('chooseOrdo')}</option>
               {ordos.length > 0 && ordos.map(ordo => {
                 return <option key={ordo._id} value={ordo._id}>{ordo.name}</option>
               })}
@@ -115,15 +132,15 @@ const GenusCreate = () => {
           
 
           <div className='form-group'>
-            <label>Tên Họ</label>
+            <label>{t('familia')}</label>
             <select 
-              name="ordo" 
+              name="familia" 
               className='form-control'
               onChange ={e => {
-                setFamilia(e.target.value)
+                setValues({...values,familia:e.target.value})
               }}
             >
-              <option>Chọn tên họ</option>
+              <option>{t('chooseFamilia')}</option>
               {familias.length > 0 && familias.map(f => {
                 return <option key={f._id} value={f._id}>{f.name}</option>
               })}
@@ -142,11 +159,18 @@ const GenusCreate = () => {
             required
             disabled
           /> */}
+          <ImageUpload
+            values ={values}
+            setValues= {setValues}
+            setLoading = {setLoading}
+            name = {t('chooseImageBackground')}
+          />
+
           <OrdoForm 
             onSubmit = {handleSubmit}
-            name = {name}
-            change = {setName}
-            functionality = 'Hoàn thành'
+            values = {values}
+            change = {handleChange}
+            functionality = {t('complete')}
           />
 
           <LocalSearch
@@ -162,7 +186,7 @@ const GenusCreate = () => {
               <DeleteOutlined className="text-danger"/>
             </span> 
             
-            <Link style={{float:'right'}} className="btn btn-sm float-right" to={`/admin/category/${genus.slug}`}>
+            <Link style={{float:'right'}} className="btn btn-sm float-right" to={`/admin/genus/${genus.slug}`}>
               <EditOutlined className="text-primary"/>
             </Link>
           </div>)}

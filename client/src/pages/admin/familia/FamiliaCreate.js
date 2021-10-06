@@ -8,14 +8,30 @@ import { toast } from 'react-toastify'
 import {EditOutlined,DeleteOutlined} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { getGenus } from '../../../api/genus'
+import ImageUpload from '../../../component/form/ImageUpload'
+import { useTranslation } from "react-i18next";
+
+const initialState = {
+  name:'',
+  ordo:'',
+  distribution:'',
+  description:'',
+  images:[],
+  value:'',
+  enDistribution:'',
+  enDescription:'',
+  enValue:'',
+}
 
 const FamiliaCreate = () => {
-  const [name,setName] = useState('')
+  const [values,setValues] = useState(initialState)
   const [loading,setLoading] = useState('')
   const [familias,setFamilia] = useState([])
   const [ordo,setOrdo] = useState('')
   const [ordos,setOrdos] = useState([])
   const [keyword,setKeyword] = useState('')
+  const {t} = useTranslation()
 
   const {user} = useSelector(state => ({...state}))
 
@@ -39,35 +55,40 @@ const FamiliaCreate = () => {
   },[])
 
   const handleRemove = async (slug) => {
-    if(window.confirm(`Bạn thực sự muốn xóa họ ${slug}?`)) {
+    if(window.confirm(`${t('reallyDeleteFamilia')} ${slug}?`)) {
       setLoading(true)
       deleteFamilia(user.token,slug).then(res => {
         console.log(res);
         setLoading(false)
-        toast.info(`Đã xóa họ '${res.data.name}'`)
+        toast.info(`${t('successDeleteFamilia')} '${res.data.name}'`)
         loadFamilias()
       }).catch(err => {
         console.log('Delete ordo',err);
-        toast.error(`Chưa thể xóa họ '${err}'`)
+        toast.error(`${t('failDeleteFamilia')} '${err}'`)
       })
     }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    createFamilia(user.token,name,ordo).then(res => {
+    createFamilia(user.token,values).then(res => {
       console.log(res);
       setLoading(false)
       loadFamilias()
-      toast.success(`Thêm họ ${name} thành công!`)
+      toast.success(`Thêm họ ${values.name} thành công!`)
     }).catch(err => {
       console.log(err);
-      toast.error(`Không thể thêm họ ${name}!`)
+      toast.error(`Không thể thêm họ ${values.name}!`)
     })
   }
 
   const search = (keyword) => familias => {
     return familias.name.toLowerCase().includes(keyword)
+  }
+
+  const handleChange = e => {
+    e.preventDefault()
+    setValues({...values,[e.target.name]:e.target.value})
   }
   
   return (
@@ -79,30 +100,36 @@ const FamiliaCreate = () => {
         <div className = "col"> 
           {loading 
           ? <h3 className='text'>Loading ...</h3> 
-          : <h3 style ={{textAlign:'center'}}>Tạo họ mới</h3>
+          : <h3 style ={{textAlign:'center'}}>{t('createFamilia')}</h3>
           }
           <div className='form-group'>
-            <label>Tên bộ</label>
+            <label>{t('ordo')}</label>
             <select 
               name="ordo" 
               className='form-control'
               onChange ={e => {
-                setOrdo(e.target.value)
-                console.log(ordo);
+                setValues({...values,ordo:e.target.value})
+                console.log(values.ordo);
               }}
             >
-              <option>Chọn tên bộ</option>
+              <option>{t('chooseOrdo')}</option>
               {ordos.length > 0 && ordos.map(ordo => {
                 return <option key={ordo._id} value={ordo._id}>{ordo.name}</option>
               })}
 
             </select>
           </div>
+          <ImageUpload
+            values ={values}
+            setValues= {setValues}
+            setLoading = {setLoading}
+            name = {t('chooseImageFlower')}
+          />
           <OrdoForm 
             onSubmit = {handleSubmit}
-            name = {name}
-            change = {setName}
-            functionality = 'Hoàn thành'
+            values = {values}
+            change = {handleChange}
+            functionality = {t('complete')}
           />
 
           <LocalSearch
@@ -120,7 +147,7 @@ const FamiliaCreate = () => {
               <DeleteOutlined className="text-danger"/>
             </span> 
             
-            <Link style={{float:'right'}} className="btn btn-sm float-right" to={`/admin/category/${familia.slug}`}>
+            <Link style={{float:'right'}} className="btn btn-sm float-right" to={`/admin/familia/${familia.slug}`}>
               <EditOutlined className="text-primary"/>
             </Link>
           </div>)}

@@ -11,6 +11,7 @@ const Map =  ({coordinates}) => {
         >
           {coordinates.map((coord,index) => {
             return <Marker
+              key ={index}
               icon={{
                 url: 'https://res.cloudinary.com/dabmpjvx2/image/upload/v1632713780/flower-pot_eeu0mh.png',
                 scaledSize: new window.google.maps.Size(15, 15),

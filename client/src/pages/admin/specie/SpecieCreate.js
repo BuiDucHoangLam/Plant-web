@@ -6,6 +6,7 @@ import {getOrdoListFamilia,getListOrdo} from '../../../api/ordo'
 import {getFamiliaListGenus, getListFamilia} from '../../../api/familia'
 import FileUpload from '../../../component/form/FileUpload'
 import {LoadingOutlined} from '@ant-design/icons'
+import { useTranslation } from "react-i18next";
 
 import {useSelector} from 'react-redux'
 import {toast} from 'react-toastify'
@@ -24,12 +25,19 @@ const initialState = {
   synonymsList:'',
   description:'Melancholic Palms',
   value:'no need to use the sixth palm',
-  images:[],
+  images:{background:[],leave:[],flower:[],fruit:[]},
   distribution:'everywhere',
   coordinates:[],
+  longitude:'',
+  latitude:'',
   coordinatesList:'',
   source:'internet',
-  fruitSeason:''
+  fruitSeason:'',
+  enDescription:'',
+  enDistribution:'',
+  enSource:'',
+  enValue:'',
+  enName:''
 }
 
 const SpecieCreate = () => {
@@ -41,6 +49,8 @@ const SpecieCreate = () => {
   const [loading,setLoading] = useState(false)
 
   const {user} = useSelector(state => ({...state}))
+  const {t} = useTranslation()
+  const i = 0
 
   useEffect(() => {
     loadOrdoList()
@@ -110,9 +120,7 @@ const SpecieCreate = () => {
   const handleSynonymsChange = e => {
     e.preventDefault()
     setValues({...values,synonymsList:e.target.value,synonyms:e.target.value.split(';')})
-    // const arr = e.target.value.split(';')
-    // console.log(arr);
-    // setValues({...values,synonyms:arr})
+
     console.log(e.target.name,e.target.value);
   }
 
@@ -121,7 +129,6 @@ const SpecieCreate = () => {
     let rs = []
   
     const b = a.split(' ')
-    const d = b.map(item => item.includes('\t') && item.split('\t'))
     const e = b.map(item => item.includes('\t') ? item.split('\t') : item).flat()
   
     while(e.length > 0) {
@@ -129,13 +136,10 @@ const SpecieCreate = () => {
       e.splice(0,3)
     }
   
-    console.log(kq);
     while(kq.length > 0) {
       rs.push(kq.slice(0,2))
       kq.splice(0,2)
     }
-  
-    console.log(rs);
   
     const alo = rs.map(item => item.map(i => {
       return (Number(i[0]) + Number(i[1])/60 + Number(i[2])/3600);
@@ -144,11 +148,35 @@ const SpecieCreate = () => {
     return alo
   }
 
+  const transformToCoord = a => {
+    const b =  a.split(' ')
+    return Number(b[0]) +  Number(b[1])/60 + Number(b[2])/3600
+  }
+
+  const handleLongitudeChange = e => {
+    e.preventDefault()
+    setValues({...values,longitude:e.target.value})
+  }
+
+  const handleLatitudeChange = e => {
+    e.preventDefault()
+    setValues({...values,latitude:e.target.value})
+  }
+
   const handleCoordinatesChange = e => {
     e.preventDefault()
     const arr = transToArray(e.target.value)
     setValues({...values,coordinatesList:e.target.value,coordinates:arr})
     console.log(e.target.name,e.target.value);
+    
+    // const arr = transformToCoord(e.target.value)
+    // setValues({...values,[e.target.name]:e.target.value,coordinatesList:arr})
+    // const a = document.querySelector('coord-form').
+    // console.log(a);
+  }
+
+  const abc = () => {
+  
   }
 
   return (
@@ -160,14 +188,48 @@ const SpecieCreate = () => {
         
       <div className ='col-md-10'>
        
-        {loading ? <LoadingOutlined className ='text-danger' /> : <h4>Tạo loài</h4>}
+        {loading ? <LoadingOutlined className ='text-danger' /> : <h4>{t('createSpecie')}</h4>}
         <hr />
         {JSON.stringify(values)}
-        <FileUpload 
-          values ={values}
-          setValues= {setValues}
-          setLoading = {setLoading}
-        />
+        <div className="row">
+          <div className="col-md-4">
+            <FileUpload 
+              children = 'background'
+              values ={values}
+              setValues= {setValues}
+              setLoading = {setLoading}
+              name = {t('chooseImageBackground')}
+            />
+          </div>
+          <div className="col-md-4">
+            <FileUpload 
+              children = 'flower'
+              values ={values}
+              setValues= {setValues}
+              setLoading = {setLoading}
+              name = {t('chooseImageFlower')}
+            />
+          </div>
+          <div className="col-md-4">
+            <FileUpload 
+              children = 'leave'
+              values ={values}
+              setValues= {setValues}
+              setLoading = {setLoading}
+              name = {t('chooseImageLeave')}
+            />
+          </div>
+          <div className="col-md-4">
+            <FileUpload 
+              children = "fruit"
+              values ={values}
+              setValues= {setValues}
+              setLoading = {setLoading}
+              name = {t('chooseImageFruit')}
+            />
+          </div>
+          
+        </div>
 
         <SpecieCreateForm
           handleSubmit = {handleSubmit}
@@ -181,6 +243,9 @@ const SpecieCreate = () => {
           familiaOptions = {familiaOptions}
           handleSynonymsChange = {handleSynonymsChange}
           handleCoordinatesChange ={handleCoordinatesChange}
+          handleLatitudeChange = {handleLatitudeChange}
+          handleLongitudeChange = {handleLongitudeChange}
+          index = {i}
         />
       </div>
     </div>

@@ -52,7 +52,7 @@ const specieSchema = mongoose.Schema({
     text:true,
   },
   images: {
-    type:Array,
+    type:Object,
   },
   distribution:{
     type:String,
@@ -70,6 +70,29 @@ const specieSchema = mongoose.Schema({
   fruitSeason:{
     type:String,
     maxLength:20000,
+    text:true,
+  },
+  enDescription:{
+    type:String,
+    required:true,
+    maxLength:20000,
+    text:true,
+  },
+  enDistribution:{
+    type:String,
+    maxLength:2000,
+    text:true,
+  },
+  enValue:{
+    type:String,
+    maxLength:20000,
+    text:true,
+  },
+  enName:{
+    type:String,
+    trim:true,
+    required:true,
+    minLength: [3,'Too short'],
     text:true,
   }
 },{timestamps:true},)

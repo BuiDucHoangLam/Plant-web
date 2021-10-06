@@ -5,15 +5,15 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { Avatar,Badge } from 'antd'
 
-const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
-  
+const ImageUpload = ({values,  setValues,  setLoading, name}) => {
+
   const {user} = useSelector(state => ({...state}))
   
   const fileUploadAndResize = (e) => {
     console.log(e.target.files);
     // resize
     const files = e.target.files
-    const allUploadedFiles = values.images[`${children}`]
+    const allUploadedFiles = values.images
     if(files) {
       for(let i = 0;i < files.length;i++){
         Resizer.imageFileResizer(
@@ -35,7 +35,7 @@ const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
               console.log('upload image cloudinary',res.data);
               setLoading(false)
               allUploadedFiles.push(res.data)
-              setValues({...values,...values.images,children:allUploadedFiles})
+              setValues({...values,images:allUploadedFiles})
             }).catch(err => {
               setLoading(false)
               console.log('upload cloudinary failed ',err );
@@ -52,18 +52,14 @@ const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
     setLoading(true)
     console.log('remove image',id);
     removeImageCloudinary(user.token,id)
-    .then(() => {
+    .then(res => {
       setLoading(false)
-      // console.log('c1',children);
       const {images} = values
-      console.log('c2',children);
-      const filteredImages = images[`${children}`].filter(img => {
+      const filteredImages = images.filter(img => {
         return img.public_id !== id 
       })
-      console.log('f',filteredImages);
-      
-      setValues({...values,...values.images,background:filteredImages})
-      console.log('c3',values.images[`${children}`]);
+
+      setValues({...values,images:filteredImages})
     })
     .catch(err=> {
       console.log('Remove error',err);
@@ -75,7 +71,7 @@ const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
   return (
     <div>
       <div>
-        {values.images[`${children}`] && values.images[`${children}`].map(image => {
+        {values.images && values.images.map(image => {
            
           return <Badge 
             className='m-3'
@@ -112,4 +108,4 @@ const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
   )
 }
 
-export default FileUpload
+export default ImageUpload

@@ -3,7 +3,6 @@ import { Carousel } from 'react-responsive-carousel'
 
 import '../css/style.css'
 import '../css/responsive.css'
-
 import '../css/bootstrap.min.css'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";

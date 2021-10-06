@@ -13,7 +13,7 @@ const CardPlant = ({plant}) => {
     
     <div >
       {plant.map(p=>
-        <Link to ={`/details/${p.slug}`}>
+        <Link to ={`/details-specie/${p.slug}`}>
         <Card
           cover={
             <img 

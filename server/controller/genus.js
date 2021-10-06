@@ -15,28 +15,31 @@ exports.read = async (req,res) => {
   res.json(genus)
 }
 
+exports.readById = async (req,res) => {
+  const ordo = await Ordo.findOne({_id:req.params._id})
+  .exec()
+  res.json(ordo)
+}
+
 exports.create = async (req,res) => {
   try {
-    const {name,ordo,familia} = req.body
+    req.body.slug = slugify(req.body.name)
     console.log(req.body);
-    const genus = await new Genus({name,slug:slugify(name),ordo,familia}).save()
+    const genus = await new Genus(req.body).save()
     res.json(genus)
 
   } catch (error) {
+    console.log(error);
     res.status(400).send('Create genus failed!')
   }
 }
 
 exports.update = async (req,res) => {
   try {
-    const {name,ordo,familia} = req.body
-    const updated = await Genus.findOneAndUpdate({slug:req.params.slug},{
-      name,
-      slug:slugify(name),
-      ordo,
-      familia,
-      new:true,
-    }).exec()
+    if(req.body.name) {
+      req.body.slug = slugify(req.body.name)
+    }
+    const updated = await Genus.findOneAndUpdate({slug:req.params.slug},req.body,{new:true}).exec()
     res.json(updated)
   } catch (error) {
     console.log('update',error);

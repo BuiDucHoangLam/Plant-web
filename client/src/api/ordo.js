@@ -4,13 +4,16 @@ export const getOrdo = async (slug) => {
   return await axios.get(`${process.env.REACT_APP_API}/ordo/${slug}`)
 }
 
-export const getListOrdo = async () => {
-  return await axios.get(`${process.env.REACT_APP_API}/ordos`)
-
+export const getOrdoById = async (_id) => {
+  return await axios.get(`${process.env.REACT_APP_API}/ordo-id/${_id}`)
 }
 
-export const createOrdo = async (authtoken,name) => {
-  return await axios.post(`${process.env.REACT_APP_API}/ordo`,{name},{
+export const getListOrdo = async () => {
+  return await axios.get(`${process.env.REACT_APP_API}/ordos`)
+}
+
+export const createOrdo = async (authtoken,ordo) => {
+  return await axios.post(`${process.env.REACT_APP_API}/ordo`,ordo,{
     headers:{
       authtoken,
     }
@@ -25,8 +28,8 @@ export const deleteOrdo = async (authtoken,slug) => {
   })
 }
 
-export const updateOrdo = async (authtoken,slug,name) => {
-  return await axios.put(`${process.env.REACT_APP_API}/ordo/${slug}`,name,{
+export const updateOrdo = async (authtoken,slug,ordo) => {
+  return await axios.put(`${process.env.REACT_APP_API}/ordo/${slug}`,ordo,{
     headers:{
       authtoken,
     }

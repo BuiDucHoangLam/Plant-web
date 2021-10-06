@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import {auth} from '../auth/firebase'
 import {toast} from 'react-toastify'
+// import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import {Button} from 'antd'
 
 const Register = () => {
   const [email,setEmail] = useState('')
@@ -18,9 +20,11 @@ const Register = () => {
   }
 
   const registerForm = () => {
-    return <form onSubmit ={handleSubmit}>
+    return <form onSubmit ={handleSubmit} style={{background:'none'}}>
       <input type="email" placeholder='Nhập email muốn đăng ký' className ='form-control' value ={email} onChange ={e=> setEmail(e.target.value)} autoFocus />
-      <button type='submit' className ='btn btn-raised'>Xác nhận</button>
+      <Button block
+            shape='round'
+            size='large' type='submit' className ='btn btn-raised'>Xác nhận</Button>
     </form>
   }
 

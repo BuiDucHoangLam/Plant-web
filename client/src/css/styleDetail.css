@@ -2128,13 +2128,18 @@ ul.location_icon span {
      font: 16px Roboto, sans-serif;
      color: #757575;
 }
-/* .nav-bar{
-     position: fixed;
+.nav-bar{
+     /* position: fixed;
      top:0;
      background-color: white;
-     position: fixed;
- } */
+     position: fixed; */
+     display: flex;
+     justify-content: center;
+ }
 .nav-items{
+     display: flex;
+     justify-content: center;
+     width: 100%;
      list-style-type: none;
      margin: 0;
      padding: 0;

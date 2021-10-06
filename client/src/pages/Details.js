@@ -6,8 +6,8 @@ import GoogleMap from '../component/form/GoogleMap'
 import '../css/styleDetail.css'
 import '../css/style.css'
 import '../css/bootstrap.min.css'
-import '../css/responsive.css'
-import '../css/carousel.css'
+
+// import '../css/carousel.css'
 
 import plant1 from '../images/plant1.jpg'
 import plant2 from '../images/plant2.jpg'
@@ -21,9 +21,12 @@ const Details = ({match}) => {
   const {slug} = match.params
  
   useEffect(() => {
-    const loadSpecie = () => getSpecie(slug).then(res => 
-        setSpecie(res.data)
-      )
+    const loadSpecie = () => getSpecie(slug).then(res => {
+       setSpecie(res.data)
+        console.log('hinh',Object.values(res.data.images).flat().map(i => i.url));
+    })
+        
+     
     
   loadSpecie()
 
@@ -43,6 +46,7 @@ const Details = ({match}) => {
          <br/>
          <strong>Loài: </strong> <br/>
          <div href="/"><em lang="la">{specie.name}</em>   </div>  
+         <div> thuộc chi: </div>
          <br />
          <br />
          {specie.synonyms && 
@@ -51,14 +55,14 @@ const Details = ({match}) => {
          {specie.synonyms.map(s => <div key ={s}>{s}</div>)} </div>}
       </div>
 
-  {specie.images && specie.images.length 
+      {specie.images && Object.values(specie.images).flat().length 
         ? <Carousel 
           showArrows={true}
           autoPlay
           infiniteLoop
           className ='into-images'
         >
-           {specie.images.map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+           {Object.values(specie.images).flat().map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
           
         </Carousel>
         : <div>Không có hình ảnh </div>}
@@ -73,11 +77,7 @@ const Details = ({match}) => {
     <ul className="nav-items">
         
       <li className="nav-li"><a href="#descriptions">Miêu tả</a></li>
-      {/* <li className="nav-li"><a href="#image-gallery">Hình ảnh</a></li> */}
       <li className="nav-li"><a href="#distribution-map">Phân bổ</a></li>
-      <li className="nav-li"><a href="#synonyms">Tên khác</a></li>
-      {/* <li className="nav-li"><a href="#relatives">Họ hàng</a></li> */}
-      <li className="nav-li"><a href="#other-data">Thông tin khác</a></li>
       <li className="nav-li"><a href="#value">Giá trị sử dụng</a></li>
       <li className="nav-li"><a href="#sources">Nguồn tin</a></li>
     </ul>
@@ -102,7 +102,7 @@ const Details = ({match}) => {
         {specie.description}
       </button>
       </h3> */}
-      <p>{specie.distribution}</p>
+      <p>{specie.description}</p>
   </div>
    
     
@@ -321,7 +321,7 @@ const Details = ({match}) => {
       </div> */}
       {/* <!-- end Images --> */}
       
-      {specie.coordinates && <GoogleMap
+      {(specie.coordinates && specie.coordinates.length > 0) && <GoogleMap
          coordinates ={specie.coordinates}
       />}
    </div>

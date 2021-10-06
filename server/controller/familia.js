@@ -16,11 +16,17 @@ exports.read = async (req,res) => {
   res.json(familia)
 }
 
+exports.readById = async (req,res) => {
+  const familia = await Familia.findOne({_id:req.params._id})
+  .exec()
+  res.json(familia)
+}
+
 exports.create = async (req,res) => {
   try {
-    const {name,ordo} = req.body
+    req.body.slug = slugify(req.body.name)
     console.log(req.body);
-    const familia = await new Familia({name,slug:slugify(name),ordo}).save()
+    const familia = await new Familia(req.body).save()
     res.json(familia)
 
   } catch (error) {
@@ -30,13 +36,10 @@ exports.create = async (req,res) => {
 
 exports.update = async (req,res) => {
   try {
-    const {name,ordo} = req.body
-    const updated = await Familia.findOneAndUpdate({slug:req.params.slug},{
-      name,
-      slug:slugify(name),
-      ordo,
-      new:true,
-    }).exec()
+    if(req.body.name) {
+      req.body.slug = slugify(req.body.name)
+    }
+    const updated = await Familia.findOneAndUpdate({slug:req.params.slug},req.body,{new:true}).exec()
     res.json(updated)
   } catch (error) {
     console.log('update',error);

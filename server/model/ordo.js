@@ -15,6 +15,41 @@ const ordoSchema = mongoose.Schema({
     lowercase:true,
     index:true,
   },
+  description:{
+    type:String,
+    required:true,
+    maxLength:20000,
+    text:true,
+  },
+  enDescription:{
+    type:String,
+    required:true,
+    maxLength:20000,
+    text:true,
+  },
+  images: {
+    type:Array,
+  },
+  distribution:{
+    type:String,
+    maxLength:2000,
+    text:true,
+  },
+  enDistribution:{
+    type:String,
+    maxLength:2000,
+    text:true,
+  },
+  value:{
+    type:String,
+    maxLength:20000,
+    text:true,
+  },
+  enValue:{
+    type:String,
+    maxLength:20000,
+    text:true,
+  },
 },{timestamps:true},)
 
 module.exports = mongoose.model('ordo',ordoSchema)

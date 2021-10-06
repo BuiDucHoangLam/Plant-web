@@ -80,7 +80,10 @@ body {
 }
 
 .form-control1 p {
-    min-width: 50%;
+    min-width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: black !important;
 }
 
@@ -131,7 +134,7 @@ span.range {
 
 .search-inf__list {
     width: 100%;
-    height: 200px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     background-color: #fff;

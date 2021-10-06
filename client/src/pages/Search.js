@@ -3,14 +3,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { SearchOutlined } from '@ant-design/icons'
 import { Avatar,Badge } from 'antd'
 import {Link} from 'react-router-dom'
-import { getPlants,getPlantsFilter } from '../api/plant'
-import { getResultSearch } from '../api/search'
+import { getListOrdo } from '../api/ordo'
+import { getListGenus } from '../api/genus'
+import { getListFamilia } from '../api/familia'
+import { getSpecies } from '../api/specie'
+import { useTranslation } from 'react-i18next'
 import '../css/style.css'
 import '../css/responsive.css'
 import '../css/search.css'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/bootstrap.min.css'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import LocalSearch from '../component/form/LocalSearch'
 
 import '../index.css'
 
@@ -28,8 +32,6 @@ import g1 from '../images/g1.jpg'
 import g2 from '../images/g2.jpg'
 import g3 from '../images/g3.jpg'
 
-
-
 const Search = () => {
     const [slug,setSlug] = useState([])
     const [results,setResults] = useState([])
@@ -39,57 +41,78 @@ const Search = () => {
     const {search} = useSelector(state => ({...state}))
     // const {text,genus,description} = search
     const [description,setDescription] = useState('')
-    const [bibliography,setBibliography] = useState('')
-    const [source,setSource] = useState('')
-    const [distribution,setDistribution] = useState('')
+    const [ordos,setOrdos] = useState([])
+    const [familias,setFamilias] = useState([])
+    const [listGenus,setListGenus] = useState([])
+    const [species,setSpecies] = useState([])
     const {text} = search
     const [flower,setFlower] = useState({status:'',accuracy:'',predict:'',label:''})
+    const [keyword,setKeyword] = useState('')
 
+    const {t} = useTranslation()
     const dispatch = useDispatch()
 
     const [name,setName] = useState('')
 
-    const loadPlantsQuery = (arg) => {
-        getPlantsFilter(arg).then(res => {
-            setResults(res.data)
+    const loadPlantsQuery = () => {
+        // getListOrdo().then(res => {
+        //     setOrdos(res.data.map(item => ({...item,type:'ordo'})))
+        //     setResults(res.data.map(item => ({...item,type:'ordo'})))
+        // })
+
+        // getListFamilia().then(res => {
+        //     setFamilias(res.data.map(item => ({...item,type:'familia'})))
+        //     setResults([...results,...res.data.map(item => ({...item,type:'familia'}))])
+
+        // })
+
+        // getListGenus().then(res => {
+        //     setListGenus(res.data.map(item => ({...item,type:'genus'})))
+        //     // setResults([...results,res.data.map(item => ({...item,type:'genus'}))])
+
+        // })
+
+        // getSpecies().then(res => {
+        //     setSpecies(res.data.map(item => ({...item,type:'specie'})))
+        //     // setResults([...results,res.data.map(item => ({...item,type:'species'}))])
+
+        // })
+        getListOrdo().then(resO => {
+            getListFamilia().then(resF => {
+                getListGenus().then(resG => {
+                    getSpecies().then(resS => {
+                        setResults([...resO.data.map(item => ({...item,type:'ordo'})),
+                        ...resF.data.map(item => ({...item,type:'familia'})),
+                        ...resG.data.map(item => ({...item,type:'genus'})),
+                        ...resS.data.map(item => ({...item,type:'specie'}))
+                        ])
+                    })
+                })
+            })
         })
     }
+ 
+    console.log('res',results);
 
     // 1.Filter by Name
     useEffect(() => {
-        loadPlantsQuery({name:text})
-    },[text])
+        loadPlantsQuery()
+       
+    },[])
+
 
     // 2. Filter by Genus
-    useEffect(() => {
-        loadPlantsQuery({genus:genus})
-    },[genus])
+    // useEffect(() => {
+    //     loadPlantsQuery({genus:genus})
+    // },[genus])
 
-    useEffect(() => {
-        loadPlantsQuery({description:description})
-    },[description])
+    // useEffect(() => {
+    //     loadPlantsQuery({description:description})
+    // },[description])
 
-    useEffect(() => {
-        loadPlantsQuery({otherData:otherData})
-    },[otherData])
-
-
-
-    const loadSearchByImage = () => 
-        //  getPlants().then(res => {
-        //      const arr = []
-        //     res.data.map(r => arr.push(r.slug))
-        //     setSlug(arr)
-        // })
-        getResultSearch().then(res =>{
-            // setFlower(res.data)
-            // console.log(flower);
-            console.log(res.data)
-        })
-        .then(document.getElementById('search-img__list').classList.remove('hidden'))
-        .catch(err => console.log(err))
-
-    console.log(slug);
+    // useEffect(() => {
+    //     loadPlantsQuery({otherData:otherData})
+    // },[otherData])
 
     const handleChange = e => {
         dispatch({
@@ -100,10 +123,7 @@ const Search = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        getPlants().then(res => {
-            console.log(res.data);
-            setResults(res.data)
-        }).catch(err => console.log(err))
+       
     }
 
     const fileUpload = e => {
@@ -125,10 +145,14 @@ const Search = () => {
     }
 
     const handleImageRemove = () => {
-        setImg('')
-        
+        setImg('')   
     }
-  return (
+
+    const searched = keyword => results => {
+        return results.name.toLowerCase().includes(keyword)
+    }
+
+    return (
     <div className="main-layout">
 
      <div className="container" style={{marginTop: '200px'}}>
@@ -178,7 +202,7 @@ const Search = () => {
 
                 <div>
                     
-                    <input type='submit' className="img_search" value="Search" onClick ={loadSearchByImage}/>
+                    <input type='submit' className="img_search" value="Search" />
                     
                 </div>
             </div>
@@ -279,18 +303,12 @@ const Search = () => {
                 </div> */}
                 <div className="form-control1">
                     <p>Tên: </p> 
-                    <form style={{display:'flex',background:'none',padding:'0px'}}  onSubmit={handleSubmit}>
-                        <input 
-                            onChange ={handleChange}
-                            type='search' 
-                            value ={text} 
-                            className ='form-control mr-sm-2'
-                            placeholder='Search Name'
-                        />
-                        <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
-                    </form>
+                    <LocalSearch
+                        keyword = {keyword}
+                        setKeyword = {setKeyword}
+                    />
                 </div>
-                <div className="form-control1">
+                {/* <div className="form-control1">
                     <p>Loài: </p> 
                     <form style={{display:'flex',background:'none',padding:'0px'}}  onSubmit={handleSubmit}>
                         <input 
@@ -367,7 +385,7 @@ const Search = () => {
                         />
                         <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
                     </form>
-                </div>
+                </div> */}
                
                 <div>
                     {/* <a href="/details"> */}
@@ -377,22 +395,18 @@ const Search = () => {
             </div>
     
             <div className="search-info__result">
-                <div className="search-inf__img">
-                    <img src={p4} alt="" />
-                </div>
+                
                     <div className="result_title"> 
                         <p style={{fontSize: '18px'}}>Search Result</p> 
                     </div>
                 <div className="search-inf__list search-inf__list--scrool">
-                    {!results.length === 0 
-                    ? <div className="list-item-inf" style={{marginLeft: '5%'}}>
-                        NO results
-                        </div>
-                    : results.map(rs => {
+                    { 
+                    keyword 
+                    && results.filter(searched(keyword)).map(rs => {
                         return <div key ={rs._id}>
                             <div className="list-item-inf" style={{marginLeft: '5%'}}>
                             {/* <a href="/details">{rs.name}</a> */}
-                            <Link to={`/details/${rs.slug}`}> {rs.name}
+                            <Link to={rs.type === 'specie' ? `/details-specie/${rs.slug}` :  `/details-${rs.type}/${rs.slug}`}> {rs.name}
                             <input type="submit" className="detail" value="Detail" />
                             </Link>
                     </div>

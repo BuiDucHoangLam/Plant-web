@@ -15,11 +15,19 @@ exports.read = async (req,res) => {
   res.json(ordo)
 }
 
+exports.readById = async (req,res) => {
+  // const ordo = await Ordo.findOne({_id:req.params._id})
+  console.log('id',typeof(req.params.id));
+  const ordo = await Ordo.findById({_id:req.params._id})
+  .exec()
+  res.json(ordo)
+}
+
 exports.create = async (req,res) => {
   try {
-    const {name} = req.body
     console.log(req.body);
-    const ordo = await new Ordo({name,slug:slugify(name)}).save()
+    req.body.slug = slugify(req.body.name)
+    const ordo = await new Ordo(req.body).save()
     res.json(ordo)
 
   } catch (error) {
@@ -35,12 +43,10 @@ exports.read = async (req,res) => {
 
 exports.update = async (req,res) => {
   try {
-    const {name} = req.body
-    const updated = await Ordo.findOneAndUpdate({slug:req.params.slug},{
-      name,
-      slug:slugify(name),
-      new:true,
-    }).exec()
+    if(req.body.title){
+      req.body.slug = slugify(req.body.name)
+    }
+    const updated = await Ordo.findOneAndUpdate({slug:req.params.slug},req.body,{new:true}).exec()
     res.json(updated)
   } catch (error) {
     console.log('update',error);

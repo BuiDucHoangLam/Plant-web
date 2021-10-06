@@ -7,6 +7,7 @@ import { useHistory } from 'react-router'
 import {Button} from 'antd'
 import {MailOutlined, GoogleOutlined} from '@ant-design/icons';
 import { createOrUpdateUser } from '../api/auth'
+// import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 const Login = () => {
   const [email,setEmail] = useState('longcot000@gmail.com')
@@ -22,12 +23,12 @@ const Login = () => {
   },[user])
 
   const redirectRole = (role) => {
-    role === 'admin' ? history.push('/dashboard') : history.push('/')
+    role === 'admin' ? history.push('/admin/dashboard') : history.push('/')
   } 
 
   const loginForm = () => {
     return(
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style ={{background:'none'}}>
       <div className ="form-group">
         <input 
           type='email' 
@@ -61,6 +62,21 @@ const Login = () => {
       >
         Login with Email
       </Button>
+      <Button 
+            onClick={googleSubmit}
+            type='danger'
+            className="mb-3"
+            block
+            shape='round'
+            size='large'
+            icon ={<GoogleOutlined/>}
+          >
+            Login with Google
+          </Button>
+
+          <Link to="/forgot/password" style ={{marginLeft:'50px',background:'none',width:'100%'}} className ='text-danger' >
+            Forgot Password
+          </Link>
     </form>
     )
     
@@ -140,21 +156,7 @@ const Login = () => {
           { !loading ?  <h4 style={{alignItems:'center'}}>Login</h4> : <h4 className="text-danger">Loading...</h4>}
           {loginForm()}
 
-          <Button 
-            onClick={googleSubmit}
-            type='danger'
-            className="mb-3"
-            block
-            shape='round'
-            size='large'
-            icon ={<GoogleOutlined/>}
-          >
-            Login with Google
-          </Button>
-
-          <Link to="/forgot/password" style ={{float:'right'}} className ="text-danger">
-            Forgot Password
-          </Link>
+         
         </div>
       </div>
     </div>
