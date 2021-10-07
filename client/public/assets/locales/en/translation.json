@@ -59,6 +59,16 @@
   "enDistribution":"Distribution",
   "enUseValue":"Use value",
   "enName":"English name",
-  "enSource":"English source"
+  "enSource":"English source",
+  "dependencyGenus":"of genus",
+  "have":"Has",
+  "noImage":"No picture yet",
+  "searchByImage":"Search by image",
+  "chooseImage":"Choose picture",
+  "searchResult":"Search result",
+  "searchByInformation":"Search by information",
+  "details":"Details",
+  "plans":"Plants"
+
 
 }

@@ -59,6 +59,14 @@
   "enDistribution":"Phân bố tiếng Anh",
   "enUseValue":"Công dụng tiếng Anh",
   "enName":"Tên tiếng anh",
-  "enSource":"Nguồn tin tiếng Anh"
-
+  "enSource":"Nguồn tin tiếng Anh",
+  "dependencyGenus":"thuộc chi",
+  "have":"Có",
+  "noImage":"Chưa có hình ảnh",
+  "searchByImage":"Tìm kiếm bằng hình ảnh",
+  "chooseImage":"Chọn hình",
+  "searchResult":"Kết quả tìm kiếm",
+  "searchByInformation":"Tìm kiếm theo thông tin",
+  "details":"Chi tiết",
+  "plans":"Các loài thực vật"
 }

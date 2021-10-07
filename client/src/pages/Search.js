@@ -159,7 +159,7 @@ const Search = () => {
         <div className="row">
            <div className="col-md-12 ">
               <div className="titlepage">
-                 <h2>Search By Image</h2>
+                 <h2>{t('searchByImage')}</h2>
                  {/* <!-- <span>looking at its layout. The point of using Lorem Ipsumletters, as opposed to usingl</span> --> */}
               </div>
            </div>
@@ -176,7 +176,7 @@ const Search = () => {
                 {/* <!-- <div className="wrap"> --> */}
                     <div className="dandev-reviews">
                         <div className="form_upload">
-                            <label className="dandev_insert_attach"><span><i className="ti-camera"></i> Choose the image</span></label>
+                            <label className="dandev_insert_attach"><span><i className="ti-camera"></i> {t('searchByImage')}</span></label>
                         </div>
                         <div className="list_attach">
                             <ul className="dandev_attach_view">
@@ -194,7 +194,7 @@ const Search = () => {
                             {/* placeholder= {<span className="dandev_insert_attach"><i className="dandev-plus">+</i></span>} */}
                             </Badge> }
                             <a href="http://localhost:5000/upload-image">
-                           <div>Chọn tệp</div>
+                           <div>{t('chooseImage')}</div>
                             </a>
                         </div>
                     </div>
@@ -202,14 +202,14 @@ const Search = () => {
 
                 <div>
                     
-                    <input type='submit' className="img_search" value="Search" />
+                    <input type='submit' className="img_search" value={t('search')} />
                     
                 </div>
             </div>
 
             <div className="search-img__result">
                 <div className="result_title"> 
-                    <p style={{fontSize: '18px'}}>Search Result</p> 
+                    <p style={{fontSize: '18px'}}>{t('searchResult')}</p> 
                 </div>
                 <div id = "search-img__list" className="search-img__list hidden">
                     {/* <div className="list-item">
@@ -239,7 +239,7 @@ const Search = () => {
         <div className="row">
            <div className="col-md-12 ">
               <div className="titlepage">
-                 <h2>Search By Infomation</h2>
+                 <h2>{t('searchByInformation')}</h2>
                  {/* <!-- <span>looking at its layout. The point of using Lorem Ipsumletters, as opposed to usingl</span> --> */}
               </div>
            </div>
@@ -302,7 +302,7 @@ const Search = () => {
                     <p>Economic use (Sử dụng kinh tế) (50):</p> <select name="" className="item"></select>
                 </div> */}
                 <div className="form-control1">
-                    <p>Tên: </p> 
+                    <p>{t('insertName')}: </p> 
                     <LocalSearch
                         keyword = {keyword}
                         setKeyword = {setKeyword}
@@ -389,7 +389,7 @@ const Search = () => {
                
                 <div>
                     {/* <a href="/details"> */}
-                    <input type="submit" className="inf_search" value="Search" onClick ={handleSubmit} />
+                    <input type="submit" className="inf_search" value={t('search')} onClick ={handleSubmit} />
                     {/* </a> */}
                 </div>
             </div>
@@ -397,7 +397,7 @@ const Search = () => {
             <div className="search-info__result">
                 
                     <div className="result_title"> 
-                        <p style={{fontSize: '18px'}}>Search Result</p> 
+                        <p style={{fontSize: '18px'}}>{t('searchResult')}</p> 
                     </div>
                 <div className="search-inf__list search-inf__list--scrool">
                     { 

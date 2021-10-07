@@ -1,13 +1,15 @@
 import React, {  useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import {getSpecie} from '../api/specie'
+import { getGenusById } from '../api/genus'
 import GoogleMap from '../component/form/GoogleMap'
+import {useTranslation} from 'react-i18next'
 
 import '../css/styleDetail.css'
 import '../css/style.css'
 import '../css/bootstrap.min.css'
 
-// import '../css/carousel.css'
+import '../css/carousel.css'
 
 import plant1 from '../images/plant1.jpg'
 import plant2 from '../images/plant2.jpg'
@@ -17,22 +19,30 @@ import plant3 from '../images/plant3.jpg'
 const Details = ({match}) => {
   const [plant,setPlant] = useState({images:[{url:''}],synonyms:[]})
    const [specie,setSpecie] = useState({images:[{url:''}],synonyms:[]})
-
+   const [genus,setGenus] = useState({})
+   const {t} = useTranslation()
   const {slug} = match.params
+
+  
  
   useEffect(() => {
     const loadSpecie = () => getSpecie(slug).then(res => {
        setSpecie(res.data)
         console.log('hinh',Object.values(res.data.images).flat().map(i => i.url));
-    })
-        
-     
-    
+    }) 
   loadSpecie()
-
   },[slug]) 
 
-  console.log(specie);
+  const loadGenus = () => {
+      getGenusById(specie.genus).then(res => setGenus(res.data))
+   }
+
+  useEffect(() => {
+     loadGenus()
+  },[specie])
+
+  console.log('specie',specie);
+  console.log('genus',genus);
 
   return (
     <div className="main-layout">
@@ -40,18 +50,18 @@ const Details = ({match}) => {
     
    <div className="intro-di">
       <div className="intro-details">
-         <strong>Tên:</strong> <br/>
-         <a href="/taxon/urn:lsid:ipni.org:names:77126684-1"><em lang="la">{specie.vnName}</em> </a>
+         <strong>{t('vnName')}: </strong> <br/>
+         <div><em lang="la">{specie.vnName}</em> </div>
          <br/>
          <br/>
-         <strong>Loài: </strong> <br/>
+         <strong>{t('specie')}: </strong> <br/>
          <div href="/"><em lang="la">{specie.name}</em>   </div>  
-         <div> thuộc chi: </div>
+         <div> {t('dependencyGenus')}: {genus.name}</div>
          <br />
          <br />
-         {specie.synonyms && 
-         <div> <strong>Tên đồng nghĩa: </strong> <br/>
-         <div style={{paddingRight: '1em'}}>Có {specie.synonyms.length} tên đồng nghĩa </div>
+         {(specie.synonyms && specie.synonyms.length > 0) && 
+         <div> <strong>{t('synonyms')} </strong> <br/>
+         <div style={{paddingRight: '1em'}}>{t('have')} {specie.synonyms.length} {t('synonyms')} </div>
          {specie.synonyms.map(s => <div key ={s}>{s}</div>)} </div>}
       </div>
 
@@ -65,7 +75,7 @@ const Details = ({match}) => {
            {Object.values(specie.images).flat().map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
           
         </Carousel>
-        : <div>Không có hình ảnh </div>}
+        : <div>{t('noImage')} </div>}
 </div>
 </div>
 {/* <!--end intro--> */}
@@ -76,10 +86,10 @@ const Details = ({match}) => {
   <div className ="nav-bar">
     <ul className="nav-items">
         
-      <li className="nav-li"><a href="#descriptions">Miêu tả</a></li>
-      <li className="nav-li"><a href="#distribution-map">Phân bổ</a></li>
-      <li className="nav-li"><a href="#value">Giá trị sử dụng</a></li>
-      <li className="nav-li"><a href="#sources">Nguồn tin</a></li>
+      <li className="nav-li"><a href="#descriptions">{t('description')}</a></li>
+      <li className="nav-li"><a href="#distribution-map">{t('distribution')}</a></li>
+      <li className="nav-li"><a href="#value">{t('useValue')}</a></li>
+      <li className="nav-li"><a href="#sources">{t('source')}</a></li>
     </ul>
 </div>
 {/* <!--end navbar--> */}
@@ -91,7 +101,7 @@ const Details = ({match}) => {
        <div className="row">
           <div className="col-md-12 ">
              <div className="titlepage">
-                <h2>Miêu tả</h2>
+                <h2>{t('description')}</h2>
              </div>
           </div>
        </div>
@@ -116,7 +126,7 @@ const Details = ({match}) => {
        <div className="row">
           <div className="col-md-12 ">
              <div className="titlepage">
-                <h2 >Phân bổ</h2>
+                <h2 >{t('distribution')}</h2>
              </div>
           </div>
        </div>
@@ -167,7 +177,7 @@ const Details = ({match}) => {
        <div className="row">
           <div className="col-md-12 ">
              <div className="titlepage">
-                <h2>Giá trị sử dụng</h2>
+                <h2>{t('useValue')}</h2>
              </div>
           </div>
        </div>
@@ -214,7 +224,7 @@ const Details = ({match}) => {
        <div className="row">
           <div className="col-md-12 ">
              <div className="titlepage">
-                <h2>Nguồn tin</h2>
+                <h2>{t('source')}</h2>
              </div>
           </div>
        </div>

@@ -5,11 +5,12 @@ import SpecieCard from '../../component/form/SpecieCard'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
-
+import { useTranslation } from 'react-i18next'
 const Dashboard = () => {
   const [species,setSpecies] = useState([])
 
   const {user} = useSelector(state => ({...state}))
+  const {t} = useTranslation()
 
   const loadSpeciesList = () => {
     getSpecies().then(res => {
@@ -23,14 +24,14 @@ const Dashboard = () => {
   },[])
 
   const handleRemove = (slug) => {
-    if(window.confirm(`Xác nhận xóa loài ${slug}?`)){
+    if(window.confirm(`${t('reallyDeleteSpecie')} ${slug}?`)){
       removeSpecie(user.token,slug).then(res => {
         console.log(res.data);
         loadSpeciesList()
-        toast.info(`Xóa thành công loài ${res.data.name}`)
+        toast.info(`${t('successDeleteSpecie')} ${res.data.name}`)
       }).catch(err => {
         console.log('xóa loài',err);
-        toast.error(`Không thể xóa`)
+        toast.error(`${'failDeleteSpecie'}`)
       })
     }
   }
@@ -42,7 +43,7 @@ const Dashboard = () => {
         <Nav />
       </div>
       <div className="col-md-10">
-        <h4>Các loài thực vật</h4>
+        <h4>{t('plans')}</h4>
         <div className="col">
           <div className="row">
           {species.map(s => {

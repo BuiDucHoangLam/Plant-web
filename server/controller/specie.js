@@ -33,7 +33,16 @@ exports.create = async (req,res) => {
 }
 
 exports.update = async (req,res) => {
-  
+  try {
+    console.log('edit-specie',req.body);
+    if(req.body.name) req.body.slug = slugify(req.body.name)
+    const newSpecie = await Specie.findOneAndUpdate({slug:req.body.slug},req.body,{new:true}).exec()
+    res.json(newSpecie)
+  } catch (err) {
+    res.status(400).json({
+      err:err.message
+    })
+  }
 }
 
 exports.remove = async (req,res) => {

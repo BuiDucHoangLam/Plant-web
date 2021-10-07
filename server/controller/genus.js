@@ -16,9 +16,9 @@ exports.read = async (req,res) => {
 }
 
 exports.readById = async (req,res) => {
-  const ordo = await Ordo.findOne({_id:req.params._id})
+  const genus = await Genus.findOne({_id:req.params._id})
   .exec()
-  res.json(ordo)
+  res.json(genus)
 }
 
 exports.create = async (req,res) => {

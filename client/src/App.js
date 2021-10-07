@@ -15,6 +15,7 @@ import OrdoCreate from './pages/admin/ordo/OrdoCreate'
 import FamiliaCreate from './pages/admin/familia/FamiliaCreate'
 import GenusCreate from './pages/admin/genus/GenusCreate'
 import SpecieCreate from './pages/admin/specie/SpecieCreate'
+import SpecieEdit from './pages/admin/specie/SpecieEdit'
 import OrdoEdit from './pages/admin/ordo/OrdoEdit'
 import FamiliaEdit from './pages/admin/familia/FamiliaEdit'
 import GenusEdit from './pages/admin/genus/GenusEdit'
@@ -100,6 +101,7 @@ const App = () => {
           <AdminRoute exact path = '/admin/familia' component ={FamiliaCreate} />
           <AdminRoute exact path = '/admin/genus' component ={GenusCreate} />
           <AdminRoute exact path = '/admin/specie' component ={SpecieCreate} />
+          <AdminRoute exact path = '/admin/specie/:slug' component ={SpecieEdit} />
           <AdminRoute exact path = '/admin/ordo/:slug' component ={OrdoEdit} />
           <AdminRoute exact path = '/admin/familia/:slug' component ={FamiliaEdit} />
           <AdminRoute exact path = '/admin/genus/:slug' component ={GenusEdit} />

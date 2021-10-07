@@ -6,6 +6,7 @@ import { getOrdo,getOrdoById } from '../api/ordo'
 import { getFamilia,getFamiliaById } from '../api/familia'
 import { getGenus,getGenusById } from '../api/genus'
 import {Link} from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import '../css/styleDetail.css'
 import '../css/style.css'
@@ -19,6 +20,7 @@ const DetailsRoot = ({match}) => {
   
   const {name,description,enDescription,distribution,enDistribution,value,enValue,images} = root
   const {slug,type} = match.params
+  const {t} = useTranslation()
  
   console.log(match.params);
 
@@ -66,12 +68,12 @@ const DetailsRoot = ({match}) => {
       <div id="main-contener">
         <div className="intro-di">
           <div className="intro-details">
-            <strong>{type === 'genus' ? 'Chi' : (type === 'familia') ? 'Họ' : 'Bộ'} </strong> <br/>
+            <strong>{type === 'genus' ? t('genus')  : (type === 'familia') ?  t('familia') : t('ordo') } </strong> <br/>
             <div><em lang="la">{name}</em> </div>
             <br/>
             <br/>
             
-            {type !== 'ordo' && <div> thuộc {type === 'genus' ? 'Họ' : (type === 'familia') ? 'Bộ' : null}
+            {type !== 'ordo' && <div>  {type === 'genus' ? t('familia') : (type === 'familia') ? t('ordo') : null}
             :<Link to={`/details-${type === 'genus' ? 'familia' : 'ordo'}/${parent.slug}`}> {parent.name} </Link>  </div>}
             <br />
          
@@ -88,14 +90,14 @@ const DetailsRoot = ({match}) => {
               {Object.values(images).flat().map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
               
             </Carousel>
-            : <div>Không có hình ảnh </div>}
+            : <div>{t('noImage') } </div>}
         </div>
       </div>
       <div className ="nav-bar">
         <ul className="nav-items">
-          <li className="nav-li"><a href="#descriptions">Miêu tả</a></li>
-          <li className="nav-li"><a href="#distribution-map">Phân bổ</a></li>
-          <li className="nav-li"><a href="#value">Giá trị sử dụng</a></li>
+          <li className="nav-li"><a href="#descriptions">{t('description') }</a></li>
+          <li className="nav-li"><a href="#distribution-map">{t('distribution') }</a></li>
+          <li className="nav-li"><a href="#value">{t('useValue') }</a></li>
         </ul>
       </div>
       <div id="descriptions" className="plants">
@@ -103,7 +105,7 @@ const DetailsRoot = ({match}) => {
         <div className="row">
             <div className="col-md-12 ">
               <div className="titlepage">
-                  <h2>Miêu tả</h2>
+                  <h2>{t('description') }</h2>
               </div>
             </div>
         </div>
@@ -117,7 +119,7 @@ const DetailsRoot = ({match}) => {
           <div className="row">
               <div className="col-md-12 ">
                 <div className="titlepage">
-                    <h2 >Phân bổ</h2>
+                    <h2 >{t('distribution') }</h2>
                 </div>
               </div>
           </div>
@@ -135,7 +137,7 @@ const DetailsRoot = ({match}) => {
         <div className="row">
             <div className="col-md-12 ">
               <div className="titlepage">
-                  <h2>Giá trị sử dụng</h2>
+                  <h2>{t('useValue') }</h2>
               </div>
             </div>
         </div>

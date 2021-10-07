@@ -2133,7 +2133,7 @@ ul.location_icon span {
      top:0;
      background-color: white;
      position: fixed; */
-     display: flex;
+     /* display: flex; */
      justify-content: center;
  }
 .nav-items{
