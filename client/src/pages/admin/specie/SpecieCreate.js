@@ -12,6 +12,11 @@ import {useSelector} from 'react-redux'
 import {toast} from 'react-toastify'
 import SpecieCreateForm from '../../../component/form/SpecieCreateForm'
 
+import '../../../css/style.css'
+import '../../../css/responsive.css'
+import '../../../css/bootstrap.min.css'
+
+
 const initialState = {
   name:'tower of god',
   vnName:'the boy of the death',
@@ -30,7 +35,9 @@ const initialState = {
   coordinates:[],
   longitude:'',
   latitude:'',
-  coordinatesList:'',
+  longitudeList:[],
+  latitudeList:[],
+  coordinatesList:[],
   source:'internet',
   fruitSeason:'',
   enDescription:'',
@@ -78,6 +85,47 @@ const SpecieCreate = () => {
   
   const handleSubmit = e => {
     e.preventDefault()
+    let array1 = []
+    let array2  = []
+    let array3  = []
+    let array4  = []
+    document.querySelector('.coord-form').childNodes.forEach(c => {
+      if(c.className === 'row') {
+        c.childNodes.forEach(cc => {
+          if(cc.className === 'col-md-6') {
+            cc.childNodes.forEach(n => {
+              console.log(n.name);
+              if(n.name === 'longitudeList' && n.value){
+                const arrLong = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+                if(arrLong) {
+                  array1.push(arrLong)
+                  const long = Number(arrLong[0]) + Number(arrLong[1])/60 + Number(arrLong[2])/3600
+                  array2.push(long)
+                }
+               
+              } 
+              else if(n.name === 'latitudeList' && n.value) {
+                const arrLat = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+                if(arrLat) {
+                  array3.push(arrLat)
+                  const lat = Number(arrLat[0]) + Number(arrLat[1])/60 + Number(arrLat[2])/3600
+                  array4.push(lat)
+                }
+                
+                setValues({...values,
+                  longitudeList:array1,
+                  longitude:array2.filter(el => el !== null),
+                  latitudeList:array3,
+                  latitude:array4.filter(el => el !== null),
+                  coordinates:combineArray(array2,array4)
+                })
+              }
+                      
+            });
+          }
+        })
+      }
+    })
     createSpecie(user.token,values).then(res => {
       console.log(res.data);
       window.alert('Thành công!')
@@ -148,11 +196,6 @@ const SpecieCreate = () => {
     return alo
   }
 
-  const transformToCoord = a => {
-    const b =  a.split(' ')
-    return Number(b[0]) +  Number(b[1])/60 + Number(b[2])/3600
-  }
-
   const handleLongitudeChange = e => {
     e.preventDefault()
     setValues({...values,longitude:e.target.value})
@@ -163,20 +206,44 @@ const SpecieCreate = () => {
     setValues({...values,latitude:e.target.value})
   }
 
-  const handleCoordinatesChange = e => {
-    e.preventDefault()
-    const arr = transToArray(e.target.value)
-    setValues({...values,coordinatesList:e.target.value,coordinates:arr})
-    console.log(e.target.name,e.target.value);
+  const handleCoordinatesChange = () => {
     
-    // const arr = transformToCoord(e.target.value)
-    // setValues({...values,[e.target.name]:e.target.value,coordinatesList:arr})
-    // const a = document.querySelector('coord-form').
-    // console.log(a);
   }
 
-  const abc = () => {
+  const combineArray = (a,b) => {
+    let c = []
+    for(let i = 0;i<b.length;i++) {
+      let d = []
+      d.push(a[i],b[i])
+      c.push(d)
+    }
+    return c
+  }
+
+  const handleAddCoord = () => {
+    const html = `<div class="row">
+    <div class="col-md-6">
+      <input 
+        type="text" 
+        name = 'longitudeList'
+        class = 'form-control' 
+       
+      />  
+    </div>
+    <div class="col-md-6">
+      <input 
+        type="text" 
+        name = 'latitudeList'
+        class = 'form-control' 
+     
+      />  
+    </div>
+  </div>  `
   
+  
+    document.getElementById('addCoord').insertAdjacentHTML('beforebegin',html)
+
+    
   }
 
   return (
@@ -188,9 +255,9 @@ const SpecieCreate = () => {
         
       <div className ='col-md-10'>
        
-        {loading ? <LoadingOutlined className ='text-danger' /> : <h4>{t('createSpecie')}</h4>}
+        {loading ? <LoadingOutlined className ='text-danger' /> : <h3  style ={{textAlign:'center'}}>{t('createSpecie')}</h3>}
         <hr />
-        {JSON.stringify(values)}
+        {/* {JSON.stringify(values)} */}
         <div className="row">
           <div className="col-md-4">
             <FileUpload 
@@ -245,6 +312,7 @@ const SpecieCreate = () => {
           handleCoordinatesChange ={handleCoordinatesChange}
           handleLatitudeChange = {handleLatitudeChange}
           handleLongitudeChange = {handleLongitudeChange}
+          handleAddCoord  ={handleAddCoord}
           index = {i}
         />
       </div>

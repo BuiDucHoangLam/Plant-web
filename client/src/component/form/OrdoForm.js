@@ -24,9 +24,12 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
           required
         />
       </div>
+      <div className="row">
+        <div className="col-md-6">
+        <div style ={{textAlign:'center'}}>{t('vietnam')} </div>
+        
       <div className="form-group">
-        <div className="row">
-          <div className="col-md-6">
+      
           <label>{t('description')}</label>
           <input 
             name='description'
@@ -38,25 +41,10 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
             autoFocus
             required
           />
-          </div>
-          <div className="col-md-6">
-          <label>{t('enDescription')}</label>
-          <input 
-            name='enDescription'
-            type='text' 
-            className='form-control' 
-            value={enDescription} 
-            onChange={change}
-            placeholder={t('enDescription')}
-            autoFocus
-            required
-          />
-          </div>
-        </div>
+         
       </div>
       <div className="form-group">
-        <div className="row">
-          <div className="col-md-6">
+      
           <label>{t('distribution')}</label>
           <input 
             name='distribution'
@@ -68,25 +56,9 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
             autoFocus
             required
           />
-          </div>
-          <div className="col-md-6">
-          <label>{t('enDistribution')}</label>
-          <input 
-            name='enDistribution'
-            type='text' 
-            className='form-control' 
-            value={enDistribution} 
-            onChange={change}
-            placeholder={t('enDistribution')}
-            autoFocus
-            required
-          />
-          </div>
-        </div>
+          
       </div>
       <div className="form-group">
-        <div className="row">
-          <div className="col-md-6">
           <label>{t('useValue')}</label>
           <input 
             name='value'
@@ -98,10 +70,43 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
             autoFocus
             required
           />
-          </div>
-          <div className="col-md-6">
-          <label>{t('enUseValue')}</label>
+      </div>
+        </div>
+        <div className="col-md-6">
+        <div style ={{textAlign:'center'}}>{t('english')} </div>
+        
+      <div className="form-group">
+            <label> </label>
           <input 
+              style = {{marginTop:'8px'}}
+            name='enDescription'
+            type='text' 
+            className='form-control' 
+            value={enDescription} 
+            onChange={change}
+            placeholder={t('enDescription')}
+            autoFocus
+            required
+          />
+      </div>
+      <div className="form-group">
+            <label> </label>
+          <input 
+              style = {{marginTop:'8px'}}
+            name='enDistribution'
+            type='text' 
+            className='form-control' 
+            value={enDistribution} 
+            onChange={change}
+            placeholder={t('enDistribution')}
+            autoFocus
+            required
+          />
+      </div>
+      <div className="form-group">
+            <label> </label>
+          <input 
+              style = {{marginTop:'8px'}}
             name='enValue'
             type='text' 
             className='form-control' 
@@ -111,9 +116,10 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
             autoFocus
             required
           />
-          </div>
+      </div>
         </div>
       </div>
+      
     <br/>
     <button onClick ={onSubmit} type="submit" className="btn btn-raised">
       {functionality}

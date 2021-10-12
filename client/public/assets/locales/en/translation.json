@@ -31,17 +31,18 @@
   "familiaName":"Familia name",
   "genusName":"Genus name",
   "specieName":"Specie name",
+  "name":"Name",
   "vnName":"Vietnamese name",
   "ordo":"Ordo",
   "familia":"Familia",
   "genus":"Genus",
   "specie":"Specie",
   "password":"Password",
-  "description":"Vietnamese Description",
-  "useValue":"Vietnamese Use value",
-  "distribution":"Vietnamese Distribution",
+  "description":"Description",
+  "useValue":"Use value",
+  "distribution":"Distribution",
   "coordinate":"Coordinate",
-  "source":"Vietnamese source",
+  "source":"Source",
   "synonyms":"Synonyms",
   "reallyDeleteOrdo":"You really want to delete ordo",
   "reallyDeleteFamilia":"You really want to delete familia",
@@ -68,7 +69,7 @@
   "searchResult":"Search result",
   "searchByInformation":"Search by information",
   "details":"Details",
-  "plans":"Plants"
-
-
+  "plans":"Plants",
+  "vietnam":"Vietnamese",
+  "english":"English"
 }

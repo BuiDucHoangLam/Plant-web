@@ -35,6 +35,7 @@
   "familia":"Họ",
   "genus":"Chi",
   "specie":"Loài",
+  "name":"Tên",
   "vnName":"Tên Việt Nam",
   "password":"Mật khẩu",
   "description":"Miêu tả",
@@ -63,10 +64,12 @@
   "dependencyGenus":"thuộc chi",
   "have":"Có",
   "noImage":"Chưa có hình ảnh",
-  "searchByImage":"Tìm kiếm bằng hình ảnh",
+  "searchByImage":"Tìm bằng hình ảnh",
   "chooseImage":"Chọn hình",
   "searchResult":"Kết quả tìm kiếm",
-  "searchByInformation":"Tìm kiếm theo thông tin",
+  "searchByInformation":"Tìm theo thông tin",
   "details":"Chi tiết",
-  "plans":"Các loài thực vật"
+  "plans":"Các loài thực vật",
+  "vietnam":"Tiếng Việt",
+  "english":"Tiếng Anh"
 }

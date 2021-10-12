@@ -55,28 +55,7 @@ const Search = () => {
     const [name,setName] = useState('')
 
     const loadPlantsQuery = () => {
-        // getListOrdo().then(res => {
-        //     setOrdos(res.data.map(item => ({...item,type:'ordo'})))
-        //     setResults(res.data.map(item => ({...item,type:'ordo'})))
-        // })
-
-        // getListFamilia().then(res => {
-        //     setFamilias(res.data.map(item => ({...item,type:'familia'})))
-        //     setResults([...results,...res.data.map(item => ({...item,type:'familia'}))])
-
-        // })
-
-        // getListGenus().then(res => {
-        //     setListGenus(res.data.map(item => ({...item,type:'genus'})))
-        //     // setResults([...results,res.data.map(item => ({...item,type:'genus'}))])
-
-        // })
-
-        // getSpecies().then(res => {
-        //     setSpecies(res.data.map(item => ({...item,type:'specie'})))
-        //     // setResults([...results,res.data.map(item => ({...item,type:'species'}))])
-
-        // })
+      
         getListOrdo().then(resO => {
             getListFamilia().then(resF => {
                 getListGenus().then(resG => {
@@ -98,21 +77,7 @@ const Search = () => {
     useEffect(() => {
         loadPlantsQuery()
        
-    },[])
-
-
-    // 2. Filter by Genus
-    // useEffect(() => {
-    //     loadPlantsQuery({genus:genus})
-    // },[genus])
-
-    // useEffect(() => {
-    //     loadPlantsQuery({description:description})
-    // },[description])
-
-    // useEffect(() => {
-    //     loadPlantsQuery({otherData:otherData})
-    // },[otherData])
+    },[keyword])
 
     const handleChange = e => {
         dispatch({
@@ -240,7 +205,6 @@ const Search = () => {
            <div className="col-md-12 ">
               <div className="titlepage">
                  <h2>{t('searchByInformation')}</h2>
-                 {/* <!-- <span>looking at its layout. The point of using Lorem Ipsumletters, as opposed to usingl</span> --> */}
               </div>
            </div>
         </div>
@@ -253,54 +217,7 @@ const Search = () => {
 
         <div className="search-inf__body">
             <div className="search-inf__form">
-                {/* <div className="form-control1">
-                    <p>Family (họ) (50): </p> <select name="" className="item"></select>
-                </div>
-                <div className="form-control1">
-                    <p>Plant Type (loại TV) (50):</p> <select name="" className="item"></select>
-                </div>
-                <div className="form-control1">
-                    <p>Life form (Dạng sống) (50):</p> <select name="" className="item"></select>
-                </div>
-                <div className="form-control1">
-                    <p>Ecotypes (Loài sinh thái):</p> <span><input type="radio" />Yes</span>  <span className="radio"><input type="radio" />No</span>
-                </div>
-                <div className="form-control1">
-                    <p>Salinity (Độ mặn) (dS/m):</p> <span><input type="radio" />Seawater</span> <span className="radio"><input type="radio" />Not over</span> <span><input type="radio" />Range</span>
-                </div>
-                <div className="form-control1">
-                     <span className="range">Min <input type="text" className="item-mini" /></span> <span style={{marginLeft: '30px'}}> Max <input type="text" className="item-mini" /> </span>
-                </div>
-                <div className="form-control1">
-                    <p>Germination (Nảy mầm):</p> <span><input type="radio" />Yes</span> <span className="radio"><input type="radio" />No</span>
-                </div>
-                <div className="form-control1">
-                    <p>Photosyntheses Pathway (Con đường quang hợp):</p> <span><input type="radio" />Yes</span> <span className="radio"><input type="radio" />No</span>
-                </div>
-                <div className="form-control1">
-                    <p>Microbial interactions and mycorrhizal status (Tương tác vi sinh vật và tình trạng nấm rễ): </p> <br/> <span><input type="radio" />Yes</span> <span style={{marginLeft: '20px'}}><input type="radio" />No</span>
-                </div>
-                <div className="form-control1">
-                    <p>Bioremediation (Sửa chữa sinh học):</p> <span><input type="radio" />Yes</span> <span className="radio"><input type="radio" />No</span>
-                </div>
-                <div className="form-control1">
-                    <p>Molecular data (Dữ liệu phân tử) (50):</p> <select name="" className="item"></select>
-                </div>
-                <div className="form-control1">
-                    <p>Antioxidants (Chất chống oxy hóa) (50):</p> <select name="" className="item"></select>
-                </div>
-                <div className="form-control1">
-                    <p>Secondary metabolites (Chất chuyển hóa thứ cấp): </p><select name="" className="item"></select>
-                </div>
-                <div className="form-control1">
-                    <p>Compatible solutes (chất hòa tan tương thích):</p> <select name="" className="item"></select>
-                </div>
-                <div className="form-control1">
-                    <p>Habitat (Nơi sống) (50):</p> <select name="" className="item"></select>
-                </div>
-                <div className="form-control1">
-                    <p>Economic use (Sử dụng kinh tế) (50):</p> <select name="" className="item"></select>
-                </div> */}
+               
                 <div className="form-control1">
                     <p>{t('insertName')}: </p> 
                     <LocalSearch
@@ -308,84 +225,7 @@ const Search = () => {
                         setKeyword = {setKeyword}
                     />
                 </div>
-                {/* <div className="form-control1">
-                    <p>Loài: </p> 
-                    <form style={{display:'flex',background:'none',padding:'0px'}}  onSubmit={handleSubmit}>
-                        <input 
-                            onChange ={e => setGenus(e.target.value)}
-                            type='search' 
-                            value ={genus} 
-                            className ='form-control mr-sm-2'
-                            placeholder='Search Genus'
-                        />
-                        <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
-                    </form>
-                </div>
-                <div className="form-control1">
-                    <p>Miêu tả: </p>
-                    <form style={{display:'flex',background:'none',padding:'0px'}}  onSubmit={handleSubmit}>
-                        <input 
-                            onChange ={e => setDescription(e.target.value)}
-                            type='search' 
-                            value ={description} 
-                            className ='form-control mr-sm-2'
-                            placeholder='Search Name'
-                        />
-                        <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
-                    </form>
-                </div>
-                <div className="form-control1">
-                    <p>Phân bổ: </p> 
-                    <form style={{display:'flex',background:'none',padding:'0px'}}  onSubmit={handleSubmit}>
-                        <input 
-                            onChange ={e => setDistribution(e.target.value)}
-                            type='search' 
-                            value ={distribution} 
-                            className ='form-control mr-sm-2'
-                            placeholder='Search Name'
-                        />
-                        <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
-                    </form>
-                </div>
-                <div className="form-control1">
-                    <p>Thông tin: </p> 
-                    <form style={{display:'flex',background:'none',padding:'0px'}}  onSubmit={handleSubmit}>
-                        <input 
-                            onChange ={e => setOther(e.target.value)}
-                            type='search' 
-                            value ={otherData} 
-                            className ='form-control mr-sm-2'
-                            placeholder='Search Data'
-                        />
-                        <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
-                    </form>
-                </div>
-                <div className="form-control1">
-                    <p>Lược sử: </p> 
-                    <form style={{display:'flex',background:'none',padding:'0px'}}  onSubmit={handleSubmit}>
-                        <input 
-                            onChange ={e => setBibliography(e.target.value)}
-                            type='search' 
-                            value ={bibliography} 
-                            className ='form-control mr-sm-2'
-                            placeholder='Search Bibliography'
-                        />
-                        <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
-                    </form>
-                </div>
-                <div className="form-control1">
-                    <p>Nguồn tin: </p> 
-                    <form style={{display:'flex',background:'none',padding:'0px'}}  onSubmit={handleSubmit}>
-                        <input 
-                            onChange ={e => setSource(e.target.value)}
-                            type='search' 
-                            value ={source} 
-                            className ='form-control mr-sm-2'
-                            placeholder='Search Source'
-                        />
-                        <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',fontSize:'x-large',display: 'flex',alignItems:'center'}}/>
-                    </form>
-                </div> */}
+               
                
                 <div>
                     {/* <a href="/details"> */}
@@ -412,18 +252,7 @@ const Search = () => {
                     </div>
                         </div>
                     })}
-                    {/* <div className="list-item-inf" style={{marginLeft: '5%'}}>
-                        <a href="/details">1. Aizoon canariense L.</a>
-                        <input type="submit" className="detail" value="Detail" />
-                    </div>
-                    <div className="list-item-inf" style={{marginLeft: '5%'}}>
-                        <a href="/details">2. Carpobrotus chilensis (Molina) N.E.Br.</a>
-                        <input type="submit" className="detail" value="Detail" />
-                    </div>
-                    <div className="list-item-inf" style={{marginLeft: '5%'}}>
-                        <a href="/details">3. Carpobrotus edulis (L.) N.E.Br.</a>
-                        <input type="submit" className="detail" value="Detail" />
-                    </div> */}
+                    
                 </div>
             </div>
         </div>
