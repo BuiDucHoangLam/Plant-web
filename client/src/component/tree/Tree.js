@@ -134,12 +134,15 @@ class Tree extends Component {
 
   handleSubmit = (node) => {
     const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
+    const divBar = document.querySelector(`.div-${node.style}-${node.name}`)
     
     const save = document.querySelector(`.submit-${node.style}-${node.name}`)
     if(node.style === 'ordo') {
       const obj = {name:inputBar.value,ordo:node._id}
       console.log(obj);
       createFamilia(this.props.user.token,obj).then(res => {
+        divBar.style.display = 'none'
+
         this.renderData()
         console.log('familia',res.data);
       }).catch(err => console.log(err))
@@ -147,6 +150,7 @@ class Tree extends Component {
       const obj = {name:inputBar.value}
       console.log(obj);
       createOrdo(this.props.user.token,obj).then(res => {
+        divBar.style.display = 'none'
         this.renderData()
         console.log('ordo',res.data);
       }).catch(err => console.log(err))
@@ -154,6 +158,7 @@ class Tree extends Component {
       const obj = {name:inputBar.value,ordo:node.ordo,familia:node._id}
       console.log(obj);
       createGenus(this.props.user.token,obj).then(res => {
+        divBar.style.display = 'none'
         this.renderData()
         console.log('genus',res.data);
       }).catch(err => console.log(err))
@@ -161,6 +166,7 @@ class Tree extends Component {
       const obj = {name:inputBar.value,ordo:node.ordo,familia:node.familia,genus:node._id}
       console.log(obj);
       createSpecie(this.props.user.token,obj).then(res => {
+        divBar.style.display = 'none'
         this.renderData()
         console.log('ordo',res.data);
       }).catch(err => console.log(err))
@@ -219,6 +225,7 @@ class Tree extends Component {
                     path: '/root',
                     type: 'folder',
                     isRoot: true,
+                    style:'root',
                     children: []
                   }]
 

@@ -4,14 +4,10 @@ import styled from 'styled-components';
 import last from 'lodash/last';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { createOrdo,deleteOrdo } from '../../api/ordo';
-import { createFamilia,deleteFamilia } from '../../api/familia';
-import { createGenus,deleteGenus } from '../../api/genus';
-import { createSpecie,removeSpecie } from '../../api/specie';
+
 import { DeleteOutlined,EditOutlined,FileAddOutlined,FolderAddOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
+
 
 const getPaddingLeft = (level, type) => {
   let paddingLeft = level * 20;
@@ -39,8 +35,7 @@ const NodeIcon = styled.div`
 const getNodeLabel = (node) => node.name;
 
 const TreeNode = (props) => {
-  const [loading,setLoading] = useState(false)
-  const [value,setValue] = useState({name:''})
+
   const { node, getChildNodes, 
     level, onToggle, 
     onNodeSelect, 
@@ -51,110 +46,9 @@ const TreeNode = (props) => {
     handleSubmit
   
   } = props;
-  const {user} = useSelector(state => ({...state}))
-  const {t} = useTranslation()
 
-  // const handleRemoveOrdo = async (slug) => {
-  //   if(window.confirm(`${t('reallyDeleteOrdo')} ${slug}?`)) {
-  //     setLoading(true)
-  //     deleteOrdo(user.token,slug).then(res => {
-  //       console.log(res);
-  //       setLoading(false)
-  //       toast.info(`${t('successDeleteOrdo')} '${res.data.name}'`)
-       
-  //     }).catch(err => {
-  //       console.log('Delete ordo',err);
-  //       toast.error(`${t('failDeleteOrdo')} '${err}'`)
-  //     })
-  //   }
-  // }
 
-  // const handleRemoveFamilia = async (slug) => {
-  //   if(window.confirm(`${t('reallyDeleteFamilia')} ${slug}?`)) {
-  //     setLoading(true)
-  //     deleteFamilia(user.token,slug).then(res => {
-  //       console.log(res);
-  //       setLoading(false)
-  //       toast.info(`${t('successDeleteFamilia')} '${res.data.name}'`)
-        
-  //     }).catch(err => {
-  //       console.log('Delete ordo',err);
-  //       toast.error(`${t('failDeleteFamilia')} '${err}'`)
-  //     })
-  //   }
-  // }
-
-  // const handleRemoveSpecie = (slug) => {
-  //   if(window.confirm(`${t('reallyDeleteSpecie')} ${slug}?`)){
-  //     removeSpecie(user.token,slug).then(res => {
-  //       console.log(res.data);
-        
-  //       toast.info(`${t('successDeleteSpecie')} ${res.data.name}`)
-  //     }).catch(err => {
-  //       console.log('xóa loài',err);
-  //       toast.error(`${'failDeleteSpecie'}`)
-  //     })
-  //   }
-  // }
-
-  // const handleRemoveGenus = async (slug) => {
-  //   if(window.confirm(`${t('reallyDeleteGenus')} ${slug}?`)) {
-  //     setLoading(true)
-  //     deleteGenus(user.token,slug).then(res => {
-  //       console.log(res);
-  //       setLoading(false)
-  //       toast.info(`${t('successDeleteGenus')} '${res.data.name}'`)
-       
-  //     }).catch(err => {
-  //       console.log('Delete genus',err);
-  //       toast.error(`${t('failDeleteGenus')} '${err}'`)
-  //     })
-  //   }
-  // }
-
-  // const handleAdd = (node) => {
-  //   const divBar = document.querySelector(`.div-${node.style}-${node.name}`)
-  //   const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
-  //   const addBar = document.querySelector(`.btn-${node.style}-${node.name}`)
-  //   console.log('input',inputBar.value);
-  //   if(divBar.style.display === 'none') {
-  //     divBar.style.display = 'flex'
-  //   } else {
-  //     divBar.style.display = 'none'
-  //   }
-  // }
-
-  // const handleSubmit = (node) => {
-  //   const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
-    
-  //   const save = document.querySelector(`.submit-${node.style}-${node.name}`)
-  //   if(node.style === 'ordo') {
-  //     const obj = {name:inputBar.value,ordo:node._id}
-  //     console.log(obj);
-  //     createFamilia(user.token,obj).then(res => {
-  //       console.log('familia',res.data);
-  //     }).catch(err => console.log(err))
-  //   } else if(node.style === 'root'){
-  //     const obj = {name:inputBar.value}
-  //     console.log(obj);
-  //     createOrdo(user.token,obj).then(res => {
-  //       console.log('ordo',res.data);
-  //     }).catch(err => console.log(err))
-  //   } else if(node.style === 'familia') {
-  //     const obj = {name:inputBar.value,ordo:node.ordo,familia:node._id}
-  //     console.log(obj);
-  //     createGenus(user.token,obj).then(res => {
-  //       console.log('genus',res.data);
-  //     }).catch(err => console.log(err))
-  //   } else if(node.style === 'genus') {
-  //     const obj = {name:inputBar.value,ordo:node.ordo,familia:node.familia,genus:node._id}
-  //     console.log(obj);
-  //     createSpecie(user.token,obj).then(res => {
-  //       console.log('ordo',res.data);
-  //     }).catch(err => console.log(err))
-  //   }
-  //   console.log(save);
-  // }
+  
 
   return (
     <React.Fragment>
