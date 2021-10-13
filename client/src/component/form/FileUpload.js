@@ -56,19 +56,19 @@ const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
       setLoading(false)
       // console.log('c1',children);
       const {images} = values
-      console.log('c2',children);
+      console.log('images',images);
+      console.log('children',children);
       const filteredImages = images[`${children}`].filter(img => {
         return img.public_id !== id 
       })
-      console.log('f',filteredImages);
+      console.log('filteredImages',filteredImages);
       
-      setValues({...values,...values.images,background:filteredImages})
-      console.log('c3',values.images[`${children}`]);
+      setValues({...values,...values.images,children:filteredImages})
+      console.log('img-child',values.images[`${children}`]);
     })
     .catch(err=> {
       console.log('Remove error',err);
       setLoading(false)
-
     })
   }
  

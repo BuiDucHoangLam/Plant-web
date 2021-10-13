@@ -17,13 +17,11 @@ const ordoSchema = mongoose.Schema({
   },
   description:{
     type:String,
-    required:true,
     maxLength:20000,
     text:true,
   },
   enDescription:{
     type:String,
-    required:true,
     maxLength:20000,
     text:true,
   },

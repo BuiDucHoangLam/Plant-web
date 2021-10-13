@@ -16,7 +16,6 @@ import '../../../css/style.css'
 import '../../../css/responsive.css'
 import '../../../css/bootstrap.min.css'
 
-
 const initialState = {
   name:'tower of god',
   vnName:'the boy of the death',
@@ -257,7 +256,7 @@ const SpecieCreate = () => {
        
         {loading ? <LoadingOutlined className ='text-danger' /> : <h3  style ={{textAlign:'center'}}>{t('createSpecie')}</h3>}
         <hr />
-        {/* {JSON.stringify(values)} */}
+        {JSON.stringify(values)}
         <div className="row">
           <div className="col-md-4">
             <FileUpload 

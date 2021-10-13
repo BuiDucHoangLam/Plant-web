@@ -23,7 +23,6 @@ const familiaSchema = mongoose.Schema({
   },
   description:{
     type:String,
-    required:true,
     maxLength:20000,
     text:true,
   },
@@ -42,7 +41,6 @@ const familiaSchema = mongoose.Schema({
   },
   enDescription:{
     type:String,
-    required:true,
     maxLength:20000,
     text:true,
   },

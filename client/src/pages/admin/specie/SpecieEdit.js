@@ -16,7 +16,7 @@ const initialState = {
   name:'tower of god',
   vnName:'the boy of the death',
   ordo:'',
-  ordoList:[],
+  
   familia:'',
   familiaList:[],
   genus:'',
@@ -42,6 +42,7 @@ const initialState = {
 
 const SpecieEdit = ({match}) => {
   const [values,setValues] = useState(initialState)
+  const [ordoList,setOrdoList] = useState([])
   const [genusOptions,setGenusOptions] = useState([])
   const [familiaOptions,setFamiliaOptions] = useState([])
   const [showGenus,setShowGenus] = useState(false)
@@ -57,23 +58,33 @@ const SpecieEdit = ({match}) => {
   const loadSpecie = () => {
     getSpecie(slug).then(res => {
       setValues({...values,...res.data})
+      getOrdoListFamilia(res.data.ordo).then(f => {
+        setFamiliaOptions(f.data)
+        console.log('familia',f.data);
+        getFamiliaListGenus(f.data[0]._id).then(g => {
+          console.log('genus',g.data);
+          setGenusOptions(g.data)
+        })
+      })
       console.log(res.data);
     })
   }
 
-  useEffect(() => {
-    loadSpecie()
-
-  },[])
+  // useEffect(() => {
+  //   loadOrdoList()
+    
+  // },[])
 
   useEffect(() => {
     loadOrdoList()
-    
-  },[])
+    loadSpecie()
+  },[slug])
+
+  
 
   const loadOrdoList = () => {
     getListOrdo().then(res => {
-      setValues({...values,ordoList:res.data})
+      setOrdoList(res.data)
       console.log(res.data);
     })
   }
@@ -89,9 +100,60 @@ const SpecieEdit = ({match}) => {
       setValues({...values,familiaList:res.data})
     })
   }
+
+  const combineArray = (a,b) => {
+    let c = []
+    for(let i = 0;i<b.length;i++) {
+      let d = []
+      d.push(a[i],b[i])
+      c.push(d)
+    }
+    return c
+  }
   
   const handleSubmit = e => {
     e.preventDefault()
+    let array1 = []
+    let array2  = []
+    let array3  = []
+    let array4  = []
+    document.querySelector('.coord-form').childNodes.forEach(c => {
+      if(c.className === 'row') {
+        c.childNodes.forEach(cc => {
+          if(cc.className === 'col-md-6') {
+            cc.childNodes.forEach(n => {
+              console.log(n.name);
+              if(n.name === 'longitudeList' && n.value){
+                const arrLong = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+                if(arrLong) {
+                  array1.push(arrLong)
+                  const long = Number(arrLong[0]) + Number(arrLong[1])/60 + Number(arrLong[2])/3600
+                  array2.push(long)
+                }
+               
+              } 
+              else if(n.name === 'latitudeList' && n.value) {
+                const arrLat = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+                if(arrLat) {
+                  array3.push(arrLat)
+                  const lat = Number(arrLat[0]) + Number(arrLat[1])/60 + Number(arrLat[2])/3600
+                  array4.push(lat)
+                }
+                
+                setValues({...values,
+                  longitudeList:array1,
+                  longitude:array2.filter(el => el !== null),
+                  latitudeList:array3,
+                  latitude:array4.filter(el => el !== null),
+                  coordinates:combineArray(array2,array4)
+                })
+              }
+                      
+            });
+          }
+        })
+      }
+    })
     editSpecie(user.token,slug,values).then(res => {
       console.log(res.data);
       window.alert('Thành công!')
@@ -127,6 +189,10 @@ const SpecieEdit = ({match}) => {
     getOrdoListFamilia(e.target.value).then(res=>{
       console.log('genus familia of ordo',res.data);
       setFamiliaOptions(res.data)
+      getFamiliaListGenus(res.data[0]._id).then(g => {
+        console.log('genus',g.data);
+        setGenusOptions(g.data)
+      })
     })
     setShowFamilia(true)
   }
@@ -189,8 +255,72 @@ const SpecieEdit = ({match}) => {
     // console.log(a);
   }
 
-  const abc = () => {
-  
+  const handleAddCoord = () => {
+    const html = `<div class="row">
+      <div class="col-md-6">
+        <input 
+          type="text" 
+          name = 'longitudeList'
+          class = 'form-control' 
+        
+        />  
+      </div>
+      <div class="col-md-6">
+        <input 
+          type="text" 
+          name = 'latitudeList'
+          class = 'form-control' 
+      
+        />  
+      </div>
+    </div>  `
+
+    document.getElementById('addCoord').insertAdjacentHTML('beforebegin',html)
+    let array1 = []
+    let array2  = []
+    let array3  = []
+    let array4  = []
+    document.querySelector('.coord-form').childNodes.forEach(c => {
+      if(c.className === 'row') {
+        c.childNodes.forEach(cc => {
+          if(cc.className === 'col-md-6') {
+            cc.childNodes.forEach(n => {
+              console.log(n.name);
+              if(n.name === 'longitudeList' && n.value){
+                const arrLong = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+                if(arrLong) {
+                  array1.push(arrLong)
+                  const long = Number(arrLong[0]) + Number(arrLong[1])/60 + Number(arrLong[2])/3600
+                  array2.push(long)
+                  console.log('arr1',array1);
+                  console.log('arr2',array2);
+                }
+               
+              } 
+              else if(n.name === 'latitudeList' && n.value) {
+                const arrLat = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+                if(arrLat) {
+                  array3.push(arrLat)
+                  const lat = Number(arrLat[0]) + Number(arrLat[1])/60 + Number(arrLat[2])/3600
+                  array4.push(lat)
+                  console.log('arr3',array3);
+                  console.log('arr4',array4);
+                }
+                
+                setValues({...values,
+                  longitudeList:array1,
+                  longitude:array2.filter(el => el !== null),
+                  latitudeList:array3,
+                  latitude:array4.filter(el => el !== null),
+                  coordinates:combineArray(array2,array4)
+                })
+              }
+                      
+            });
+          }
+        })
+      }
+    })
   }
 
   return (
@@ -260,6 +390,8 @@ const SpecieEdit = ({match}) => {
           handleLatitudeChange = {handleLatitudeChange}
           handleLongitudeChange = {handleLongitudeChange}
           index = {i}
+          ordoList = {ordoList}
+          handleAddCoord = {handleAddCoord}
         />
       </div>
     </div>

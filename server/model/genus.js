@@ -27,7 +27,6 @@ const genusSchema = mongoose.Schema({
   },
   description:{
     type:String,
-    required:true,
     maxLength:20000,
     text:true,
   },
@@ -61,7 +60,6 @@ const genusSchema = mongoose.Schema({
   },
   enDescription:{
     type:String,
-    required:true,
     maxLength:20000,
     text:true,
   },

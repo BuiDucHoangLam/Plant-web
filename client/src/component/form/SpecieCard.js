@@ -11,7 +11,7 @@ const SpecieCard = ({specie,handleRemove}) => {
     <Card
       cover ={
         <Link to = {`/details-specie/${slug}`} style ={{display:'flex',justifyContent:'center'}}>
-           <img src = {Object.values(specie.images).flat().length && Object.values(specie.images).flat()[0].url} alt ='img' style ={{height:'150px',objectFit:'cover'}} className ='m-2'/>
+          {specie.images && <img src = {Object.values(specie.images).flat().length && Object.values(specie.images).flat()[0].url} alt ='img' style ={{height:'150px',objectFit:'cover'}} className ='m-2'/>}
         </Link>
       }
       actions ={[

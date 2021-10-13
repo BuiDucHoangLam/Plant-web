@@ -12,7 +12,6 @@ const specieSchema = mongoose.Schema({
   vnName:{
     type:String,
     trim:true,
-    required:true,
     minLength: [3,'Too short'],
     text:true,
   },
@@ -42,7 +41,6 @@ const specieSchema = mongoose.Schema({
   },
   description:{
     type:String,
-    required:true,
     maxLength:20000,
     text:true,
   },
@@ -62,7 +60,18 @@ const specieSchema = mongoose.Schema({
   coordinates:{
     type:Array,
   },
+  longitudeList:{
+    type:Array,
+  },
+  latitudeList:{
+    type:Array,
+  },
   source:{
+    type:String,
+    maxLength:20000,
+    text:true,
+  },
+  enSource:{
     type:String,
     maxLength:20000,
     text:true,
@@ -74,7 +83,6 @@ const specieSchema = mongoose.Schema({
   },
   enDescription:{
     type:String,
-    required:true,
     maxLength:20000,
     text:true,
   },
@@ -91,8 +99,6 @@ const specieSchema = mongoose.Schema({
   enName:{
     type:String,
     trim:true,
-    required:true,
-    minLength: [3,'Too short'],
     text:true,
   }
 },{timestamps:true},)

@@ -11,7 +11,7 @@ const StyledFileExplorer = styled.div`
 `;
 
 const TreeWrapper = styled.div`
-  width: 500px;
+  width: 700px;
 `;
 
 export default class FileExplorer extends Component { 

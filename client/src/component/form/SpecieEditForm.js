@@ -2,7 +2,9 @@ import React from 'react'
 import { createSpecie } from '../../api/specie'
 import { useTranslation } from "react-i18next";
 
-const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,showGenus,genusOptions,handleOrdoChange,familiaOptions,showFamilia,handleSynonymsChange, handleCoordinatesChange, handleLongitudeChange, handleLatitudeChange, index }) => {
+const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
+  showGenus,genusOptions,handleOrdoChange,familiaOptions,showFamilia,
+  handleSynonymsChange, handleCoordinatesChange, ordoList,handleAddCoord }) => {
   const {t} = useTranslation()
 
   const {
@@ -14,7 +16,6 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,sh
     enSource,
     enValue,
     ordo,
-    ordoList,
     familia,
     familiaList,
     genus,
@@ -27,8 +28,8 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,sh
     distribution,
     coordinates,
     coordinatesList,
-    longitude,
-    latitude,
+    longitudeList,
+    latitudeList,
     source,
      fruitSeason} = values
 
@@ -53,49 +54,58 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,sh
           type="text" 
           name ='ordo' 
           className = 'form-control' 
+          value ={ordo}
           onChange  = {handleOrdoChange}
         >
-          <option>{t('chooseOrdo')}</option>
-          {ordoList.length > 0 && ordoList.map(o => 
-             (<option key ={o._id} value={o._id}>{o.name}</option>)
-          )}
+          
+          {ordoList.length > 0 && ordoList.map(o => {
+            if(o._id === ordo)
+              <option key ={o._id} value={o._id}>{o.name}</option>
+            return <option key ={o._id} value={o._id}>{o.name}</option>
+          })}
         </select>
       </div>
 
-      { showFamilia &&
+     
       <div className="form-group">
         <label>{t('familia')}</label>
         <select 
           type="text" 
           name ='familia' 
           className = 'form-control' 
+          value ={familia}
           onChange  = {handleFamiliaChange}
         >
-          <option>{t('chooseFamilia')}</option>
-          {familiaOptions.length > 0 && familiaOptions.map(f => 
-             (<option key ={f._id} value={f._id}>{f.name}</option>)
-          )}
+        
+          {familiaOptions.length > 0 && familiaOptions.map(f => {
+            if(f._id === familia)
+            (<option key ={f._id} value={f._id}>{f.name}</option>)
+            return (<option key ={f._id} value={f._id}>{f.name}</option>)
+          })}
         </select>
       </div>
       
-      }
+      
 
-      {showGenus &&
+  
         <div className="form-group">
         <label>{t('genus')}</label>
         <select 
           type="text" 
           name ='genus' 
+          values = {genus}
           className = 'form-control' 
           onChange  = {handleChange}
         >
-          <option>{t('chooseGenus')}</option>
-          {genusOptions.length > 0 && genusOptions.map(g => 
-             (<option key ={g._id} value={g._id}>{g.name}</option>)
-          )}
+          
+          {genusOptions.length > 0 && genusOptions.map(g => {
+            if(g._id === genus)
+            (<option key ={g._id} value={g._id}>{g.name}</option>)
+            return (<option key ={g._id} value={g._id}>{g.name}</option>)
+          })}
         </select>
       </div>
-      }
+      
 
       <div className="form-group">
         <div className="row">
@@ -208,15 +218,38 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,sh
         />
       </div>}
 
-       {coordinates && <div className="form-group coord-form">
-        <label>{t('coordinate')}</label>
-          <input 
-            type="text" 
-            name = 'coordinatesList'
-            className = 'form-control' 
-            value ={coordinates.map(i => i.join(' ')).join('\t')} 
-            onChange  = {handleCoordinatesChange}
-          />  
+      {coordinates && <div id ='coordField'>
+        <div className="form-group coord-form">
+          <label>{t('coordinate')}</label>
+            <div className="row">
+              <div className="col-md-6">
+               {longitudeList && longitudeList.map(l => (
+                 <input 
+                  type="text" 
+                  name = 'longitudeList'
+                  className = 'form-control' 
+                  value = {l.join(' ')}
+                      
+                  
+                />
+               ))}
+              </div>
+              <div className="col-md-6">
+                {latitudeList &&
+                  latitudeList.map(l => (
+                    <input 
+                      type="text" 
+                      name = 'latitudeList'
+                      className = 'form-control' 
+                      value = {l.join(' ')}
+                    
+                    /> 
+                  ))
+                } 
+              </div>
+            </div>
+          <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div>
+        </div> 
       </div>}
 
       <div className="form-group">

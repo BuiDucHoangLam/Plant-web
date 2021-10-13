@@ -22,7 +22,7 @@ import GenusEdit from './pages/admin/genus/GenusEdit'
 import Plans from './pages/Plans';
 import DetailsRoot from './pages/DetailsRoot';
 import FileExplorer from './component/tree/FileExplorer'
-import Tree from './component/tree/Tree'
+// import FileExplorer from './routes/FileExplorer';
 
 import Login from './auth/Login'
 import Register from './auth/Register'
@@ -99,7 +99,7 @@ const App = () => {
           <Route exact path = '/register/complete' component ={RegisterComplete} />
 
           <Route exact path = '/tree' component ={FileExplorer} />
-          {/* <Route exact path = '/tree' component ={Tree} /> */}
+        
 
           <AdminRoute exact path = '/admin/dashboard' component ={Dashboard} />
           <AdminRoute exact path = '/admin/ordo' component ={OrdoCreate} />
