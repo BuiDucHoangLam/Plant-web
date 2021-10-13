@@ -7,8 +7,9 @@ import { getListGenus,createGenus,deleteGenus } from '../../api/genus';
 import { getSpecies,createSpecie,removeSpecie } from '../../api/specie';
 import { DeleteOutlined,EditOutlined,FileAddOutlined,FolderAddOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import TreeNode from './TreeNode';
+import { withTranslation } from 'react-i18next';
 
 const data = {
   '/root': {
@@ -49,114 +50,123 @@ const data = {
   },
 };
 
-export default class Tree extends Component {
+class Tree extends Component {
   state = {
     nodes: data,
     results:[],
     obj:{},
+    loading:false
   };
 
-  // handleRemoveOrdo = async (slug) => {
-  //   if(window.confirm(`${t('reallyDeleteOrdo')} ${slug}?`)) {
-  //     setLoading(true)
-  //     deleteOrdo(user.token,slug).then(res => {
-  //       console.log(res);
-  //       setLoading(false)
-  //       toast.info(`${t('successDeleteOrdo')} '${res.data.name}'`)
-       
-  //     }).catch(err => {
-  //       console.log('Delete ordo',err);
-  //       toast.error(`${t('failDeleteOrdo')} '${err}'`)
-  //     })
-  //   }
-  // }
-
-  // handleRemoveFamilia = async (slug) => {
-  //   if(window.confirm(`${t('reallyDeleteFamilia')} ${slug}?`)) {
-  //     setLoading(true)
-  //     deleteFamilia(user.token,slug).then(res => {
-  //       console.log(res);
-  //       setLoading(false)
-  //       toast.info(`${t('successDeleteFamilia')} '${res.data.name}'`)
+  handleRemoveOrdo = async (slug) => {
+    if(window.confirm(`haha ${slug}?`)) {
+      this.setState({loading:true})
+      deleteOrdo(this.props.user.token,slug).then(res => {
+        console.log(res);
+        this.setState({loading:false})
+        this.renderData()
+        toast.info(`haha '${res.data.name}'`)
         
-  //     }).catch(err => {
-  //       console.log('Delete ordo',err);
-  //       toast.error(`${t('failDeleteFamilia')} '${err}'`)
-  //     })
-  //   }
-  // }
+      }).catch(err => {
+        console.log('Delete ordo',err);
+        toast.error(`haha '${err}'`)
+      })
+    }
+  }
 
-  // handleRemoveSpecie = (slug) => {
-  //   if(window.confirm(`${t('reallyDeleteSpecie')} ${slug}?`)){
-  //     removeSpecie(user.token,slug).then(res => {
-  //       console.log(res.data);
+  handleRemoveFamilia = async (slug) => {
+    if(window.confirm(`haha ${slug}?`)) {
+      this.setState({loading:true})
+      deleteFamilia(this.props.user.token,slug).then(res => {
+        console.log(res);
+        this.setState({loading:false})
+        this.renderData()
+        toast.info(`haha '${res.data.name}'`)
         
-  //       toast.info(`${t('successDeleteSpecie')} ${res.data.name}`)
-  //     }).catch(err => {
-  //       console.log('xóa loài',err);
-  //       toast.error(`${'failDeleteSpecie'}`)
-  //     })
-  //   }
-  // }
+      }).catch(err => {
+        console.log('Delete ordo',err);
+        toast.error(`haha '${err}'`)
+      })
+    }
+  }
 
-  // handleRemoveGenus = async (slug) => {
-  //   if(window.confirm(`${t('reallyDeleteGenus')} ${slug}?`)) {
-  //     setLoading(true)
-  //     deleteGenus(user.token,slug).then(res => {
-  //       console.log(res);
-  //       setLoading(false)
-  //       toast.info(`${t('successDeleteGenus')} '${res.data.name}'`)
+  handleRemoveSpecie = (slug) => {
+    if(window.confirm(`haha ${slug}?`)){
+      removeSpecie(this.props.user.token,slug).then(res => {
+        console.log(res.data);
+        this.renderData()
+        
+        toast.info(`haha ${res.data.name}`)
+      }).catch(err => {
+        console.log('xóa loài',err);
+        toast.error(`${'failDeleteSpecie'}`)
+      })
+    }
+  }
+
+  handleRemoveGenus = async (slug) => {
+    if(window.confirm(`haha ${slug}?`)) {
+      this.setState({loading:true})
+      deleteGenus(this.props.user.token,slug).then(res => {
+        console.log(res);
+        this.renderData()
+        this.setState({loading:false})
+        toast.info(`haha '${res.data.name}'`)
        
-  //     }).catch(err => {
-  //       console.log('Delete genus',err);
-  //       toast.error(`${t('failDeleteGenus')} '${err}'`)
-  //     })
-  //   }
-  // }
+      }).catch(err => {
+        console.log('Delete genus',err);
+        toast.error(`haha '${err}'`)
+      })
+    }
+  }
 
-  // handleAdd = (node) => {
-  //   const divBar = document.querySelector(`.div-${node.style}-${node.name}`)
-  //   const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
-  //   const addBar = document.querySelector(`.btn-${node.style}-${node.name}`)
-  //   console.log('input',inputBar.value);
-  //   if(divBar.style.display === 'none') {
-  //     divBar.style.display = 'flex'
-  //   } else {
-  //     divBar.style.display = 'none'
-  //   }
-  // }
+  handleAdd = (node) => {
+    const divBar = document.querySelector(`.div-${node.style}-${node.name}`)
+    const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
+    const addBar = document.querySelector(`.btn-${node.style}-${node.name}`)
+    console.log('input',inputBar.value);
+    if(divBar.style.display === 'none') {
+      divBar.style.display = 'flex'
+    } else {
+      divBar.style.display = 'none'
+    }
+  }
 
-  // handleSubmit = (node) => {
-  //   const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
+  handleSubmit = (node) => {
+    const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
     
-  //   const save = document.querySelector(`.submit-${node.style}-${node.name}`)
-  //   if(node.style === 'ordo') {
-  //     const obj = {name:inputBar.value,ordo:node._id}
-  //     console.log(obj);
-  //     createFamilia(user.token,obj).then(res => {
-  //       console.log('familia',res.data);
-  //     }).catch(err => console.log(err))
-  //   } else if(node.style === 'root'){
-  //     const obj = {name:inputBar.value}
-  //     console.log(obj);
-  //     createOrdo(user.token,obj).then(res => {
-  //       console.log('ordo',res.data);
-  //     }).catch(err => console.log(err))
-  //   } else if(node.style === 'familia') {
-  //     const obj = {name:inputBar.value,ordo:node.ordo,familia:node._id}
-  //     console.log(obj);
-  //     createGenus(user.token,obj).then(res => {
-  //       console.log('genus',res.data);
-  //     }).catch(err => console.log(err))
-  //   } else if(node.style === 'genus') {
-  //     const obj = {name:inputBar.value,ordo:node.ordo,familia:node.familia,genus:node._id}
-  //     console.log(obj);
-  //     createSpecie(user.token,obj).then(res => {
-  //       console.log('ordo',res.data);
-  //     }).catch(err => console.log(err))
-  //   }
-  //   console.log(save);
-  // }
+    const save = document.querySelector(`.submit-${node.style}-${node.name}`)
+    if(node.style === 'ordo') {
+      const obj = {name:inputBar.value,ordo:node._id}
+      console.log(obj);
+      createFamilia(this.props.user.token,obj).then(res => {
+        this.renderData()
+        console.log('familia',res.data);
+      }).catch(err => console.log(err))
+    } else if(node.style === 'root'){
+      const obj = {name:inputBar.value}
+      console.log(obj);
+      createOrdo(this.props.user.token,obj).then(res => {
+        this.renderData()
+        console.log('ordo',res.data);
+      }).catch(err => console.log(err))
+    } else if(node.style === 'familia') {
+      const obj = {name:inputBar.value,ordo:node.ordo,familia:node._id}
+      console.log(obj);
+      createGenus(this.props.user.token,obj).then(res => {
+        this.renderData()
+        console.log('genus',res.data);
+      }).catch(err => console.log(err))
+    } else if(node.style === 'genus') {
+      const obj = {name:inputBar.value,ordo:node.ordo,familia:node.familia,genus:node._id}
+      console.log(obj);
+      createSpecie(this.props.user.token,obj).then(res => {
+        this.renderData()
+        console.log('ordo',res.data);
+      }).catch(err => console.log(err))
+    }
+    console.log(save);
+  }
 
   renderData = () => {
     getListOrdo().then(resO => {
@@ -338,7 +348,7 @@ export default class Tree extends Component {
   }
 
   render() {
-    
+    console.log(this.props);
     const rootNodes = this.getRootNodes();
    
      return (
@@ -353,6 +363,12 @@ export default class Tree extends Component {
             getChildNodes={this.getChildNodes}
             onToggle={this.onToggle}
             onNodeSelect={this.onNodeSelect}
+            handleRemoveOrdo = {this.handleRemoveOrdo}
+            handleRemoveFamilia = {this.handleRemoveFamilia}
+            handleRemoveSpecie = {this.handleRemoveSpecie}
+            handleRemoveGenus = {this.handleRemoveGenus}
+            handleAdd = {this.handleAdd}
+            handleSubmit = {this.handleSubmit}
           />
         ))}
       </div>
@@ -360,6 +376,12 @@ export default class Tree extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  user:state.user,
+})
+
 Tree.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
+
+export default  connect(mapStateToProps,null)(Tree)
