@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react'
 import Nav from '../../../component/Nav'
 import OrdoForm from '../../../component/form/OrdoForm'
 import {getFamilia,getListFamilia} from '../../../api/familia'
-import {getListGenus,getGenus,deleteGenus, createGenus} from '../../../api/genus'
+import {getListGenus,getGenus,deleteGenus, createGenus,getGenusListSpecies} from '../../../api/genus'
 import LocalSearch from '../../../component/form/LocalSearch'
 import { getListOrdo,getOrdo,getOrdoListFamilia } from '../../../api/ordo'
 import { toast } from 'react-toastify'
@@ -46,7 +46,7 @@ const GenusCreate = () => {
 
   const loadGenusList = () => {
     getListGenus().then(res => {
-      setGenusList(res.data)
+      setGenusList([...res.data.map(item => ({...item,type:'genus'}))])
       console.log(genusList);
     })
   }
@@ -58,16 +58,26 @@ const GenusCreate = () => {
 
   const handleRemove = async (slug) => {
     if(window.confirm(`${t('reallyDeleteGenus')} ${slug}?`)) {
-      setLoading(true)
-      deleteGenus(user.token,slug).then(res => {
-        console.log(res);
-        setLoading(false)
-        toast.info(`${t('successDeleteGenus')} '${res.data.name}'`)
-        loadGenusList()
-      }).catch(err => {
-        console.log('Delete genus',err);
-        toast.error(`${t('failDeleteGenus')} '${err}'`)
-      })
+     
+      getGenus(slug).then(res => getGenusListSpecies(res.data._id).then(rs => {
+        console.log(rs.data);
+        if(rs.data && rs.data.length > 0) {
+          toast.error(`${t('failDeleteGenus')} '${rs.length}'`)
+          
+        } else {
+          setLoading(true)
+          deleteGenus(user.token,slug).then(res => {
+            console.log(res);
+            setLoading(false)
+            toast.info(`${t('successDeleteGenus')} '${res.data.name}'`)
+            loadGenusList()
+          }).catch(err => {
+            console.log('Delete genus',err);
+            toast.error(`${t('failDeleteGenus')} '${err}'`)
+          })
+        }
+      }))
+      
     }
   }
 
@@ -181,7 +191,7 @@ const GenusCreate = () => {
             <div 
             className ="alert alert-secondary" 
             key ={genus._id}>
-              {genus.name}
+              <Link to ={`/details-genus/${genus.slug}`}>{genus.name}</Link>
             <span onClick ={()=>handleRemove(genus.slug)} style={{float:'right'}} className="btn btn-sm float-right">
               <DeleteOutlined className="text-danger"/>
             </span> 

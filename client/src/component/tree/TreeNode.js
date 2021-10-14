@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import last from 'lodash/last';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 import { DeleteOutlined,EditOutlined,FileAddOutlined,FolderAddOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
-
+import Cookies from 'js-cookie'
 
 const getPaddingLeft = (level, type) => {
   let paddingLeft = level * 20;
@@ -35,7 +35,9 @@ const NodeIcon = styled.div`
 const getNodeLabel = (node) => node.name;
 
 const TreeNode = (props) => {
-
+  const cookie = Cookies.get('i18next')
+  console.log(cookie);
+  const {t} = useTranslation()
   const { node, getChildNodes, 
     level, onToggle, 
     onNodeSelect, 
@@ -54,18 +56,19 @@ const TreeNode = (props) => {
     <React.Fragment>
       <StyledTreeNode level={level} type={node.type}>
         <NodeIcon onClick={() => onToggle(node)}>
-          { node.type === 'folder' && (node.isOpen ? <FaChevronDown /> : <FaChevronRight />) }
+          { node.type === 'folder' && (node.isOpen ? <FaChevronDown /> : <FaChevronRight />) } 
         </NodeIcon>
         
         <NodeIcon marginRight={10}>
           { node.type === 'file' && <FaFile /> }
           { node.type === 'folder' && node.isOpen === true && <FaFolderOpen /> }
           { node.type === 'folder' && !node.isOpen && <FaFolder /> }  
+          {  node.style === 'ordo' ? ` ${t('ordo')}` : node.style === 'familia' ? ` ${t('familia')}` : node.style === 'genus' ? ` ${t('genus')}` : node.style === 'specie' ? ` ${t('specie')}` : ''}
         </NodeIcon>
         
 
         <span role="button" onClick={() => onNodeSelect(node)}>
-         {!node.isRoot &&  <Link to={node.style === 'specie' ? `/details-specie/${node.slug}` :  `/details-${node.style}/${node.slug}`}> { getNodeLabel(node) } </Link>}
+         {node.isRoot ? <div> { getNodeLabel(node) }</div> :  <Link to={node.style === 'specie' ? `/details-specie/${node.slug}` :  `/details-${node.style}/${node.slug}`}> { getNodeLabel(node) } </Link>}
         </span>
         {
           node.type !== 'file' &&
@@ -90,7 +93,7 @@ const TreeNode = (props) => {
         {node.type !== 'file' &&
           <span
             onClick = {() => handleAdd(node)}
-            // style={{marginLeft:'auto',display:'flex',alignItems:"center"}} 
+            style={{marginLeft:'auto'}} 
             className={`btn btn-sm float-right btn-${node.style}-${node.name}`}
        
           >

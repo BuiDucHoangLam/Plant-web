@@ -7,6 +7,7 @@ import { getFamilia,getFamiliaById } from '../api/familia'
 import { getGenus,getGenusById } from '../api/genus'
 import {Link} from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import Cookies from 'js-cookie'
 
 import '../css/styleDetail.css'
 import '../css/style.css'
@@ -17,51 +18,51 @@ import '../css/carousel.css'
 const DetailsRoot = ({match}) => {
   const [root,setRoot] = useState({})
   const [parent,setParent] = useState({})
-  
+  const cookie = Cookies.get('i18next')
   const {name,description,enDescription,distribution,enDistribution,value,enValue,images} = root
   const {slug,type} = match.params
   const {t} = useTranslation()
- 
-  console.log(match.params);
+
 
   const loadRoot = () => {
     if(type === 'ordo') 
       getOrdo(slug).then(res => {
-        console.log('data',res.data);
-        console.log('type',typeof(res.data));
+
         setRoot(res.data)
       })
     else if(type === 'familia')
-      getFamilia(slug).then(res => setRoot(res.data))
+      getFamilia(slug).then(res => {
+        setRoot(res.data)
+        getOrdoById(res.data.ordo).then(rs => setParent(rs.data))
+      })
     else 
-      getGenus(slug).then(res => setRoot(res.data))
+      getGenus(slug).then(res => {
+        setRoot(res.data)
+        getFamiliaById(res.data.familia).then(rs => setParent(rs.data))
+      })
   }
 
-  const loadParent = () => {
-    if(type === 'genus') {
-      getFamiliaById(root['familia']).then(res => {
-        console.log('parent',res.data);
-        setParent(res.data)    
-      })
-    }
-    else {
-      getOrdoById(root['ordo']).then(res => {
-        console.log('parent',res.data);
-        setParent(res.data)   
-      })
-    }  
-  }
+  // const loadParent = () => {
+  //   if(type === 'genus') {
+  //     getFamiliaById(root['familia']).then(res => {
+  //       console.log('parent',res.data);
+  //       setParent(res.data)    
+  //     })
+  //   }
+  //   else {
+  //     getOrdoById(root['ordo']).then(res => {
+  //       console.log('parent',res.data);
+  //       setParent(res.data)   
+  //     })
+  //   }  
+  // }
 
-  console.log('root',root);
-  console.log('parent',parent);
   useEffect(() => {
     loadRoot()
    
   },[root])
 
-  useEffect(() => {
-    loadParent()
-  },[root])
+
 
   return (
     <div className="main-layout">
@@ -110,7 +111,7 @@ const DetailsRoot = ({match}) => {
             </div>
         </div>
         <div className="description">
-          <p>{description}</p>
+          <p>{cookie ==='vn' ? description : enDescription}</p>
         </div>
       </div>
       
@@ -126,7 +127,7 @@ const DetailsRoot = ({match}) => {
         </div>
         
         <div className="description">
-          <p>{distribution}</p>
+          <p>{cookie ==='vn' ? distribution : enDistribution}</p>
             
         </div>
       </div>       
@@ -145,7 +146,7 @@ const DetailsRoot = ({match}) => {
         <div className="description">
           <div className="row">
             <div className="c-article-section__content">
-              <h3>{value}</h3>
+              <h3>{cookie ==='vn' ? value : enValue}</h3>
               
             </div>
           </div>

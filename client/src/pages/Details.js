@@ -4,6 +4,8 @@ import {getSpecie} from '../api/specie'
 import { getGenusById } from '../api/genus'
 import GoogleMap from '../component/form/GoogleMap'
 import {useTranslation} from 'react-i18next'
+import Cookies from 'js-cookie'
+import { Link } from 'react-router-dom'
 
 import '../css/styleDetail.css'
 import '../css/style.css'
@@ -22,13 +24,13 @@ const Details = ({match}) => {
    const [genus,setGenus] = useState({})
    const {t} = useTranslation()
   const {slug} = match.params
-
-  
+   const cookie = Cookies.get('i18next')
+  const type = 'genus'
  
   useEffect(() => {
     const loadSpecie = () => getSpecie(slug).then(res => {
        setSpecie(res.data)
-        console.log('hinh',Object.values(res.data.images).flat().map(i => i.url));
+      
     }) 
   loadSpecie()
   },[slug]) 
@@ -51,12 +53,12 @@ const Details = ({match}) => {
    <div className="intro-di">
       <div className="intro-details">
          <strong>{t('vnName')}: </strong> <br/>
-         <div><em lang="la">{specie.vnName}</em> </div>
+         <div><em lang="la">{cookie ==='vn' ? specie.vnName : specie.enName}</em> </div>
          <br/>
          <br/>
          <strong>{t('specie')}: </strong> <br/>
-         <div href="/"><em lang="la">{specie.name}</em>   </div>  
-         <div> {t('dependencyGenus')}: {genus.name}</div>
+         <div href="/"><em lang="la">{cookie ==='vn' ? specie.vnName : specie.enName}</em>   </div>  
+         <div> {t('dependencyGenus')}: <Link to ={`/details-${type}/${genus.slug}`}> {genus.name} </Link> </div>
          <br />
          <br />
          {(specie.synonyms && specie.synonyms.length > 0) && 
@@ -78,10 +80,7 @@ const Details = ({match}) => {
         : <div>{t('noImage')} </div>}
 </div>
 </div>
-{/* <!--end intro--> */}
 
-
-{/* <!--navbar--> */}
 
   <div className ="nav-bar">
     <ul className="nav-items">
@@ -92,9 +91,7 @@ const Details = ({match}) => {
       <li className="nav-li"><a href="#sources">{t('source')}</a></li>
     </ul>
 </div>
-{/* <!--end navbar--> */}
 
-  {/* <!--description--> */}
 
   <div id="descriptions" className="plants">
     <div className="container">
@@ -107,19 +104,13 @@ const Details = ({match}) => {
        </div>
     </div>
     <div className="description">
-      {/* <h3>
-      <button className="btn collapser" role="button" data-toggle="collapse" data-target="#descriptions-FTEA-0" aria-expanded="true">
-        {specie.description}
-      </button>
-      </h3> */}
-      <p>{specie.description}</p>
+  
+      <p>{cookie ==='vn' ? specie.description : specie.enDescription}</p>
   </div>
    
     
   </div>
-  {/* <!--end description--> */}
 
-  {/* <!--distribution--> */}
 
   <div id="distribution-map" className="plants">
     <div className="container">
@@ -133,44 +124,12 @@ const Details = ({match}) => {
     </div>
     
     <div className="description">
-      <p>{specie.distribution}</p>
+      <p>{cookie ==='vn' ? specie.distribution : specie.enDistribution}</p>
          
     </div>
   </div>
 
-  {/* <!--end distribution--> */}
-
-  {/* <!--synomyms--> */}
-
-  {/* {specie.synonyms.length && <div id="synonyms" className="plants">
-    <div className="container">
-       <div className="row">
-          <div className="col-md-12 ">
-             <div className="titlepage">
-                <h2>Tên khác</h2>
-             </div>
-          </div>
-       </div>
-    </div>
-      <div className="description">
-        <div className="row">
-        <aside role="complementary" className="c-article-section__aside">
-            <p style={{paddingRight: '1em'}}>Có {specie.synonyms.length} tên đồng nghĩa </p>
-         
-          </aside>
-          <div className="c-article-section__content">
-            <ul className="c-synonym-list two-col">
-              {specie.synonyms.map(s => <li key ={s}>{s}</li>)}
-            </ul>
-          </div>
-          
-        </div>
-      </div>
-
-  </div>} */}
-  {/* <!--end synomyms--> */}
-
-  {/* <!--other data--> */}
+ 
 
   <div id="value" className="plants">
     <div className="container">
@@ -185,7 +144,7 @@ const Details = ({match}) => {
       <div className="description">
         <div className="row">
           <div className="c-article-section__content">
-            <h3>{specie.value}</h3>
+            <h3>{cookie ==='vn' ?  specie.value : specie.enValue}</h3>
             
           </div>
         </div>
@@ -193,32 +152,7 @@ const Details = ({match}) => {
 
   </div>
 
-  {/* <!--end other data--> */}
-
-  {/* <!--bibliography--> */}
-
-  {/* <div id="bibliography" className="plants">
-    <div className="container">
-       <div className="row">
-          <div className="col-md-12 ">
-             <div className="titlepage">
-                <h2>Lược sử</h2>
-             </div>
-          </div>
-       </div>
-    </div>
-    <div className="description" >
-      
-        <div className="row">
-          
-          {specie.bibliography}    
-        </div>
-    </div>
-  </div> */}
-
-  {/* <!--end bibliography--> */}
-
-  {/* <!--sources--> */}
+  
   <div id="sources" className="plants">
     <div className="container">
        <div className="row">
@@ -231,105 +165,12 @@ const Details = ({match}) => {
     </div>
       <div className="description">
         <div className="row">
-          {specie.source}
+          {cookie ==='vn' ? specie.source : specie.enSource}
         </div>
       </div>
 
   </div>
-  {/* <!--end sources--> */}
-
-      {/* <!-- relatives --> */}
-
-      {/* <div id="relatives" className="plants">
-         <div className="container">
-            <div className="row">
-               <div className="col-md-12 ">
-                  <div className="titlepage">
-                     <h2>Relatives</h2>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div className="container">
-            <div className="row">
-               <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div className="plants-box">
-                     <figure><img src={plant1} alt="img"/></figure>
-                     <h3> Floral Vibrant</h3>
-                     <p>It is a long established fact that a reader will be distracted by the readable content of a page   when looking at its layout. The point of using Lorem Ipsumletters, as opposed to using</p>
-                  </div>
-               </div>
-               <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div className="plants-box">
-                     <figure><img src={plant2} alt="img"/></figure>
-                     <h3> Floral Vibrant</h3>
-                     <p>It is a long established fact that a reader will be distracted by the readable content of a page   when looking at its layout. The point of using Lorem Ipsumletters, as opposed to using</p>
-                  </div>
-               </div>
-               <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div className="plants-box">
-                     <figure><img src={plant3} alt="img"/></figure>
-                     <h3> Floral Vibrant</h3>
-                     <p>It is a long established fact that a reader will be distracted by the readable content of a page   when looking at its layout. The point of using Lorem Ipsumletters, as opposed to using</p>
-                  </div>
-               </div>
-               <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div className="plants-box">
-                     <figure><img src={plant1} alt="img"/></figure>
-                     <h3> Floral Vibrant</h3>
-                     <p>It is a long established fact that a reader will be distracted by the readable content of a page   when looking at its layout. The point of using Lorem Ipsumletters, as opposed to using</p>
-                  </div>
-               </div>
-               <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div className="plants-box">
-                     <figure><img src={plant2} alt="img"/></figure>
-                     <h3> Floral Vibrant</h3>
-                     <p>It is a long established fact that a reader will be distracted by the readable content of a page   when looking at its layout. The point of using Lorem Ipsumletters, as opposed to using</p>
-                  </div>
-               </div>
-               <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div className="plants-box">
-                     <figure><img src={plant3} alt="img"/></figure>
-                     <h3> Floral Vibrant</h3>
-                     <p>It is a long established fact that a reader will be distracted by the readable content of a page   when looking at its layout. The point of using Lorem Ipsumletters, as opposed to using</p>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div> */}
-      {/* <!-- end relatives --> */}
-     
-      {/* <!--Images --> */}
-
-      {/* <div id="image-gallery" className="Gallery">
-        <div className="container">
-          <div className="row">
-              <div className="col-md-12">
-                <div className="titlepage">
-                    <h2>Hình ảnh </h2>
-                </div>
-              </div>
-          </div>
-        </div>
-      </div> */}
-      {/* <div className="container-fluid margin-r-l">
-         <div className="row">
-           {specie.images.map(img => <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 thumb">
-               <div className="Gallery-box" key ={img.public_id}>
-                  <figure>
-                     <a href={img.url} className="fancybox" rel="ligthbox">
-                     <img  src={img.url} className="zoom img-fluid "  alt="" />
-                     </a>
-                     <span className="hoverle">
-                     <a href={img.url} className="fancybox" rel="ligthbox">View</a>
-                     </span>
-                  </figure>
-               </div>
-            </div>)}
-            
-         </div>
-      </div> */}
-      {/* <!-- end Images --> */}
+  
       
       {(specie.coordinates && specie.coordinates.length > 0) && <GoogleMap
          coordinates ={specie.coordinates}

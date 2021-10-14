@@ -61,20 +61,9 @@ const LoginBar = () => {
                         <div className="limit-box">
                             <nav className="main-menu">
                               <ul className="menu-area-main" >
-                              {/* <li className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Dropdown button
-                                </button>
-                                <div className='dropdown-menu' aria-labelledby="dropdownMenuButton">
+                             
                                   {language.map(({code,name,country_code}) => (
-                                    <a key = {country_code}>{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a>
-                                  ))} 
-                                </div>
-                              
-
-                              </li> */}
-                                  {language.map(({code,name,country_code}) => (
-                                    <li><a key = {country_code}>{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a></li>
+                                    <li key = {country_code}><a >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a></li>
                                   ))} 
                                  {(!user) ? <><li key = 'login'> <a href="/login">{t('login')}</a> </li>
                                   <li key = 'register'> <a href="/register">{t('register')}</a> </li> </> 

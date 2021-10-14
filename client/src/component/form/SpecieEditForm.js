@@ -3,7 +3,7 @@ import { createSpecie } from '../../api/specie'
 import { useTranslation } from "react-i18next";
 
 const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
-  showGenus,genusOptions,handleOrdoChange,familiaOptions,showFamilia,
+  showGenus,genusOptions,handleOrdoChange,familiaOptions,showFamilia,handleSaveCoord,
   handleSynonymsChange, handleCoordinatesChange, ordoList,handleAddCoord }) => {
   const {t} = useTranslation()
 
@@ -17,21 +17,16 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
     enValue,
     ordo,
     familia,
-    familiaList,
     genus,
-    genusList,
     synonyms,
-    synonymsList,
     description,
     value,
-    images,
-    distribution,
-    coordinates,
-    coordinatesList,
     longitudeList,
     latitudeList,
+    distribution,
+    coordinates,
     source,
-     fruitSeason} = values
+     } = values
 
   
 
@@ -106,107 +101,6 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
         </select>
       </div>
       
-
-      <div className="form-group">
-        <div className="row">
-          <div className="col-md-6">
-            <label>{t('vnName')}</label>
-            <input 
-              type="text" 
-              name ='vnName' 
-              className = 'form-control' 
-              value ={vnName} 
-              onChange  = {handleChange}
-            />
-          </div>
-          <div className="col-md-6">
-            <label>{t('enName')}</label>
-            <input 
-              type="text" 
-              name ='enName' 
-              className = 'form-control' 
-              value ={enName} 
-              onChange  = {handleChange}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="form-group">
-        <div className="row">
-          <div className="col-md-6">
-            <label>{t('description')}</label>
-            <input 
-              type="text" 
-              name ='description' 
-              className = 'form-control' 
-              value ={description} 
-              onChange  = {handleChange}
-            />
-          </div>
-          <div className="col-md-6">
-            <label>{t('enDescription')}</label>
-            <input 
-              type="text" 
-              name ='enDescription' 
-              className = 'form-control' 
-              value ={enDescription} 
-              onChange  = {handleChange}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="form-group">
-        <div className="row">
-          <div className="col-md-6">
-            <label>{t('useValue')}</label>
-            <input 
-              type="text" 
-              name ='value' 
-              className = 'form-control' 
-              value ={value} 
-              onChange  = {handleChange}
-            />
-          </div>
-          <div className="col-md-6">
-            <label>{t('enUseValue')}</label>
-            <input 
-              type="text" 
-              name ='enValue' 
-              className = 'form-control' 
-              value ={enValue} 
-              onChange  = {handleChange}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="form-group">
-        <div className="row">
-          <div className="col-md-6">
-            <label>{t('distribution')}</label>
-            <input 
-              type="text" 
-              name ='distribution' 
-              className = 'form-control' 
-              value ={distribution} 
-              onChange  = {handleChange}
-            />
-          </div>
-          <div className="col-md-6">
-            <label>{t('enDistribution')}</label>
-            <input 
-              type="text" 
-              name ='enDistribution' 
-              className = 'form-control' 
-              value ={enDistribution} 
-              onChange  = {handleChange}
-            />
-          </div>
-        </div>
-      </div>
-
       {synonyms && <div className="form-group">
         <label>{t('synonyms')}</label>
         <input 
@@ -228,8 +122,9 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
                   type="text" 
                   name = 'longitudeList'
                   className = 'form-control' 
-                  value = {l.join(' ')}
-                      
+                  defaultValue = {l.join(' ')}
+                  onChange = {e => e.target.value}
+                  key = {Math.random()}
                   
                 />
                ))}
@@ -241,41 +136,148 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
                       type="text" 
                       name = 'latitudeList'
                       className = 'form-control' 
-                      value = {l.join(' ')}
-                    
+                      onChange = {e => e.target.value}
+                      key = {Math.random()}
+                      defaultValue = {l.join(' ')}
                     /> 
                   ))
                 } 
               </div>
             </div>
-          <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div>
+          <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div> <span style ={{width:'10%'}}></span>
+          <div style ={{float:'right'}} className="btn btn-outline-info" id ='saveCoord' onClick ={handleSaveCoord} > Save Coord </div>
         </div> 
       </div>}
 
-      <div className="form-group">
-        <div className="row">
-          <div className="col-md-6">
-            <label>{t('source')}</label>
-            <input 
-              type="text" 
-              name ='source' 
-              className = 'form-control' 
-              value ={source} 
-              onChange  = {handleChange}
-            />
-          </div>
-          <div className="col-md-6">
-            <label>{t('enSource')}</label>
-            <input 
-              type="text" 
-              name ='enSource' 
-              className = 'form-control' 
-              value ={enSource} 
-              onChange  = {handleChange}
-            />
-          </div>
+      <div className="row">
+        <div className="col-md-6">
+          <div style ={{textAlign:'center'}}>{t('vietnam')}</div>
+            <div className="form-group">
+            <label>{t('name')}</label>
+              <input 
+                type="text" 
+                name ='vnName' 
+                className = 'form-control' 
+                value ={vnName} 
+                onChange  = {handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>{t('description')}</label>
+              <input 
+                type="text" 
+                name ='description' 
+                className = 'form-control' 
+                value ={description} 
+                onChange  = {handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>{t('useValue')}</label>
+              <input 
+                type="text" 
+                name ='value' 
+                className = 'form-control' 
+                value ={value} 
+                onChange  = {handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>{t('distribution')}</label>
+              <input 
+                type="text" 
+                name ='distribution' 
+                className = 'form-control' 
+                value ={distribution} 
+                onChange  = {handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>{t('source')}</label>
+              <input 
+                type="text" 
+                name ='source' 
+                className = 'form-control' 
+                value ={source} 
+                onChange  = {handleChange}
+              />
+            </div>
+        </div>
+
+        <div className="col-md-6">
+        <div style ={{textAlign:'center'}}>{t('vietnam')}</div>
+
+            <div className="form-group">
+        <label> </label>
+             
+              <input 
+               style = {{marginTop:'8px'}}
+                type="text" 
+                name ='enName' 
+                className = 'form-control' 
+                value ={enName} 
+                onChange  = {handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+        <label> </label>
+            
+              <input 
+               style = {{marginTop:'8px'}}
+                type="text" 
+                name ='enDescription' 
+                className = 'form-control' 
+                value ={enDescription} 
+                onChange  = {handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+        <label> </label>
+            
+              <input 
+               style = {{marginTop:'8px'}}
+                type="text" 
+                name ='enValue' 
+                className = 'form-control' 
+                value ={enValue} 
+                onChange  = {handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+        <label> </label>
+              
+              <input 
+               style = {{marginTop:'8px'}}
+                type="text" 
+                name ='enDistribution' 
+                className = 'form-control' 
+                value ={enDistribution} 
+                onChange  = {handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+        <label> </label>
+              
+              <input 
+               style = {{marginTop:'8px'}}
+                type="text" 
+                name ='enSource' 
+                className = 'form-control' 
+                value ={enSource} 
+                onChange  = {handleChange}
+              />
+            </div>
         </div>
       </div>
+
       <button className="btn btn-outline-info" onClick = {handleSubmit}>
       {t('complete')}
       </button>

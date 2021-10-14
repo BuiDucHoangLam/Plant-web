@@ -25,11 +25,20 @@ const initialState = {
   synonymsList:'',
   description:'Melancholic Palms',
   value:'no need to use the sixth palm',
-  images:{background:[],leave:[],flower:[],fruit:[]},
+  images:{
+    imagesBackground:[],
+ imagesLeave:[],
+ imagesClove:[],
+ imagesFlower:[],
+ imagesFruit:[],
+ imagesSeed:[],
+ },
   distribution:'everywhere',
   coordinates:[],
   longitude:'',
   latitude:'',
+  longitudeList:[],
+  latitudeList:[],
   coordinatesList:'',
   source:'internet',
   fruitSeason:'',
@@ -110,50 +119,35 @@ const SpecieEdit = ({match}) => {
     }
     return c
   }
-  
-  const handleSubmit = e => {
-    e.preventDefault()
+
+  const handleSaveCoord = async () => {
     let array1 = []
     let array2  = []
     let array3  = []
     let array4  = []
-    document.querySelector('.coord-form').childNodes.forEach(c => {
-      if(c.className === 'row') {
-        c.childNodes.forEach(cc => {
-          if(cc.className === 'col-md-6') {
-            cc.childNodes.forEach(n => {
-              console.log(n.name);
-              if(n.name === 'longitudeList' && n.value){
-                const arrLong = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
-                if(arrLong) {
-                  array1.push(arrLong)
-                  const long = Number(arrLong[0]) + Number(arrLong[1])/60 + Number(arrLong[2])/3600
-                  array2.push(long)
-                }
-               
-              } 
-              else if(n.name === 'latitudeList' && n.value) {
-                const arrLat = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
-                if(arrLat) {
-                  array3.push(arrLat)
-                  const lat = Number(arrLat[0]) + Number(arrLat[1])/60 + Number(arrLat[2])/3600
-                  array4.push(lat)
-                }
-                
-                setValues({...values,
-                  longitudeList:array1,
-                  longitude:array2.filter(el => el !== null),
-                  latitudeList:array3,
-                  latitude:array4.filter(el => el !== null),
-                  coordinates:combineArray(array2,array4)
-                })
-              }
-                      
-            });
-          }
-        })
-      }
+     
+    document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
+      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+      if(arr && arr.length > 0) array1.push(arr)
+      const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      if(long) array3.push(long)
     })
+    document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
+      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+      if(arr && arr.length > 0) array2.push(arr)
+      const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      if(lat) array4.push(lat)
+    })
+    console.log(array3,array4);
+    await setValues({...values,longitudeList:[...array1],
+      latitudeList:array2,
+      coordinates:combineArray(array3,array4)})
+  }
+  
+  const handleSubmit = async e => {
+    e.preventDefault()
+    
+    console.log(values.coordinates);
     editSpecie(user.token,slug,values).then(res => {
       console.log(res.data);
       window.alert('Thành công!')
@@ -249,10 +243,6 @@ const SpecieEdit = ({match}) => {
     setValues({...values,coordinatesList:e.target.value,coordinates:arr})
     console.log(e.target.name,e.target.value);
     
-    // const arr = transformToCoord(e.target.value)
-    // setValues({...values,[e.target.name]:e.target.value,coordinatesList:arr})
-    // const a = document.querySelector('coord-form').
-    // console.log(a);
   }
 
   const handleAddCoord = () => {
@@ -276,51 +266,8 @@ const SpecieEdit = ({match}) => {
     </div>  `
 
     document.getElementById('addCoord').insertAdjacentHTML('beforebegin',html)
-    let array1 = []
-    let array2  = []
-    let array3  = []
-    let array4  = []
-    document.querySelector('.coord-form').childNodes.forEach(c => {
-      if(c.className === 'row') {
-        c.childNodes.forEach(cc => {
-          if(cc.className === 'col-md-6') {
-            cc.childNodes.forEach(n => {
-              console.log(n.name);
-              if(n.name === 'longitudeList' && n.value){
-                const arrLong = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
-                if(arrLong) {
-                  array1.push(arrLong)
-                  const long = Number(arrLong[0]) + Number(arrLong[1])/60 + Number(arrLong[2])/3600
-                  array2.push(long)
-                  console.log('arr1',array1);
-                  console.log('arr2',array2);
-                }
-               
-              } 
-              else if(n.name === 'latitudeList' && n.value) {
-                const arrLat = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
-                if(arrLat) {
-                  array3.push(arrLat)
-                  const lat = Number(arrLat[0]) + Number(arrLat[1])/60 + Number(arrLat[2])/3600
-                  array4.push(lat)
-                  console.log('arr3',array3);
-                  console.log('arr4',array4);
-                }
-                
-                setValues({...values,
-                  longitudeList:array1,
-                  longitude:array2.filter(el => el !== null),
-                  latitudeList:array3,
-                  latitude:array4.filter(el => el !== null),
-                  coordinates:combineArray(array2,array4)
-                })
-              }
-                      
-            });
-          }
-        })
-      }
-    })
+    
+  
   }
 
   return (
@@ -334,46 +281,70 @@ const SpecieEdit = ({match}) => {
        
         {loading ? <LoadingOutlined className ='text-danger' /> : <h4>{t('createSpecie')}</h4>}
         <hr />
-        {JSON.stringify(values)}
+       
         <div className="row">
           <div className="col-md-4">
             <FileUpload 
-              children = 'background'
               values ={values}
-              setValues= {setValues}
-              setLoading = {setLoading}
+              setValues ={setValues}
               name = {t('chooseImageBackground')}
+              setLoading = {setLoading}
+              children = {`imagesBackground`}
             />
           </div>
           <div className="col-md-4">
             <FileUpload 
-              children = 'flower'
               values ={values}
-              setValues= {setValues}
-              setLoading = {setLoading}
+              setValues ={setValues}
               name = {t('chooseImageFlower')}
+              children = {`imagesFlower`}
+              setLoading = {setLoading}
             />
           </div>
           <div className="col-md-4">
             <FileUpload 
-              children = 'leave'
               values ={values}
-              setValues= {setValues}
-              setLoading = {setLoading}
+              setValues ={setValues}
               name = {t('chooseImageLeave')}
+              setLoading = {setLoading}
+              children = {`imagesLeave`}
+    
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-4">
+            <FileUpload 
+              values ={values}
+              setValues ={setValues}
+              name = {t('chooseImageFruit')}
+              children = {`imagesFruit`}
+              setLoading = {setLoading}
+              
             />
           </div>
           <div className="col-md-4">
             <FileUpload 
-              children = "fruit"
               values ={values}
-              setValues= {setValues}
+              setValues ={setValues}
+              name = {t('chooseImageSeed')}
+              children = {`imagesSeed`}
               setLoading = {setLoading}
-              name = {t('chooseImageFruit')}
+           
             />
           </div>
-          
+          <div className="col-md-4">
+            <FileUpload 
+              values ={values}
+              setValues ={setValues}
+              name = {t('chooseImageClove')}
+              setLoading = {setLoading}
+              children = {`imagesClove`}
+            
+            />
+          </div>
         </div>
+
 
         <SpecieEditForm
           handleSubmit = {handleSubmit}
@@ -392,6 +363,7 @@ const SpecieEdit = ({match}) => {
           index = {i}
           ordoList = {ordoList}
           handleAddCoord = {handleAddCoord}
+          handleSaveCoord = {handleSaveCoord}
         />
       </div>
     </div>

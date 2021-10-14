@@ -2,7 +2,10 @@ import React from 'react'
 import { createSpecie } from '../../api/specie'
 import { useTranslation } from "react-i18next";
 
-const SpecieCreateForm = ({handleChange,handleSubmit,values,handleFamiliaChange,showGenus,genusOptions,handleOrdoChange,familiaOptions,showFamilia,handleSynonymsChange, handleCoordinatesChange, handleLongitudeChange, handleLatitudeChange, index, handleAddCoord }) => {
+const SpecieCreateForm = ({handleChange,handleSubmit,values,
+  handleFamiliaChange,showGenus,genusOptions,handleOrdoChange,
+  familiaOptions,showFamilia,handleSynonymsChange,
+  handleAddCoord,handleSaveCoord }) => {
   const {t} = useTranslation()
 
   const {
@@ -13,24 +16,13 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
     enDistribution,
     enSource,
     enValue,
-    ordo,
     ordoList,
-    familia,
-    familiaList,
-    genus,
-    genusList,
-    synonyms,
     synonymsList,
     description,
     value,
-    images,
     distribution,
-    coordinates,
-    coordinatesList,
-    longitude,
-    latitude,
     source,
-    fruitSeason} = values
+    } = values
 
   
 
@@ -128,6 +120,7 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
               </div>
             </div>
           <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div>
+          <div style ={{float:'right'}} className="btn btn-outline-info" id ='saveCoord' onClick ={handleSaveCoord} > Save Coord </div>
         </div> 
 
       </div>
@@ -265,9 +258,9 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
             <input 
               style = {{marginTop:'8px'}}
               type="text" 
-              name ='source' 
+              name ='enSource' 
               className = 'form-control' 
-              value ={source} 
+              value ={enSource} 
               onChange  = {handleChange}
             />
          

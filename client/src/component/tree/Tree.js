@@ -221,7 +221,7 @@ class Tree extends Component {
                   const specieList = this.specieLoop(rsArray)
                   const ordoList = this.ordoLoop(rsArray)
                   const root = [{
-                    name:'plant',
+                    name:'Plants',
                     path: '/root',
                     type: 'folder',
                     isRoot: true,
@@ -278,7 +278,6 @@ class Tree extends Component {
 
   componentDidMount() {
     this.renderData()
-    
   }
 
   convertArrayToObject = (array, key) => {
@@ -360,7 +359,7 @@ class Tree extends Component {
    
      return (
       
-      <div style ={{marginTop:'200px',height:'100%'}}>
+      <div style ={{margin:'200px 0 100px 100px',height:'100%'}}>
        
         
         {rootNodes.map(node => (

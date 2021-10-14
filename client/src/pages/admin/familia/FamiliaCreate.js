@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import Nav from '../../../component/Nav'
 import OrdoForm from '../../../component/form/OrdoForm'
-import {createFamilia,getFamilia,getListFamilia,deleteFamilia} from '../../../api/familia'
+import {createFamilia,getFamilia,getListFamilia,deleteFamilia,getFamiliaListGenus} from '../../../api/familia'
 import LocalSearch from '../../../component/form/LocalSearch'
 import { getListOrdo } from '../../../api/ordo'
 import { toast } from 'react-toastify'
@@ -44,7 +44,7 @@ const FamiliaCreate = () => {
 
   const loadFamilias = () => {
     getListFamilia().then(res => {
-      setFamilia(res.data)
+      setFamilia([...res.data.map(item => ({...item,type:'familia'}))])
       console.log(familias);
     })
   }
@@ -56,16 +56,25 @@ const FamiliaCreate = () => {
 
   const handleRemove = async (slug) => {
     if(window.confirm(`${t('reallyDeleteFamilia')} ${slug}?`)) {
-      setLoading(true)
-      deleteFamilia(user.token,slug).then(res => {
-        console.log(res);
-        setLoading(false)
-        toast.info(`${t('successDeleteFamilia')} '${res.data.name}'`)
-        loadFamilias()
-      }).catch(err => {
-        console.log('Delete ordo',err);
-        toast.error(`${t('failDeleteFamilia')} '${err}'`)
-      })
+      
+      getFamilia(slug).then(res => getFamiliaListGenus(res.data._id).then(rs => {
+        if(rs.data && rs.data.length > 0) {
+          toast.error(`${t('failDeleteFamilia')} '${rs.data.length}'`)
+          
+        } else {
+          deleteFamilia(user.token,slug).then(res => {
+            setLoading(true)
+            console.log(res);
+            setLoading(false)
+            toast.info(`${t('successDeleteFamilia')} '${res.data.name}'`)
+            loadFamilias()
+          }).catch(err => {
+            console.log('Delete ordo',err);
+            toast.error(`${t('failDeleteFamilia')} '${err}'`)
+          })
+        }
+      }))
+      
     }
   }
 
@@ -141,7 +150,7 @@ const FamiliaCreate = () => {
             className ="alert alert-secondary" 
             key ={familia._id}>
               {/* {familia.name} thuộc bộ {ordos.find(({_id}) => _id === familia.ordo).name  } */}
-              {familia.name}   
+              <Link to ={`/details-familia/${familia.slug}`}> {familia.name} </Link>   
 
             <span onClick ={()=>handleRemove(familia.slug)} style={{float:'right'}} className="btn btn-sm float-right">
               <DeleteOutlined className="text-danger"/>

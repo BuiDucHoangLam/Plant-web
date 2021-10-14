@@ -1,6 +1,7 @@
 const Ordo = require('../model/ordo')
 const Genus = require('../model/genus')
 const slugify = require('slugify')
+const Specie = require('../model/specie')
 
 exports.list = async (req,res) => {
   const genus = await Genus.find({})
@@ -55,4 +56,11 @@ exports.remove = async (req,res) => {
     console.log('deleted',error);
     res.status(400).send('Delete failed!')
   }
+}
+
+exports.readSpecie = async (req,res) => {
+  Specie.find({genus:req.params._id}).exec((err,SpecieList) => {
+    if(err) console.log('get Specie from genus',err);
+    res.json(SpecieList)
+  })
 }

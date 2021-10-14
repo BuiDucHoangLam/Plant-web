@@ -35,3 +35,8 @@ export const updateGenus = async (authtoken,slug,genus) => {
     }
   })
 }
+
+export const getGenusListSpecies = async (_id) => {
+  return await axios.get(`${process.env.REACT_APP_API}/genus/specie/${_id}`)
+
+}

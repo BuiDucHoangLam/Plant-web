@@ -29,7 +29,15 @@ const initialState = {
   synonymsList:'',
   description:'Melancholic Palms',
   value:'no need to use the sixth palm',
-  images:{background:[],leave:[],flower:[],fruit:[]},
+  images:{
+     imagesBackground:[],
+  imagesLeave:[],
+  imagesClove:[],
+  imagesFlower:[],
+  imagesFruit:[],
+  imagesSeed:[],
+  },
+ 
   distribution:'everywhere',
   coordinates:[],
   longitude:'',
@@ -53,6 +61,9 @@ const SpecieCreate = () => {
   const [showGenus,setShowGenus] = useState(false)
   const [showFamilia,setShowFamilia] = useState(false)
   const [loading,setLoading] = useState(false)
+  const [arrLong,setArrLong] = useState([])
+  const [arrLat,setArrLat] = useState([])
+
 
   const {user} = useSelector(state => ({...state}))
   const {t} = useTranslation()
@@ -62,6 +73,10 @@ const SpecieCreate = () => {
     loadOrdoList()
     
   },[])
+
+  // useEffect(() => {
+  //   handleSaveCoord()
+  // },[values])
 
   const loadOrdoList = () => {
     getListOrdo().then(res => {
@@ -81,9 +96,8 @@ const SpecieCreate = () => {
       setValues({...values,familiaList:res.data})
     })
   }
-  
-  const handleSubmit = e => {
-    e.preventDefault()
+
+  const handleCoord = () => {
     let array1 = []
     let array2  = []
     let array3  = []
@@ -116,7 +130,8 @@ const SpecieCreate = () => {
                   longitude:array2.filter(el => el !== null),
                   latitudeList:array3,
                   latitude:array4.filter(el => el !== null),
-                  coordinates:combineArray(array2,array4)
+                  coordinates:combineArray(array2,array4),
+                  
                 })
               }
                       
@@ -125,6 +140,48 @@ const SpecieCreate = () => {
         })
       }
     })
+    // document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
+    //   const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+    //   if(arr && arr.length > 0) array1.push(arr)
+    //   const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+    //   if(long) array3.push(long)
+    // })
+    // document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
+    //   const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+    //   if(arr && arr.length > 0) array2.push(arr)
+    //   const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+    //   if(lat) array4.push(lat)
+    // })
+    // console.log(array3,array4);
+    // setValues({...values,longitudeList:array1,
+    //   latitudeList:array2,
+    //   coordinates:combineArray(array3,array4)})
+  }
+  
+  const handleSubmit = async e => {
+    e.preventDefault()
+    let array1 = []
+    let array2  = []
+    let array3  = []
+    let array4  = []  
+  
+    document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
+      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+      if(arr && arr.length > 0) array1.push(arr)
+      const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      if(long) array3.push(long)
+    })
+    document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
+      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+      if(arr && arr.length > 0) array2.push(arr)
+      const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      if(lat) array4.push(lat)
+    })
+    console.log(array3,array4);
+    await setValues({...values,longitudeList:[...array1],
+      latitudeList:array2,
+      coordinates:combineArray(array3,array4)})
+      
     createSpecie(user.token,values).then(res => {
       console.log(res.data);
       window.alert('Thành công!')
@@ -219,6 +276,75 @@ const SpecieCreate = () => {
     return c
   }
 
+  const handleSaveCoord = async () => {
+    let array1 = []
+    let array2  = []
+    let array3  = []
+    let array4  = []  
+  
+    // const arr1 = [] 
+    // document.querySelectorAll('input[name="longitudeList"]').forEach(item => arr1.push(item.value))
+    // setArrLong(arr1)
+    // const arr2 = []
+    // document.querySelectorAll('input[name="latitudeList"]').forEach(item => arr2.push(item.value))
+    // setArrLat(arr2)
+
+    // document.querySelector('.coord-form').childNodes.forEach(c => {
+    //   if(c.className === 'row') {
+    //     c.childNodes.forEach(cc => {
+    //       if(cc.className === 'col-md-6') {
+    //         cc.childNodes.forEach(n => {
+          
+    //           if(n.name === 'longitudeList' && n.value){
+    //             const arrLong = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+    //             if(arrLong) {
+    //               array1.push(arrLong)
+    //               const long = Number(arrLong[0]) + Number(arrLong[1])/60 + Number(arrLong[2])/3600
+    //               array2.push(long)
+    //             }
+               
+    //           } 
+    //           else if(n.name === 'latitudeList' && n.value) {
+    //             const arrLat = n.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+    //             if(arrLat) {
+    //               array3.push(arrLat)
+    //               const lat = Number(arrLat[0]) + Number(arrLat[1])/60 + Number(arrLat[2])/3600
+    //               array4.push(lat)
+    //             }
+                
+    //             await setValues({...values,
+    //               longitudeList:array1,
+    //               longitude:array2.filter(el => el !== null),
+    //               latitudeList:array3,
+    //               latitude:array4.filter(el => el !== null),
+    //               coordinates:combineArray(array2,array4),
+                  
+    //             })
+    //           }
+                      
+    //         });
+    //       }
+    //     })
+    //   }
+    // })
+    document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
+      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+      if(arr && arr.length > 0) array1.push(arr)
+      const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      if(long) array3.push(long)
+    })
+    document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
+      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+      if(arr && arr.length > 0) array2.push(arr)
+      const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      if(lat) array4.push(lat)
+    })
+    console.log(array3,array4);
+    await setValues({...values,longitudeList:[...array1],
+      latitudeList:array2,
+      coordinates:combineArray(array3,array4)})
+  }
+
   const handleAddCoord = () => {
     const html = `<div class="row">
     <div class="col-md-6">
@@ -239,7 +365,7 @@ const SpecieCreate = () => {
     </div>
   </div>  `
   
-  
+ 
     document.getElementById('addCoord').insertAdjacentHTML('beforebegin',html)
 
     
@@ -256,45 +382,68 @@ const SpecieCreate = () => {
        
         {loading ? <LoadingOutlined className ='text-danger' /> : <h3  style ={{textAlign:'center'}}>{t('createSpecie')}</h3>}
         <hr />
-        {JSON.stringify(values)}
+     
         <div className="row">
           <div className="col-md-4">
             <FileUpload 
-              children = 'background'
               values ={values}
-              setValues= {setValues}
-              setLoading = {setLoading}
+              setValues ={setValues}
               name = {t('chooseImageBackground')}
+              setLoading = {setLoading}
+              children = {`imagesBackground`}
             />
           </div>
           <div className="col-md-4">
             <FileUpload 
-              children = 'flower'
               values ={values}
-              setValues= {setValues}
-              setLoading = {setLoading}
+              setValues ={setValues}
               name = {t('chooseImageFlower')}
+              children = {`imagesFlower`}
+              setLoading = {setLoading}
             />
           </div>
           <div className="col-md-4">
             <FileUpload 
-              children = 'leave'
               values ={values}
-              setValues= {setValues}
-              setLoading = {setLoading}
+              setValues ={setValues}
               name = {t('chooseImageLeave')}
+              setLoading = {setLoading}
+              children = {`imagesLeave`}
+    
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-4">
+            <FileUpload 
+              values ={values}
+              setValues ={setValues}
+              name = {t('chooseImageFruit')}
+              children = {`imagesFruit`}
+              setLoading = {setLoading}
+              
             />
           </div>
           <div className="col-md-4">
             <FileUpload 
-              children = "fruit"
               values ={values}
-              setValues= {setValues}
+              setValues ={setValues}
+              name = {t('chooseImageSeed')}
+              children = {`imgSeed`}
               setLoading = {setLoading}
-              name = {t('chooseImageFruit')}
+           
             />
           </div>
-          
+          <div className="col-md-4">
+            <FileUpload 
+              values ={values}
+              setValues ={setValues}
+              name = {t('chooseImageClove')}
+              setLoading = {setLoading}
+              children = {`imgClove`}
+            
+            />
+          </div>
         </div>
 
         <SpecieCreateForm
@@ -312,6 +461,7 @@ const SpecieCreate = () => {
           handleLatitudeChange = {handleLatitudeChange}
           handleLongitudeChange = {handleLongitudeChange}
           handleAddCoord  ={handleAddCoord}
+          handleSaveCoord = {handleSaveCoord}
           index = {i}
         />
       </div>

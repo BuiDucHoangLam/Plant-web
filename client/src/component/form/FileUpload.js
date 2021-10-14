@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Resizer from 'react-image-file-resizer'
 import {uploadImageCloudinary,removeImageCloudinary} from '../../api/cloudinary'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { Avatar,Badge } from 'antd'
 
-const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
-  
+const FileUpload = ({values,  setValues,  setLoading, name,children}) => {
+
   const {user} = useSelector(state => ({...state}))
-  
+    // console.log('value',children,'type',typeof(children));
   const fileUploadAndResize = (e) => {
     console.log(e.target.files);
     // resize
     const files = e.target.files
-    const allUploadedFiles = values.images[`${children}`]
+    const allUploadedFiles = values.images[children]
+    // const allUploadedFiles = values.images[children]
+    console.log(allUploadedFiles);
     if(files) {
       for(let i = 0;i < files.length;i++){
         Resizer.imageFileResizer(
@@ -35,7 +37,9 @@ const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
               console.log('upload image cloudinary',res.data);
               setLoading(false)
               allUploadedFiles.push(res.data)
-              setValues({...values,...values.images,children:allUploadedFiles})
+              setValues({...values,...values.images,children:[...allUploadedFiles]})
+              console.log(allUploadedFiles);
+              
             }).catch(err => {
               setLoading(false)
               console.log('upload cloudinary failed ',err );
@@ -52,30 +56,27 @@ const FileUpload = ({values,  setValues,  setLoading, children, name}) => {
     setLoading(true)
     console.log('remove image',id);
     removeImageCloudinary(user.token,id)
-    .then(() => {
+    .then(res => {
       setLoading(false)
-      // console.log('c1',children);
       const {images} = values
-      console.log('images',images);
-      console.log('children',children);
-      const filteredImages = images[`${children}`].filter(img => {
+      const filteredImages = images[children].filter(img => {
         return img.public_id !== id 
       })
-      console.log('filteredImages',filteredImages);
-      
-      setValues({...values,...values.images,children:filteredImages})
-      console.log('img-child',values.images[`${children}`]);
+
+      setValues({...values,...images,...images[children] = filteredImages})
+      console.log(filteredImages);
     })
     .catch(err=> {
       console.log('Remove error',err);
       setLoading(false)
+
     })
   }
  
   return (
     <div>
       <div>
-        {values.images[`${children}`] && values.images[`${children}`].map(image => {
+        {values.images[children] && values.images[children].map(image => {
            
           return <Badge 
             className='m-3'

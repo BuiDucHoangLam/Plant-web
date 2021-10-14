@@ -87,7 +87,7 @@ const App = () => {
       <Header/>
       <ToastContainer/>
         <Switch>
-          <Route exact path = '/' component ={Home} />
+          <Route exact path = '/' component ={FileExplorer} />
           <Route exact path = '/search' component ={Search} />
           <Route exact path = '/statistics' component ={Statistics} />
           <Route exact path = '/help' component ={Help} />

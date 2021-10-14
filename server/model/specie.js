@@ -49,7 +49,25 @@ const specieSchema = mongoose.Schema({
     maxLength:20000,
     text:true,
   },
-  images: {
+  // imagesBackground: {
+  //   type:Array,
+  // },
+  // imagesFruit:{
+  //   type:Array,
+  // },
+  // imagesLeave:{
+  //   type:Array,
+  // },
+  // imagesClove:{
+  //   type:Array,
+  // },
+  // imagesFlower:{
+  //   type:Array,
+  // },
+  // imagesSeed:{
+  //   type:Array,
+  // },
+  images:{
     type:Object,
   },
   distribution:{
