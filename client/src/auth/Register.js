@@ -3,9 +3,11 @@ import {auth} from '../auth/firebase'
 import {toast} from 'react-toastify'
 // import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import {Button} from 'antd'
+import { useTranslation } from 'react-i18next'
 
 const Register = () => {
   const [email,setEmail] = useState('')
+  const {t} = useTranslation()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,6 +25,7 @@ const Register = () => {
     return <form onSubmit ={handleSubmit} style={{background:'none'}}>
       <input type="email" placeholder='Nhập email muốn đăng ký' className ='form-control' value ={email} onChange ={e=> setEmail(e.target.value)} autoFocus />
       <Button block
+            onClick ={handleSubmit}
             shape='round'
             size='large' type='submit' className ='btn btn-raised'>Xác nhận</Button>
     </form>

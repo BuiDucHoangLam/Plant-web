@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 const SpecieCreateForm = ({handleChange,handleSubmit,values,
   handleFamiliaChange,showGenus,genusOptions,handleOrdoChange,
   familiaOptions,showFamilia,handleSynonymsChange,
-  handleAddCoord,handleSaveCoord }) => {
+  handleAddCoord }) => {
   const {t} = useTranslation()
 
   const {
@@ -120,7 +120,6 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
               </div>
             </div>
           <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div>
-          <div style ={{float:'right'}} className="btn btn-outline-info" id ='saveCoord' onClick ={handleSaveCoord} > Save Coord </div>
         </div> 
 
       </div>

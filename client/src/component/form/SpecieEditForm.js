@@ -3,7 +3,7 @@ import { createSpecie } from '../../api/specie'
 import { useTranslation } from "react-i18next";
 
 const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
-  showGenus,genusOptions,handleOrdoChange,familiaOptions,showFamilia,handleSaveCoord,
+  showGenus,genusOptions,handleOrdoChange,familiaOptions,showFamilia,
   handleSynonymsChange, handleCoordinatesChange, ordoList,handleAddCoord }) => {
   const {t} = useTranslation()
 
@@ -145,7 +145,6 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
               </div>
             </div>
           <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div> <span style ={{width:'10%'}}></span>
-          <div style ={{float:'right'}} className="btn btn-outline-info" id ='saveCoord' onClick ={handleSaveCoord} > Save Coord </div>
         </div> 
       </div>}
 

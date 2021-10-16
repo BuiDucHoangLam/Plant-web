@@ -7,6 +7,7 @@ import { useHistory } from 'react-router'
 import {Button} from 'antd'
 import {MailOutlined, GoogleOutlined} from '@ant-design/icons';
 import { createOrUpdateUser } from '../api/auth'
+import { useTranslation } from 'react-i18next'
 // import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 const Login = () => {
@@ -17,6 +18,7 @@ const Login = () => {
   const {user} = useSelector(state => ({...state}))
   const dispatch = useDispatch()
   const history = useHistory()
+  const {t} = useTranslation()
 
   useEffect(() => {
     if(user && user.token) history.push('/') 
@@ -35,7 +37,7 @@ const Login = () => {
           className='form-control' 
           value={email} 
           onChange={e=>setEmail(e.target.value)}
-          placeholder="Nhập email"
+          placeholder={(t('email'))}
           autoFocus
         />
       </div>
@@ -45,7 +47,7 @@ const Login = () => {
         className='form-control' 
         value={password} 
         onChange={e=>setPassword(e.target.value)}
-        placeholder="Nhập mật khẩu"
+        placeholder={(t('password'))}
         autoFocus
       />
       </div>
@@ -60,7 +62,7 @@ const Login = () => {
         icon ={<MailOutlined/>}
         disabled={!email || password.length < 6}
       >
-        Login with Email
+        {t('loginWithEmail')}
       </Button>
       <Button 
             onClick={googleSubmit}
@@ -71,11 +73,11 @@ const Login = () => {
             size='large'
             icon ={<GoogleOutlined/>}
           >
-            Login with Google
+            {t('loginWithGoogle')}
           </Button>
 
           <Link to="/forgot/password" style ={{marginLeft:'50px',background:'none',width:'100%'}} className ='text-danger' >
-            Forgot Password
+          {t('forgotPassword')}
           </Link>
     </form>
     )
@@ -104,11 +106,11 @@ const Login = () => {
       }).catch(
         err => console.log(err)
       )
-      toast.success('Đăng nhập thành công!')
+      toast.success(`${t('loginGoogleSuccess')}`)
       // history.push('/')
     }).catch(error => {
       console.log('err',error);
-      toast.error('Đăng nhập với google thất bại!')
+      toast.error(`${t('loginGoogleFailed')}`)
       setLoading(false)
     })
   }
@@ -140,11 +142,11 @@ const Login = () => {
         err => console.log(err)
       )
       
-      toast.success('Đăng nhập thành công!')
+      toast.success(`${t('loginEmailSuccess')}`)
       // history.push('/')
     } catch (error) {
       console.log('err',error);
-      toast.error('Đăng nhập thất bại')
+      toast.error(`${t('loginEmailFailed')}`)
       setLoading(false)
     }
 
@@ -153,7 +155,7 @@ const Login = () => {
     <div className="container p-5">
       <div className="row">
         <div className="col-md-6 offset-md-3"  style ={{marginTop:'200px'}}>
-          { !loading ?  <h4 style={{alignItems:'center'}}>Login</h4> : <h4 className="text-danger">Loading...</h4>}
+          { !loading ?  <h4 style={{alignItems:'center'}}>{t('login')}</h4> : <h4 className="text-danger">Loading...</h4>}
           {loginForm()}
 
          

@@ -146,9 +146,31 @@ const SpecieEdit = ({match}) => {
   
   const handleSubmit = async e => {
     e.preventDefault()
+    let array1 = []
+    let array2  = []
+    let array3  = []
+    let array4  = []
+     
+    document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
+      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+      if(arr && arr.length > 0) array1.push(arr)
+      const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      if(long) array3.push(long)
+    })
+    document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
+      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
+      if(arr && arr.length > 0) array2.push(arr)
+      const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      if(lat) array4.push(lat)
+    })
+    console.log(array3,array4);
+    await setValues({...values,longitudeList:[...array1],
+      latitudeList:array2,
+      coordinates:combineArray(array3,array4)})
     
-    console.log(values.coordinates);
-    editSpecie(user.token,slug,values).then(res => {
+    const results = {...values,coordinates:combineArray(array3,array4)}
+    
+    editSpecie(user.token,slug,results).then(res => {
       console.log(res.data);
       window.alert('Thành công!')
       window.location.reload()
@@ -363,7 +385,6 @@ const SpecieEdit = ({match}) => {
           index = {i}
           ordoList = {ordoList}
           handleAddCoord = {handleAddCoord}
-          handleSaveCoord = {handleSaveCoord}
         />
       </div>
     </div>

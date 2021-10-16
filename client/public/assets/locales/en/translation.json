@@ -1,6 +1,19 @@
 {
   "login":"Login",
   "register":"Register",
+  "loginWithEmail":"Login with Email",
+  "loginWithGoogle":"Login with Google",
+  "forgotPassword":"Forgot Password?",
+  "confirm":"Confirm",
+  "insertEmailRegister":"Enter the email you want to register",
+  "registerComplete":"Complete registration",
+  "insertPassword":"Insert your password",
+  "loginEmailSuccess":"Đăng nhập bằng email thành công",
+  "loginGoogleSuccess":"Đăng nhập bằng Google thành công",
+  "registerSuccess":"Đăng ký thành công",
+  "loginEmailFailed":"Đăng nhập bằng email thất bại",
+  "loginGoogleFailed":"Đăng nhập bằng Google thất bại",
+  "email":"Email",
   "dashboard":"Dashboard",
   "logout":"Logout",
   "home":"Home",
@@ -72,4 +85,5 @@
   "plans":"Plants",
   "vietnam":"Vietnamese",
   "english":"English"
+
 }
