@@ -23,11 +23,11 @@ const Register = () => {
 
   const registerForm = () => {
     return <form onSubmit ={handleSubmit} style={{background:'none'}}>
-      <input type="email" placeholder='Nhập email muốn đăng ký' className ='form-control' value ={email} onChange ={e=> setEmail(e.target.value)} autoFocus />
+      <input type="email" placeholder={t('insertEmailRegister')} className ='form-control' value ={email} onChange ={e=> setEmail(e.target.value)} autoFocus />
       <Button block
             onClick ={handleSubmit}
             shape='round'
-            size='large' type='submit' className ='btn btn-raised'>Xác nhận</Button>
+            size='large' type='submit' className ='btn btn-raised'>{t('confirm')} </Button>
     </form>
   }
 
@@ -36,7 +36,7 @@ const Register = () => {
       <div className="container p-5">
         <div className="row">
           <div className="col-md-6 offset-md-3">
-            <h4>Đăng ký</h4>
+            <h4>{t('register')} </h4>
             {registerForm()}
           </div>
         </div>

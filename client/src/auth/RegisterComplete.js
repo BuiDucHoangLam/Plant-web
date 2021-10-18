@@ -2,10 +2,12 @@ import React,{useState,useEffect} from 'react'
 import { auth } from './firebase'
 import { createOrUpdateUser } from '../api/auth'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
 const RegisterComplete = ({history}) => {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+  const {t} = useTranslation()
 
   const dispatch = useDispatch()
 
@@ -48,9 +50,9 @@ const RegisterComplete = ({history}) => {
   const registerCompleteForm = () => {
     return <form onSubmit ={handleSubmit}>
       <input type="email" className ='form-control' value ={email} disabled/>
-      <input type="password" placeholder ="Nhập mật khẩu" className ='form-control' value ={password} onChange ={e=> setPassword(e.target.value)} autoFocus />
+      <input type="password" placeholder ={t('insertPassword')} className ='form-control' value ={password} onChange ={e=> setPassword(e.target.value)} autoFocus />
       <br />
-      <button type='submit' className ='btn btn-raised'>Hoàn thiện đăng ký</button>
+      <button type='submit' className ='btn btn-raised'>{t('confirm')} </button>
     </form>
   }
 
@@ -59,7 +61,7 @@ const RegisterComplete = ({history}) => {
       <div className="container p-5">
         <div className="row">
           <div className="col-md-6 offset-md-3">
-            <h4>Register Complete</h4>
+            <h4>{t('registerComplete')} </h4>
             {registerCompleteForm()}
           </div>
         </div>

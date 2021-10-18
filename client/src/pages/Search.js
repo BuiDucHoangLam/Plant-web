@@ -7,6 +7,8 @@ import { getListOrdo } from '../api/ordo'
 import { getListGenus } from '../api/genus'
 import { getListFamilia } from '../api/familia'
 import { getSpecies } from '../api/specie'
+import { getResultRecognize } from '../api/recognize'
+import {Button} from 'antd'
 import { useTranslation } from 'react-i18next'
 import '../css/style.css'
 import '../css/responsive.css'
@@ -31,6 +33,7 @@ import h3 from '../images/h3.jpg'
 import g1 from '../images/g1.jpg'
 import g2 from '../images/g2.jpg'
 import g3 from '../images/g3.jpg'
+import { node } from 'prop-types'
 
 const Search = () => {
     const [slug,setSlug] = useState([])
@@ -46,8 +49,9 @@ const Search = () => {
     const [listGenus,setListGenus] = useState([])
     const [species,setSpecies] = useState([])
     const {text} = search
-    const [flower,setFlower] = useState({status:'',accuracy:'',predict:'',label:''})
+    const [plant,setPlant] = useState({status:'',accuracy:'',predict:'',label:''})
     const [keyword,setKeyword] = useState('')
+    const [note,setNote] = useState({})
 
     const {t} = useTranslation()
     const dispatch = useDispatch()
@@ -91,26 +95,16 @@ const Search = () => {
        
     }
 
-    const fileUpload = e => {
-        const file = e.target.files
-        console.log(file);
-        if(file[0]) {
-
-            const reader = new FileReader()
-            setImg(file)
-            reader.onload = ()  => {
-                if(reader.readyState === 2){
-                    setImg(reader.result)
-                }
-            }
-            reader.readAsDataURL(e.target.files[0])
-            console.log(document.querySelector('#file_input_file').value);
-        }
-        console.log(img);
+    const handleImageSubmit = async (e) => {
+        console.log(note);
+        getResultRecognize(note).then(res => {
+            setPlant({label:res.data.label,accuracy:res.data.accuracy})
+            console.log(res.data);
+        })
     }
 
-    const handleImageRemove = () => {
-        setImg('')   
+    const fileUpload = e => {
+        setNote(e.target.files[0])
     }
 
     const searched = keyword => results => {
@@ -147,7 +141,7 @@ const Search = () => {
                             <ul className="dandev_attach_view">
 
                             </ul>
-                            {img && <Badge 
+                            {/* {img && <Badge 
                                 className='m-3'
                                 key={2} 
                                 count='x' 
@@ -156,44 +150,58 @@ const Search = () => {
                             >
                                 <img className ='img-input' src ={img} alt = 'input' />
                             
-                            {/* placeholder= {<span className="dandev_insert_attach"><i className="dandev-plus">+</i></span>} */}
-                            </Badge> }
-                            <a href="http://localhost:5000/upload-image">
+                     
+                            </Badge> } */}
+                            {/* <a href="http://localhost:5000/upload-image">
                            <div>{t('chooseImage')}</div>
                             </a>
+                             */}
                         </div>
                     </div>
                 {/* <!-- </div> --> */}
 
                 <div>
                     
-                    <input type='submit' className="img_search" value={t('search')} />
+                    {/* <input type='submit' className="img_search" value={t('search')} /> */}
+                    <input
+                        type="file"
+                        accept="image/*"
+                       
+                        onChange = {fileUpload}
+                        // onChange={async (e) => {
+                        //     const imageBlob = await handleImageChange(e);
+                        //     await setNote((prevValue) => {
+                        //     return {
+                        //         ...prevValue,
+                        //         imageBlob: e.target.files[0],
+                        //     };
+                        //     });
+                        //     console.log(imageBlob);
+                        // }}
+                        
+                    />
+
                     
                 </div>
+                 <button type="submit" className="inf_search" onClick ={handleImageSubmit}> {t('search')} </button>
             </div>
 
             <div className="search-img__result">
                 <div className="result_title"> 
                     <p style={{fontSize: '18px'}}>{t('searchResult')}</p> 
                 </div>
-                <div id = "search-img__list" className="search-img__list hidden">
-                    {/* <div className="list-item">
-                        <img src={p1} alt="" />
-                        <a href="">Aizoon canariense L.</a>
-                    </div> */}
-                     <div className="list-item">
-                        <img src={c1} alt="" />
-                        <Link to={`/details/${slug[0]}`}> Cẩm tú cầu </Link>
+               { (!note) ? <div className="list-item">
+                        
+                       No file
                     </div> 
+               
+               : (plant.label && note) && <div id = "search-img__list">
                     <div className="list-item">
-                        <img src={h1} alt="" />
-                        <Link to={`/details/${slug[1]}`}> Hoa hồng</Link>
-                    </div>
-                    <div className="list-item">
-                        <img src={g1} alt="" />
-                        <Link to={`/details/${slug[2]}`}> Hoa giấy</Link>
-                    </div>
-                </div>
+                        
+                        <Link to={`/details/${slug[0]}`}> {plant.label} </Link> <span style ={{marginRight:'5px'}}></span> - {Math.round(Number(plant.accuracy)*10000/100)} %
+                    </div> 
+                    
+                </div>}
 
                 
             </div>
@@ -229,7 +237,7 @@ const Search = () => {
                
                 <div>
                     {/* <a href="/details"> */}
-                    <input type="submit" className="inf_search" value={t('search')} onClick ={handleSubmit} />
+                    <button type="submit" className="inf_search" onClick ={handleSubmit}> {t('search')}  </button>
                     {/* </a> */}
                 </div>
             </div>
