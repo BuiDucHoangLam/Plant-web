@@ -132,7 +132,7 @@ const Search = () => {
 
     return (
         <div className="main-layout search-image__hinhnen">
-        <div className="container" style={{ marginTop: "200px" }}>
+        <div className="container" style={{ marginTop: "150px" }}>
             
           <div style={{ height: "80vh" }}>
               

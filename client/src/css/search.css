@@ -421,7 +421,8 @@ ul.dandev_attach_view li input {
 .search-image__heading-primary {
   color: #000;
   backface-visibility: hidden;
-  margin: 20px 20px 0 20px;
+  margin: 5px 20px 0 20px;
+  z-index: 999;
 }
 
 .search-image__header__text-box {
@@ -437,7 +438,7 @@ ul.dandev_attach_view li input {
 }
 .search-image__form {
   position: absolute;
-  top: 50%;
+  top: 32%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 60%;
@@ -475,7 +476,7 @@ ul.dandev_attach_view li input {
   border: none;
   width: 80%;
   height: 35px;
-  margin-top: 40px;
+  margin-top: 20px;
   margin-left: -4px;
   border-radius: 4px;
   border-bottom: 4px solid #117a60;

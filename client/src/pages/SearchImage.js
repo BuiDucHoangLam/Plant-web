@@ -129,14 +129,14 @@ const SearchImage = () => {
 
   return (
     <div className="main-layout search-image__hinhnen">
-      <div className="container" style={{ marginTop: "200px" }}>
+      <div className="container" style={{ marginTop: "150px" }}>
         <div style={{ height: "100vh" }}>
           <div className="search-image__header__text-box">
             <h1 className="search-image__heading-primary">
               <span>Tìm bằng hình ảnh</span>
             </h1>
             <form className="search-image__form search-image__form-search-by-image">
-              <img src={imageURL} style={{ height: "100%" }} />
+              <img src={imageURL} style={{ height:'200%' }} />
               <input
                 type="file"
                 accept="image/*"
@@ -160,11 +160,11 @@ const SearchImage = () => {
           <Card
             bg="Light"
             text="dark"
-            style={{ width: "100%" }}
+            style={{ width: "50%" }}
             className="mb-2"
           >
             <Card.Header>
-            <Link to={`/details/${slug[0]}`}> {flower.label} </Link> <span style ={{marginRight:'5px'}}></span> - {Math.round(Number(flower.accuracy)*10000/100)} %
+            <Link to={`/details-specie/canavalia-cathartica-thouars`}> {flower.label || 'name'} </Link> <span style ={{marginRight:'5px'}}></span> - {Math.round(Number(flower.accuracy)*10000/100)} %
             </Card.Header>
             <Card.Body>
               <img
