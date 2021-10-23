@@ -78,11 +78,20 @@
   "have":"Có",
   "noImage":"Chưa có hình ảnh",
   "searchByImage":"Tìm bằng hình ảnh",
+  "searchByName":"Tìm kiếm theo tên",
   "chooseImage":"Chọn hình",
   "searchResult":"Kết quả tìm kiếm",
   "searchByInformation":"Tìm theo thông tin",
   "details":"Chi tiết",
   "plans":"Các loài thực vật",
   "vietnam":"Tiếng Việt",
-  "english":"Tiếng Anh"
+  "english":"Tiếng Anh",
+  "statistics":"Thống kê",
+  "info1":"Plants Dalat là trang web do khoa Công Nghệ thông tin và Sinh học đại học Đà Lạt thực hiện nhằm đáp ứng Mục tiêu 1 của Chiến lược Toàn cầu về Bảo tồn Thực vật (GSPC) 2020-2030.",
+  "info2":"Plants Dalat cung cấp đầy đủ thông tin của hàm trăm loài thực vật đặc trưng của vùng Đông Nam Á hướng tới mục đích hỗ trợ nhận diện và chăm sóc.",
+  "info3":"Một trong những đặc trưng của hệ thống chúng tôi là cho phép nhận diện thực vật thông qua hình ảnh, đồng thời cung cấp tọa độ phân bố thông qua bản đồ. Hãy cùng tham gia ngay nào!",
+  "welcome":"Chào mừng bạn đến với",
+  "characteristics":"Đặc trưng",
+  "purpose":"Mục tiêu",
+  "picture":"Hình ảnh"
 }

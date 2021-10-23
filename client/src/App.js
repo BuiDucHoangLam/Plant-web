@@ -22,7 +22,8 @@ import GenusEdit from './pages/admin/genus/GenusEdit'
 import Plans from './pages/Plans';
 import DetailsRoot from './pages/DetailsRoot';
 import FileExplorer from './component/tree/FileExplorer'
-// import FileExplorer from './routes/FileExplorer';
+import About from './pages/About';
+import SearchImage from './pages/SearchImage';
 
 import Login from './auth/Login'
 import Register from './auth/Register'
@@ -83,12 +84,15 @@ const App = () => {
         <div className="loader"><img src={loader} alt="#" /></div>
     </div>
     }>
-      <LoginBar />
+      
+      {/* <LoginBar /> */}
       <Header/>
       <ToastContainer/>
         <Switch>
-          <Route exact path = '/' component ={FileExplorer} />
+          <Route exact path = '/' component ={Home} />
           <Route exact path = '/search' component ={Search} />
+          <Route exact path = '/search-image' component ={SearchImage} />
+          <Route exact path = '/about' component ={About} />
           <Route exact path = '/statistics' component ={Statistics} />
           <Route exact path = '/help' component ={Help} />
           <Route path = '/details-specie/:slug' component ={Details} />
@@ -97,7 +101,7 @@ const App = () => {
           <Route exact path = '/login' component ={Login} />
           <Route exact path = '/register' component ={Register} />
           <Route exact path = '/register/complete' component ={RegisterComplete} />
-
+          
           <Route exact path = '/tree' component ={FileExplorer} />
         
 

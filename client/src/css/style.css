@@ -428,7 +428,7 @@ a.readmore_bt {
   background-repeat: repeat;
   background-size: auto;
   position: absolute;
-  z-index: 999;
+  z-index: 99;
   width: 100%;
   left: 0;
   top: 0;
@@ -436,8 +436,6 @@ a.readmore_bt {
   padding-top: 0px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  min-height: 110px;
-  margin-top:45px;
 }
 
 .logo {
@@ -1615,11 +1613,11 @@ input[type="radio"] .styled:checked + label::after {
 }
 
 .plants {
-  padding: 90px 0px;
+  padding: 45px 0px;
 }
 .titlepage {
   text-align: center;
-  padding-bottom: 50px;
+
 }
 .titlepage h2 {
   padding: 0px 0px 36px 0px;
@@ -1650,17 +1648,6 @@ input[type="radio"] .styled:checked + label::after {
   line-height: 50px;
   position: relative;
   margin-bottom: 20px;
-}
-.titlepage h3::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 70%;
-  margin: 15px auto;
-  width: 30%;
-  height: 6px;
-  background: #308409;
 }
 
 .titlepage span {
@@ -1917,7 +1904,7 @@ img.zoom {
 }
 .contact {
   background: #fff;
-  padding-top: 90px;
+ 
 }
 .paddimg-right {
   padding-right: 0px;
@@ -2069,6 +2056,7 @@ ul.link li:before {
      float: left;
      width: 15px;
      color: #fff;
+     margin-top: 17px;
  }
 ul.link li a:hover {
   color: #308409;

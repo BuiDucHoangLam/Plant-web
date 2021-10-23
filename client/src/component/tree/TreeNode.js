@@ -135,6 +135,7 @@ const TreeNode = (props) => {
           />
         </span>
         }
+      
       </StyledTreeNode>
 
       { node.isOpen && getChildNodes(node).map(childNode => (
@@ -146,7 +147,9 @@ const TreeNode = (props) => {
           level={level + 1}
         />
       ))}
+  
     </React.Fragment>
+    
   );
 }
 

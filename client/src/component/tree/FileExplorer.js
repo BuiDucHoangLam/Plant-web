@@ -4,7 +4,7 @@ import Tree from './Tree';
 import { Link } from 'react-router-dom';
 
 const StyledFileExplorer = styled.div`
-  width: 1200px;
+
   max-width: 100%;
   margin: 0 auto;
   display: flex;  

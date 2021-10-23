@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import FileExplorer from '../../component/tree/FileExplorer'
+
 const Dashboard = () => {
   const [species,setSpecies] = useState([])
 
@@ -43,11 +45,12 @@ const Dashboard = () => {
         <Nav />
       </div>
       <div className="col-md-10">
+        <FileExplorer/>
         <h4>{t('plans')}</h4>
         <div className="col">
           <div className="row">
           {species.map(s => {
-            return <div className='col-md-4' key ={s._id}>
+            return <div className='col-md-4 mt-4' key ={s._id}>
               
                   <SpecieCard 
                     specie = {s} 

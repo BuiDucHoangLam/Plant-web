@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react'
+import React, {  useEffect, useRef, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import {getSpecie} from '../api/specie'
 import { getGenusById } from '../api/genus'
@@ -6,26 +6,57 @@ import GoogleMap from '../component/form/GoogleMap'
 import {useTranslation} from 'react-i18next'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
+import image from '../images/image.png'
 
 import '../css/styleDetail.css'
 import '../css/style.css'
 import '../css/bootstrap.min.css'
-
+import '../index.css'
 import '../css/carousel.css'
 
 import plant1 from '../images/plant1.jpg'
 import plant2 from '../images/plant2.jpg'
 import plant3 from '../images/plant3.jpg'
-
+import icon_background from '../images/icon_background.jpg'
+import icon_flower from '../images/icon_flower.jpg'
+import icon_clove from '../images/icon_clove.png'
+import icon_fruit from '../images/icon_fruit.jpg'
+import icon_leaf from '../images/icon_leaf.jpg'
+import icon_seed from '../images/icon_seed.png'
 
 const Details = ({match}) => {
-  const [plant,setPlant] = useState({images:[{url:''}],synonyms:[]})
+ 
    const [specie,setSpecie] = useState({images:[{url:''}],synonyms:[]})
    const [genus,setGenus] = useState({})
    const {t} = useTranslation()
   const {slug} = match.params
    const cookie = Cookies.get('i18next')
   const type = 'genus'
+
+   const tabs = document.querySelectorAll('.operations__tab');
+   const tabsContainer = document.querySelector('.operations__tab-container');
+   const tabsContent = document.querySelectorAll('.operations__content');
+
+   const handleOperationClick = (e) => {
+      const clicked = e.target.closest('.operations__tab');
+
+      // Guard clause
+      if (!clicked) return;
+      else {
+         // Remove active classes
+         tabs.forEach(t => t.classList.remove('operations__tab--active'));
+         tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+
+         // Activate tab
+         clicked.classList.add('operations__tab--active');
+
+         // Activate content area
+         document
+            .querySelector(`.operations__content--${clicked.dataset.tab}`)
+            .classList.add('operations__content--active');
+      }
+      
+   }
  
   useEffect(() => {
     const loadSpecie = () => getSpecie(slug).then(res => {
@@ -47,42 +78,144 @@ const Details = ({match}) => {
   console.log('genus',genus);
 
   return (
-    <div className="main-layout">
-      <div id="main-contener">
+    <div style={{marginTop: '120px',backgroundImage:`url(${image})`,paddingTop:'1px',paddingBottom:'1px'}}>
+       <div className="main-layout" style = {{width:'75%',margin:'80px auto',backgroundColor:'white',borderRadius:'20px'}}>
+      <div id="main-contener" style ={{margin:'20px'}}>
     
-   <div className="intro-di">
-      <div className="intro-details">
-         <strong>{t('vnName')}: </strong> <br/>
-         <div><em lang="la">{cookie ==='vn' ? specie.vnName : specie.enName}</em> </div>
-         <br/>
-         <br/>
-         <strong>{t('specie')}: </strong> <br/>
-         <div href="/"><em lang="la">{cookie ==='vn' ? specie.vnName : specie.enName}</em>   </div>  
-         <div> {t('dependencyGenus')}: <Link to ={`/details-${type}/${genus.slug}`}> {genus.name} </Link> </div>
-         <br />
-         <br />
-         {(specie.synonyms && specie.synonyms.length > 0) && 
-         <div> <strong>{t('synonyms')} </strong> <br/>
-         <div style={{paddingRight: '1em'}}>{t('have')} {specie.synonyms.length} {t('synonyms')} </div>
-         {specie.synonyms.map(s => <div key ={s}>{s}</div>)} </div>}
+         <div className="intro-di">
+            <div className="intro-details">
+               <strong>{t('vnName')}: </strong> <br/>
+               <div><em lang="la">{cookie ==='vn' ? specie.vnName : specie.enName}</em> </div>
+               <br/>
+               <br/>
+               <strong>{t('specie')}: </strong> <br/>
+               <div href="/"><em lang="la">{cookie ==='vn' ? specie.vnName : specie.enName}</em>   </div>  
+               <div> {t('dependencyGenus')}: <Link to ={`/details-${type}/${genus.slug}`}> {genus.name} </Link> </div>
+               <br />
+               <br />
+               {(specie.synonyms && specie.synonyms.length > 0) && 
+               <div> <strong>{t('synonyms')} </strong> <br/>
+               <div style={{paddingRight: '1em'}}>{t('have')} {specie.synonyms.length} {t('synonyms')} </div>
+               {specie.synonyms.map(s => <div key ={s}>{s}</div>)} </div>}
+           
+
+               <div class="operations">
+                  <div class="operations__tab-container" onClick = {handleOperationClick}>
+                     <button
+                        class="btn operations__tab operations__tab--1 operations__tab--active"
+                        data-tab="1"
+                     >
+                        <img style ={{height:'50px',width:'50px'}} src ={icon_background} alt='bg' />
+                     </button>
+                     <button class="btn operations__tab operations__tab--2" data-tab="2">
+                     <img style ={{height:'50px',width:'50px'}} src ={icon_clove} alt='bg' />
+                     </button>
+                     <button class="btn operations__tab operations__tab--3" data-tab="3">
+                     <img style ={{height:'50px',width:'50px'}} src ={icon_flower} alt='bg' />
+                     </button>
+                     <button class="btn operations__tab operations__tab--4" data-tab="4">
+                     <img style ={{height:'50px',width:'50px'}} src ={icon_fruit} alt='bg' />
+                     </button>
+                     <button class="btn operations__tab operations__tab--5" data-tab="5">
+                     <img style ={{height:'50px',width:'50px'}} src ={icon_leaf} alt='bg' />
+                     </button>
+                     <button class="btn operations__tab operations__tab--6" data-tab="6">
+                     <img style ={{height:'50px',width:'50px'}} src ={icon_seed} alt='bg' />
+                     </button>
+                     
+                  </div>
+                  {specie.images['imagesBackground'] && specie.images['imagesBackground'].length > 0
+                  ? <div className ='operations__content operations__content--1 operations__content--active'>
+                     <Carousel 
+                     showArrows={true}
+                     autoPlay
+                     infiniteLoop
+                     className ='into-images'
+                  >
+                     {specie.images['imagesBackground'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     
+                  </Carousel>
+                  </div>
+                  : <div className ='operations__content operations__content--1 operations__content--active'>{t('noImage')} </div>}
+
+                  {specie.images['imagesClove'] && specie.images['imagesClove'].length > 0
+                  ? <div className ='operations__content operations__content--2'>
+                     <Carousel 
+                     showArrows={true}
+                     autoPlay
+                     infiniteLoop
+                     className ='into-images'
+                  >
+                     {specie.images['imagesClove'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     
+                  </Carousel>
+                  </div>
+                  : <div className ='operations__content operations__content--2'>{t('noImage')} </div>}
+
+                  {specie.images['imagesFlower'] && specie.images['imagesFlower'].length > 0
+                  ? <div className ='operations__content operations__content--3'>
+                     <Carousel 
+                     showArrows={true}
+                     autoPlay
+                     infiniteLoop
+                     className ='into-images'
+                  >
+                     {specie.images['imagesFlower'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     
+                  </Carousel>
+                  </div>
+                  : <div className ='operations__content operations__content--3'>{t('noImage')} </div>}
+
+                  {specie.images['imagesFruit'] && specie.images['imagesFruit'].length > 0
+                  ? <div className ='operations__content operations__content--4'>
+                     <Carousel 
+                     showArrows={true}
+                     autoPlay
+                     infiniteLoop
+                     className ='into-images'
+                  >
+                     {specie.images['imagesFruit'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     
+                  </Carousel>
+                  </div>
+                  : <div className ='operations__content operations__content--4'>{t('noImage')} </div>}
+
+                  {specie.images['imagesLeave'] && specie.images['imagesLeave'].length > 0
+                  ? <div className ='operations__content operations__content--5'>
+                     <Carousel 
+                     showArrows={true}
+                     autoPlay
+                     infiniteLoop
+                     className ='into-images'
+                  >
+                     {specie.images['imagesLeave'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     
+                  </Carousel>
+                  </div>
+                  : <div className ='operations__content operations__content--5'>{t('noImage')} </div>}
+
+                  {specie.images['imagesSeed'] && specie.images['imagesSeed'].length > 0
+                  ? <div className ='operations__content operations__content--6'>
+                     <Carousel 
+                     showArrows={true}
+                     autoPlay
+                     infiniteLoop
+                     className ='into-images'
+                  >
+                     {specie.images['imagesSeed'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     
+                  </Carousel>
+                  </div>
+                  : <div className ='operations__content operations__content--6'>{t('noImage')} </div>}
+               </div>
+
+            
+             </div>
+         </div>
       </div>
 
-      {specie.images && Object.values(specie.images).flat().length 
-        ? <Carousel 
-          showArrows={true}
-          autoPlay
-          infiniteLoop
-          className ='into-images'
-        >
-           {Object.values(specie.images).flat().map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
-          
-        </Carousel>
-        : <div>{t('noImage')} </div>}
-</div>
-</div>
 
-
-  <div className ="nav-bar">
+  <div className ="nav-bar" style ={{marginTop:'450px',padding:'0 20px'}}>
     <ul className="nav-items">
         
       <li className="nav-li"><a href="#descriptions">{t('description')}</a></li>
@@ -98,14 +231,15 @@ const Details = ({match}) => {
        <div className="row">
           <div className="col-md-12 ">
              <div className="titlepage">
-                <h2>{t('description')}</h2>
+                <div className ='class-tt'>{t('description')}</div>
+                <hr />
              </div>
           </div>
        </div>
     </div>
     <div className="description">
   
-      <p>{cookie ==='vn' ? specie.description : specie.enDescription}</p>
+      <em>{cookie ==='vn' ? specie.description : specie.enDescription}</em>
   </div>
    
     
@@ -117,14 +251,15 @@ const Details = ({match}) => {
        <div className="row">
           <div className="col-md-12 ">
              <div className="titlepage">
-                <h2 >{t('distribution')}</h2>
+                <div className ='class-tt'>{t('distribution')}</div>
+                <hr />
              </div>
           </div>
        </div>
     </div>
     
     <div className="description">
-      <p>{cookie ==='vn' ? specie.distribution : specie.enDistribution}</p>
+      <em>{cookie ==='vn' ? specie.distribution : specie.enDistribution}</em>
          
     </div>
   </div>
@@ -136,7 +271,8 @@ const Details = ({match}) => {
        <div className="row">
           <div className="col-md-12 ">
              <div className="titlepage">
-                <h2>{t('useValue')}</h2>
+                <div className ='class-tt'>{t('useValue')}</div>
+                <hr />
              </div>
           </div>
        </div>
@@ -144,7 +280,7 @@ const Details = ({match}) => {
       <div className="description">
         <div className="row">
           <div className="c-article-section__content">
-            <h3>{cookie ==='vn' ?  specie.value : specie.enValue}</h3>
+            <em>{cookie ==='vn' ?  specie.value : specie.enValue}</em>
             
           </div>
         </div>
@@ -158,24 +294,28 @@ const Details = ({match}) => {
        <div className="row">
           <div className="col-md-12 ">
              <div className="titlepage">
-                <h2>{t('source')}</h2>
+                <div className ='class-tt'>{t('source')}</div>
+                <hr />
              </div>
           </div>
        </div>
     </div>
       <div className="description">
         <div className="row">
-          {cookie ==='vn' ? specie.source : specie.enSource}
+          <em>{cookie ==='vn' ? specie.source : specie.enSource}</em>
         </div>
       </div>
 
   </div>
   
       
+      <div style ={{padding:'20px'}}>
       {(specie.coordinates && specie.coordinates.length > 0) && <GoogleMap
          coordinates ={specie.coordinates}
       />}
+      </div>
    </div>
+    </div>
   )
 }
 

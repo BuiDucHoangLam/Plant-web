@@ -8,11 +8,13 @@ import { getGenus,getGenusById } from '../api/genus'
 import {Link} from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Cookies from 'js-cookie'
+import image from '../images/image.png'
 
 import '../css/styleDetail.css'
 import '../css/style.css'
 import '../css/bootstrap.min.css'
 import '../css/responsive.css'
+import '../index.css'
 import '../css/carousel.css'
 
 const DetailsRoot = ({match}) => {
@@ -22,7 +24,6 @@ const DetailsRoot = ({match}) => {
   const {name,description,enDescription,distribution,enDistribution,value,enValue,images} = root
   const {slug,type} = match.params
   const {t} = useTranslation()
-
 
   const loadRoot = () => {
     if(type === 'ordo') 
@@ -42,31 +43,15 @@ const DetailsRoot = ({match}) => {
       })
   }
 
-  // const loadParent = () => {
-  //   if(type === 'genus') {
-  //     getFamiliaById(root['familia']).then(res => {
-  //       console.log('parent',res.data);
-  //       setParent(res.data)    
-  //     })
-  //   }
-  //   else {
-  //     getOrdoById(root['ordo']).then(res => {
-  //       console.log('parent',res.data);
-  //       setParent(res.data)   
-  //     })
-  //   }  
-  // }
-
   useEffect(() => {
     loadRoot()
    
   },[root])
 
-
-
   return (
-    <div className="main-layout">
-      <div id="main-contener">
+   <div style={{marginTop: '120px',backgroundImage:`url(${image})`,paddingTop:'1px',paddingBottom:'1px'}}>
+      <div className="main-layout" style = {{width:'75%',margin:'80px auto',backgroundColor:'white',borderRadius:'20px'}}>
+      <div id="main-contener" style ={{margin:'20px'}}>
         <div className="intro-di">
           <div className="intro-details">
             <strong>{type === 'genus' ? t('genus')  : (type === 'familia') ?  t('familia') : t('ordo') } </strong> <br/>
@@ -94,7 +79,7 @@ const DetailsRoot = ({match}) => {
             : <div>{t('noImage') } </div>}
         </div>
       </div>
-      <div className ="nav-bar">
+      <div className ="nav-bar" style ={{marginTop:'220px',padding:'0 50px'}}>
         <ul className="nav-items">
           <li className="nav-li"><a href="#descriptions">{t('description') }</a></li>
           <li className="nav-li"><a href="#distribution-map">{t('distribution') }</a></li>
@@ -106,54 +91,58 @@ const DetailsRoot = ({match}) => {
         <div className="row">
             <div className="col-md-12 ">
               <div className="titlepage">
-                  <h2>{t('description') }</h2>
+              <div className ='class-tt'>{t('description')}</div>
+                <hr />
               </div>
             </div>
         </div>
         <div className="description">
-          <p>{cookie ==='vn' ? description : enDescription}</p>
+          <em>{cookie ==='vn' ? description : enDescription}</em>
         </div>
       </div>
-      
+      </div>
       <div id="distribution-map" className="plants">
         <div className="container">
           <div className="row">
               <div className="col-md-12 ">
                 <div className="titlepage">
-                    <h2 >{t('distribution') }</h2>
+                <div className ='class-tt'>{t('distribution')}</div>
+                <hr />
                 </div>
               </div>
           </div>
         </div>
         
         <div className="description">
-          <p>{cookie ==='vn' ? distribution : enDistribution}</p>
+          <em>{cookie ==='vn' ? distribution : enDistribution}</em>
             
         </div>
       </div>       
 
-    </div>
+    
     <div id="value" className="plants">
       <div className="container">
         <div className="row">
             <div className="col-md-12 ">
               <div className="titlepage">
-                  <h2>{t('useValue') }</h2>
+              <div className ='class-tt'>{t('useValue')}</div>
+                <hr />
               </div>
             </div>
         </div>
       </div>
         <div className="description">
-          <div className="row">
+        
             <div className="c-article-section__content">
-              <h3>{cookie ==='vn' ? value : enValue}</h3>
+              <em>{cookie ==='vn' ? value : enValue}</em>
               
             </div>
-          </div>
+       
         </div>
 
     </div>
   </div>
+   </div>
     
   )
 }

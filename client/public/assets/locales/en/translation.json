@@ -78,12 +78,21 @@
   "have":"Has",
   "noImage":"No picture yet",
   "searchByImage":"Search by image",
+  "searchByName":"Search by name",
   "chooseImage":"Choose picture",
   "searchResult":"Search result",
   "searchByInformation":"Search by information",
   "details":"Details",
   "plans":"Plants",
   "vietnam":"Vietnamese",
-  "english":"English"
-
+  "english":"English",
+  "statistics":"Statistics",
+  "info1":"Plants Dalat is a website developed by the Department of Information Technology and Biology, Da Lat University, to meet Goal 1 of the Global Strategy for Plant Conservation (GSPC) 2020-2030.",
+  "info2":"Plants Dalat provides full information of hundreds of plant species typical of Southeast Asia for the purpose of supporting identification and take care.",
+  "info3":"One of the features of our system is that it allows vegetation to be identified through images, and at the same time provides distribution coordinates through the map. Let's join now!",
+  "welcome":"Welcome To The",
+  "characteristics":"Characteristics",
+  "purpose":"Purpose",
+  "picture":"Image"
+  
 }

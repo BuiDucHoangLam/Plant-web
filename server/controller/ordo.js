@@ -1,5 +1,8 @@
 const Ordo = require('../model/ordo')
 const Familia = require('../model/familia')
+const Genus = require('../model/genus')
+const Specie = require('../model/specie')
+
 const slugify = require('slugify')
 
 exports.list = async (req,res) => {
@@ -71,20 +74,17 @@ exports.readFamilia = async (req,res) => {
   })
 }
 
-// exports.read = async  (req,res) => {
-//   try {
-//     const ordo = await Ordo.findOne({slug:req.params.slug}).exec()
-//     // res.json(ordo)
-//     const product = await Product.find({Ordo:ordo})
-//     .populate('ordo')
-//     .populate('postedBy','_id name') //to select by name
-//     .exec()
-//     res.json({
-//       ordo,
-//       product,
-//     })
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).send('Get ordo failed')
-//   }
-// }
+exports.readGenus = async (req,res) => {
+  Genus.find({ordo:req.params._id}).exec((err,GenusList) => {
+    if(err) console.log('get Genus from ordo',err);
+    res.json(GenusList)
+  })
+}
+
+exports.readSpecie = async (req,res) => {
+  Specie.find({ordo:req.params._id}).exec((err,SpecieList) => {
+    if(err) console.log('get Specie from ordo',err);
+    res.json(SpecieList)
+  })
+}
+

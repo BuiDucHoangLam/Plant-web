@@ -359,7 +359,7 @@ class Tree extends Component {
    
      return (
       
-      <div style ={{margin:'200px 0 100px 100px',height:'100%'}}>
+      <div style ={{margin:'10px 0 100px 100px',height:'100%'}}>
        
         
         {rootNodes.map(node => (

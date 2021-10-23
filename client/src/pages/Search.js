@@ -8,7 +8,6 @@ import { getListGenus } from '../api/genus'
 import { getListFamilia } from '../api/familia'
 import { getSpecies } from '../api/specie'
 import { getResultRecognize } from '../api/recognize'
-import {Button} from 'antd'
 import { useTranslation } from 'react-i18next'
 import '../css/style.css'
 import '../css/responsive.css'
@@ -17,7 +16,7 @@ import '../css/search.css'
 import '../css/bootstrap.min.css'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import LocalSearch from '../component/form/LocalSearch'
-
+import { Button, Modal, Card } from "react-bootstrap";
 import '../index.css'
 
 import p1 from '../images/p1.jfif'
@@ -39,8 +38,8 @@ const Search = () => {
     const [slug,setSlug] = useState([])
     const [results,setResults] = useState([])
     const [genus,setGenus] = useState('')
-    const [img,setImg] = useState('')
-    const [otherData,setOther] = useState('')
+     const [show, setShow] = useState(false);
+
     const {search} = useSelector(state => ({...state}))
     // const {text,genus,description} = search
     const [description,setDescription] = useState('')
@@ -52,6 +51,15 @@ const Search = () => {
     const [plant,setPlant] = useState({status:'',accuracy:'',predict:'',label:''})
     const [keyword,setKeyword] = useState('')
     const [note,setNote] = useState({})
+    const [flower, setFlower] = useState({
+        status: "",
+        accuracy: "",
+        predict: "",
+        label: "",
+    });
+    const [imageStatus, setImageStatus] = useState("Choose file to upload.");
+
+    const [imageURL, setImageURL] = useState("");
 
     const {t} = useTranslation()
     const dispatch = useDispatch()
@@ -90,183 +98,81 @@ const Search = () => {
         })
     }
 
-    const handleSubmit = e => {
-        e.preventDefault()
-       
-    }
-
     const handleImageSubmit = async (e) => {
         console.log(note);
         getResultRecognize(note).then(res => {
-            setPlant({label:res.data.label,accuracy:res.data.accuracy})
-            console.log(res.data);
+          setFlower({label:res.data.label,accuracy:res.data.accuracy})
+          console.log(res.data);
         })
+      }
+    
+      const fileUpload = async e => {
+        setNote(e.target.files[0])
+        setImageStatus(null);
+        if (e.target.files && e.target.files[0]) {
+          var reader = new FileReader();
+          var file = e.target.files[0];
+          setImageURL(URL.createObjectURL(file));
+          console.log("dcm" + imageURL != null);
+        }
     }
 
-    const fileUpload = e => {
-        setNote(e.target.files[0])
-    }
+    const handleClose = () => {
+        setShow(false);
+      };
+      const handleShow = () => {
+        handleImageSubmit()
+        setShow(true);
+      };
+       
 
     const searched = keyword => results => {
         return results.name.toLowerCase().includes(keyword)
     }
 
     return (
-    <div className="main-layout">
-
-     <div className="container" style={{marginTop: '200px'}}>
-        <div className="row">
-           <div className="col-md-12 ">
-              <div className="titlepage">
-                 <h2>{t('searchByImage')}</h2>
-                 {/* <!-- <span>looking at its layout. The point of using Lorem Ipsumletters, as opposed to usingl</span> --> */}
-              </div>
-           </div>
-        </div>
-     </div>
-
-    <div className="search-img">
-        <div className="search-img__title">
-
-        </div>
-
-        <div className="search-img__body">
-            <div className="search-img__uploadfile">
-                {/* <!-- <div className="wrap"> --> */}
-                    <div className="dandev-reviews">
-                        <div className="form_upload">
-                            <label className="dandev_insert_attach"><span><i className="ti-camera"></i> {t('searchByImage')}</span></label>
-                        </div>
-                        <div className="list_attach">
-                            <ul className="dandev_attach_view">
-
-                            </ul>
-                            {/* {img && <Badge 
-                                className='m-3'
-                                key={2} 
-                                count='x' 
-                                onClick = {()=>handleImageRemove()}
-                                style={{cursor:'pointer'}}
-                            >
-                                <img className ='img-input' src ={img} alt = 'input' />
-                            
-                     
-                            </Badge> } */}
-                            {/* <a href="http://localhost:5000/upload-image">
-                           <div>{t('chooseImage')}</div>
-                            </a>
-                             */}
-                        </div>
-                    </div>
-                {/* <!-- </div> --> */}
-
-                <div>
-                    
-                    {/* <input type='submit' className="img_search" value={t('search')} /> */}
-                    <input
-                        type="file"
-                        accept="image/*"
-                       
-                        onChange = {fileUpload}
-                        // onChange={async (e) => {
-                        //     const imageBlob = await handleImageChange(e);
-                        //     await setNote((prevValue) => {
-                        //     return {
-                        //         ...prevValue,
-                        //         imageBlob: e.target.files[0],
-                        //     };
-                        //     });
-                        //     console.log(imageBlob);
-                        // }}
-                        
-                    />
-
-                    
-                </div>
-                 <button type="submit" className="inf_search" onClick ={handleImageSubmit}> {t('search')} </button>
-            </div>
-
-            <div className="search-img__result">
-                <div className="result_title"> 
-                    <p style={{fontSize: '18px'}}>{t('searchResult')}</p> 
-                </div>
-               { (!note) ? <div className="list-item">
-                        
-                       No file
-                    </div> 
-               
-               : (plant.label && note) && <div id = "search-img__list">
-                    <div className="list-item">
-                        
-                        <Link to={`/details/${slug[0]}`}> {plant.label} </Link> <span style ={{marginRight:'5px'}}></span> - {Math.round(Number(plant.accuracy)*10000/100)} %
-                    </div> 
-                    
-                </div>}
-
-                
-            </div>
-        </div>
-    </div>
-
-    <div className="container">
-        <div className="row">
-           <div className="col-md-12 ">
-              <div className="titlepage">
-                 <h2>{t('searchByInformation')}</h2>
-              </div>
-           </div>
-        </div>
-     </div>
-
-    <div className="search-inf">
-        <div className="search-inf__title">
-
-        </div>
-
-        <div className="search-inf__body">
-            <div className="search-inf__form">
-               
-                <div className="form-control1">
-                    <p>{t('insertName')}: </p> 
-                    <LocalSearch
-                        keyword = {keyword}
-                        setKeyword = {setKeyword}
-                    />
-                </div>
-               
-               
-                <div>
-                    {/* <a href="/details"> */}
-                    <button type="submit" className="inf_search" onClick ={handleSubmit}> {t('search')}  </button>
-                    {/* </a> */}
-                </div>
-            </div>
-    
+        <div className="main-layout search-image__hinhnen">
+        <div className="container" style={{ marginTop: "200px" }}>
+            
+          <div style={{ height: "80vh" }}>
+              
+            <div className="search-image__header__text-box">
+              <h1 className="search-image__heading-primary">
+                <span>{t('searchByName')}</span>
+                <hr />
+              </h1>
+                    <div className="search-inf__form">
+        
+                    <div className="form-control1">
+            
+            <LocalSearch
+                keyword = {keyword}
+                setKeyword = {setKeyword}
+            />
             <div className="search-info__result">
                 
-                    <div className="result_title"> 
-                        <p style={{fontSize: '18px'}}>{t('searchResult')}</p> 
-                    </div>
+                
                 <div className="search-inf__list search-inf__list--scrool">
-                    { 
-                    keyword 
-                    && results.filter(searched(keyword)).map(rs => {
+                    { keyword && results.filter(searched(keyword)).map(rs => {
                         return <div key ={rs._id}>
                             <div className="list-item-inf" style={{marginLeft: '5%'}}>
-                            {/* <a href="/details">{rs.name}</a> */}
+                            
                             <Link to={rs.type === 'specie' ? `/details-specie/${rs.slug}` :  `/details-${rs.type}/${rs.slug}`}> {rs.name}
                             <input type="submit" className="detail" value="Detail" />
                             </Link>
-                    </div>
                         </div>
+                            </div>
                     })}
-                    
+                </div>
+                </div>
+                </div>
+               
                 </div>
             </div>
+          </div>
         </div>
-    </div>
-
-</div>
+        
+      </div>
   )
 }
 

@@ -1,126 +1,177 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Chart from '../component/chart/Chart'
+import { getListOrdo,getOrdo,getOrdoListFamilia,getOrdoListGenus,getOrdoListSpecie } from '../api/ordo'
+import { getListFamilia } from '../api/familia'
+import { getListGenus } from '../api/genus'
+import { getSpecies } from '../api/specie'
+import image from '../images/image.png'
 
-import logo from '../images/logo.png'
-import icon from '../images/search_icon.png'
+const initialState = {
+    labels: ['Ordo', 'Familia', 'Genus','Specie'],
+    datasets:[
+        {
+          label:'Population',
+          data:[     
+          ],
+          backgroundColor:[
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',    
+          ]
+        }
+    ]
+}
 
 const Statistics = () => {
+    const [chartData,setChartData] = useState(initialState)
+    const [ordoList,setOrdoList] = useState([])
+    const [familiaList,setFamiliaList] = useState([])
+    const [genusList,setGenusList] = useState([])
+    const [specieList,setSpecieList] = useState([])
+    const [numFamilia,setNumFamilia] = useState([])
+    const [numGenus,setNumGenus] = useState([])
+    const [numSpecie,setNumSpecie] = useState([])
+
+    const loadData = async () => {
+        let ordo,familia,genus,specie
+        let arrF = []
+        let arrG = []
+        let arrS = []
+        await getListOrdo().then(resO =>  {
+            resO.data.map(o => {
+                getOrdoListFamilia(o._id).then(rs => {
+                    const num = rs.data ? rs.data.length : 0
+                    arrF.push(num)
+                    setNumFamilia(arrF)
+                })
+                getOrdoListGenus(o._id).then(rs => {
+                    const num = rs.data ? rs.data.length : 0
+                    arrG.push(num)
+                    setNumGenus(arrG)
+                })
+                getOrdoListSpecie(o._id).then(rs => {
+                    
+                    const num = rs.data ? rs.data.length : 0
+                    arrS.push(num)
+                    setNumSpecie(arrS)
+                })
+            }) 
+        setOrdoList(resO.data)
+
+        ordo = resO.data.length
+        })
+
+        await getListFamilia().then(resF => {
+            setFamiliaList(resF.data)
+            familia = resF.data.length
+           
+            
+        })
+        await getListGenus().then(resG => {
+            setGenusList(resG.data)
+            genus = resG.data.length
+         
+           
+        })
+        await getSpecies().then(resS => {
+            setSpecieList(resS.data)                     
+            specie = resS.data.length
+          
+        })
+  
+        const value = {
+            labels: ['Ordo', 'Familia', 'Genus', 'Specie'],
+            datasets:[
+                {
+                  label:'Quantities',
+                  data:[
+                    ordo,
+                    familia,
+                    genus,
+                    specie
+                
+                  ],
+                  backgroundColor:[
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+              
+                  ]
+                },
+               
+            ]
+        }
+
+        setChartData(value)
+    }
+    
+    useEffect(() => {
+        loadData()
+       
+    },[])
+
+//   console.log('fa',numFamilia,'ge',numGenus,'sp',numSpecie);
+    
+
   return (
-    <div class="main-layout">
-        
-        {/* <!-- end header --> */}
+    <div className="main-layout" style={{marginTop: '120px',backgroundImage:`url(${image})`,paddingTop:'1px',paddingBottom:'1px'}}>
+        <div id="contact" className="contact" style ={{width:'80%',margin:'80px auto ',padding:'50px',borderRadius:' 20px'}}>
+            <div className="container">
+           
+                <div className="row" style={{marginTop: '30px',marginLeft:'3px'}}>
 
-
-
-        <div id="contact" class="contact" style={{marginTop: '50px'}}>
-            <div class="container">
-                <div class="row" style={{marginTop: '30px',marginLeft:'3px'}}>
-                    <div class="fs-4 mb-3">
-                        <a href="../greeno/">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-                                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
-                            </svg> <b>Home</b> / </a>
-                        <a href="#">Statistics</a>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="col-md-12">
-                        <div class="help-infor-search" style={{marginBottom: '15px'}}>
-                            <h4 style={{fontSize: '24px', fontWeight: 'bold'}}>Statistics</h4>
-                            <h4 style={{textAlign: 'justify'}}>Species of The Plant List contained within The Plant List belong to 642 plant families and 17,020 plant genera.</h4>
-                            <h4 style={{textAlign: 'justify'}}>The Plant List includes 1,064,035 scientific plant names of species rank for the The Plant List. Of these 350,699 are accepted species names.</h4>
-                            <h4 style={{textAlign: 'justify'}}>
-                                The Plant List includes a further 229,650 scientific plant names of infraspecific rank for the The Plant List.</h4>
-                        </div>
-                        <div class="help-infor-search" style={{marginBottom: '15px'}}>
+                    <div className="col-md-12">
+                     
+                        
+                        <div className="help-infor-search" style={{marginBottom: '15px'}}>
                             <h4 style={{fontSize: '24px', fontWeight: 'bold'}}>Statistics of vegetable quantities</h4>
-                            <div class="help-name">
+                            <div className="help-name">
                                 <ul>
-                                    <li>6 division</li>
-                                    <li>7 class</li>
-                                    <li>63 order</li>
-                                    <li>101 family</li>
-                                    <li>303 genus</li>
-                                    <li>610 species</li>
+                                    <li>{ordoList.length} order</li>
+                                    <li>{familiaList.length} family</li>
+                                    <li>{genusList.length} genus</li>
+                                    <li>{specieList.length} species</li>
                                 </ul>
                             </div>
                         </div>
 
+                        <Chart
+                            chartData={chartData} 
+                            
+                            legendPosition="bottom"
+                        />
+
                     </div>
                 </div>
 
-                <div class="row">
+                <div className="row">
                     <p>METRICS</p>
-                    <table class="table table-striped">
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">Major Group</th>
+                                <th scope="col">Ordo</th>
                                 <th scope="col">Families </th>
                                 <th scope="col">Genus</th>
                                 <th scope="col">Species </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Angiosperms</td>
-                                <td>416 </td>
-                                <td>13.000</td>
-                                <td>352.000</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Gymnosperms</td>
-                                <td>12</td>
-                                <td>83</td>
-                                <td>1000</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Pteridophytes</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>13,000</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Bryophytes</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>20,000</td>
-                            </tr>
+                           {(ordoList && ordoList.length > 0) && ordoList.map((o,index) => <tr key = {index}>
+                                <th scope="row">{index+1}</th>
+                                <td>{o.name}</td>
+                              
+                                <td>{numFamilia[index]} </td>
+                                <td>{numGenus[index]}</td>
+                                <td>{numSpecie[index]}</td>
+                            </tr>)}                          
                         </tbody>
                     </table>
                 </div>
-
-
             </div>
         </div>
-
-
-{/* 
-        <!-- <div id="plant" class="plants">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="plants-box">
-                            <h3> Species names</h3>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsumletters, as opposed to using</p>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="plants-box">
-                            <figure><img src="images/plant2.jpg" alt="img" /></figure>
-                            <h3> All names</h3>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsumletters, as opposed to using</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div> --> */}
 
     </div>
   )

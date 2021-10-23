@@ -16,7 +16,7 @@ const SpecieCard = ({specie,handleRemove}) => {
       }
       actions ={[
         <Link to ={`/admin/specie/${slug}`}> <EditOutlined className ='text-warning'/> </Link>,
-        <DeleteOutlined className ='text-danger' onClick ={() => handleRemove(slug)} />
+        <DeleteOutlined style ={{marginTop:'19px'}} className ='text-danger' onClick ={() => handleRemove(slug)} />
       ]}
     >
       <div style ={{

@@ -40,3 +40,13 @@ export const getOrdoListFamilia = async (_id) => {
   return await axios.get(`${process.env.REACT_APP_API}/ordo/familia/${_id}`)
 
 }
+
+export const getOrdoListGenus = async (_id) => {
+  return await axios.get(`${process.env.REACT_APP_API}/ordo/genus/${_id}`)
+
+}
+
+export const getOrdoListSpecie = async (_id) => {
+  return await axios.get(`${process.env.REACT_APP_API}/ordo/specie/${_id}`)
+
+}

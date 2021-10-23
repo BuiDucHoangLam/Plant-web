@@ -2,7 +2,7 @@ import React from 'react'
 import Map from './Map'
 
 
-const GoogleMap = ({coordinates}) => {
+const GoogleMap = ({coordinates,zoom}) => {
   const key = 'AIzaSyDIc3u_Pdmfhxb7Ti-3riE6IoCRHbPxeEM'
   console.log(coordinates);
 
@@ -14,6 +14,7 @@ const GoogleMap = ({coordinates}) => {
   return (
     <Map 
       coordinates = {coordinates}
+      zoom = {zoom}
       googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`}
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={<div style={{ height: `90vh`, margin: `auto`, border: '2px solid black' }} />}

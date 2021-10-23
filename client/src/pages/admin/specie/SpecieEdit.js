@@ -140,7 +140,7 @@ const SpecieEdit = ({match}) => {
     })
     console.log(array3,array4);
     await setValues({...values,longitudeList:[...array1],
-      latitudeList:array2,
+      latitudeList:[...array2],
       coordinates:combineArray(array3,array4)})
   }
   
@@ -168,7 +168,7 @@ const SpecieEdit = ({match}) => {
       latitudeList:array2,
       coordinates:combineArray(array3,array4)})
     
-    const results = {...values,coordinates:combineArray(array3,array4)}
+    const results = {...values,coordinates:combineArray(array3,array4),longitudeList:[...array1],latitudeList:[...array2]}
     
     editSpecie(user.token,slug,results).then(res => {
       console.log(res.data);

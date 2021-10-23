@@ -1,12 +1,12 @@
 import React from 'react'
 import { withGoogleMap, withScriptjs, GoogleMap,Marker } from "react-google-maps"
 import {} from '../../icon/flower-pot.png'
-const Map =  ({coordinates}) => {
+const Map =  ({coordinates,zoom}) => {
   
   return (
     <div>
       <GoogleMap
-          defaultZoom={4}
+          defaultZoom={zoom ? zoom : 5}
           defaultCenter={{ lat: coordinates[0][0] , lng: coordinates[0][1]  }}
         >
           {coordinates.map((coord,index) => {
