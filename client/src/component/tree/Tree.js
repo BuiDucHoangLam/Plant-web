@@ -10,6 +10,8 @@ import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import TreeNode from './TreeNode';
 import { withTranslation } from 'react-i18next';
+import '../../index.css'
+import '../../css/responsive.css'
 
 const data = {
   '/root': {
@@ -359,9 +361,9 @@ class Tree extends Component {
    
      return (
       
-      <div style ={{margin:'10px 0 100px 100px',height:'100%'}}>
+      <div className='explorer__phone-show'>
        
-        
+       
         {rootNodes.map(node => (
           <TreeNode 
             key = {node.path}

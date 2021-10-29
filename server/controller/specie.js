@@ -55,3 +55,42 @@ exports.remove = async (req,res) => {
     })
   }
 }
+
+const handleName = async (req,res,name) => {
+  
+  const plant = await Specie.find({$text:{$search:name}})
+  .exec()
+  // console.log('plant',plant)
+
+  res.json(plant)
+  
+}
+
+exports.searchFilter = async (req,res) => {
+  const {name,genus,description,otherData,distribution,source,bibliography} = req.body
+  console.log(req.body);
+  if(name) {
+    console.log('name',name);
+    await handleName(req,res,name)
+  }
+
+  // if(genus){
+  //   console.log('genus',genus)
+  //   await handleGenus(req,res,genus)
+  // }
+
+  // if(description){
+  //   console.log('description',description)
+  //   await handleDescription(req,res,description)
+  // }
+
+  // if(distribution){
+  //   console.log('distribution',distribution)
+  //   await handleDistribution(req,res,distribution)
+  // }
+
+  // if(source){
+  //   console.log('source',source)
+  //   await handleSource(req,res,source)
+  // }
+}

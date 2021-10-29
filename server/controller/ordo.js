@@ -2,7 +2,7 @@ const Ordo = require('../model/ordo')
 const Familia = require('../model/familia')
 const Genus = require('../model/genus')
 const Specie = require('../model/specie')
-
+const mongoose = require('mongoose')
 const slugify = require('slugify')
 
 exports.list = async (req,res) => {
@@ -20,8 +20,10 @@ exports.read = async (req,res) => {
 
 exports.readById = async (req,res) => {
   // const ordo = await Ordo.findOne({_id:req.params._id})
-  console.log('id',typeof(req.params.id));
-  const ordo = await Ordo.findById({_id:req.params._id})
+  // console.log('id',typeof(req.params.id));
+  const _id = mongoose.Types.ObjectId(req.params._id)
+  // console.log('idOrdo',typeof(_id),_id,typeof(req.params._id),req.params._id);
+  const ordo = await Ordo.findById(_id)
   .exec()
   res.json(ordo)
 }

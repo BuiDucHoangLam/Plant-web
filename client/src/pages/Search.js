@@ -6,11 +6,10 @@ import {Link} from 'react-router-dom'
 import { getListOrdo } from '../api/ordo'
 import { getListGenus } from '../api/genus'
 import { getListFamilia } from '../api/familia'
-import { getSpecies } from '../api/specie'
+import { getSpecies,getSearch } from '../api/specie'
 import { getResultRecognize } from '../api/recognize'
 import { useTranslation } from 'react-i18next'
 import '../css/style.css'
-import '../css/responsive.css'
 import '../css/search.css'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/bootstrap.min.css'
@@ -18,6 +17,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import LocalSearch from '../component/form/LocalSearch'
 import { Button, Modal, Card } from "react-bootstrap";
 import '../index.css'
+import '../css/responsive.css'
 
 import p1 from '../images/p1.jfif'
 import p2 from '../images/p2.jfif'
@@ -65,6 +65,12 @@ const Search = () => {
     const dispatch = useDispatch()
 
     const [name,setName] = useState('')
+
+    const loadPlants = () => {
+      getSearch({name:keyword}).then(res => {
+        console.log(res.data);
+      })
+    }
 
     const loadPlantsQuery = () => {
       
@@ -134,21 +140,21 @@ const Search = () => {
         <div className="main-layout search-image__hinhnen">
         <div className="container" style={{ marginTop: "150px" }}>
             
-          <div style={{ height: "80vh" }}>
+          <div className ='wrapper-search__child' style={{ height: "80vh" }}>
               
             <div className="search-image__header__text-box">
               <h1 className="search-image__heading-primary">
-                <span>{t('searchByName')}</span>
+                <div>{t('searchByName')}</div>
                 <hr />
               </h1>
                     <div className="search-inf__form">
         
                     <div className="form-control1">
             
-            <LocalSearch
+              <LocalSearch
                 keyword = {keyword}
                 setKeyword = {setKeyword}
-            />
+              />
             <div className="search-info__result">
                 
                 

@@ -27,7 +27,7 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
   
 
   return (
-    <form onSubmit = {handleSubmit} style ={{background:'none'}}>
+    <form className ="form__mobile" onSubmit = {handleSubmit} style ={{background:'none'}}>
       <div className="form-group">
         <label>{t('specie')}</label>
         <input 
@@ -102,16 +102,24 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
 
       <div id ='coordField'>
         <div className="form-group coord-form">
-          <label>{t('coordinate')}</label>
+          <div style ={{textAlign:'center'}}> <label>{t('coordinate')}</label></div>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-6 l-6">
+                <div style ={{textAlign:'center'}}>{t('longitude')}</div>
+              </div>
+              <div className="col-md-6 l-6">
+                <div style ={{textAlign:'center'}}>{t('latitude')}</div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6 l-6">
                 <input 
                   type="text" 
                   name = 'longitudeList'
                   className = 'form-control' 
                 />  
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 l-6">
                 <input 
                   type="text" 
                   name = 'latitudeList'
@@ -146,7 +154,7 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
       <div className="form-group">
        
         <label>{t('description')}</label>
-        <input 
+        <textarea 
           type="text" 
           name ='description' 
           className = 'form-control' 
@@ -159,7 +167,7 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
       <div className="form-group">
       
         <label>{t('useValue')}</label>
-        <input 
+        <textarea 
           type="text" 
           name ='value' 
           className = 'form-control' 
@@ -172,7 +180,7 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
       <div className="form-group">
         
         <label>{t('distribution')}</label>
-        <input 
+        <textarea 
           type="text" 
           name ='distribution' 
           className = 'form-control' 
@@ -185,7 +193,7 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
      <div className="form-group">
        
         <label>{t('source')}</label>
-        <input 
+        <textarea 
           type="text" 
           name ='source' 
           className = 'form-control' 
@@ -200,6 +208,8 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
          
           <div className="form-group">
             <label> </label>
+            <label className ='show-title__child'>{t('name')}</label>
+            
             <input 
               style = {{marginTop:'8px'}}
               type="text" 
@@ -213,7 +223,8 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
 
       <div className="form-group">
         <label> </label>
-        <input 
+        <label className ='show-title__child'>{t('description')}</label>
+        <textarea 
               style = {{marginTop:'8px'}}
               type="text" 
           name ='enDescription' 
@@ -226,7 +237,8 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
       <div className="form-group">     
           
             <label> </label>
-            <input 
+            <label className ='show-title__child'>{t('useValue')}</label>
+            <textarea 
               style = {{marginTop:'8px'}}
               type="text" 
               name ='enValue' 
@@ -240,7 +252,8 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
       <div className="form-group">
        
             <label> </label>
-            <input 
+            <label className ='show-title__child'>{t('distribution')}</label>
+            <textarea 
               style = {{marginTop:'8px'}}
               type="text" 
               name ='enDistribution' 
@@ -254,7 +267,8 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
      <div className="form-group">
      
             <label> </label>
-            <input 
+            <label className ='show-title__child'>{t('source')}</label>
+            <textarea 
               style = {{marginTop:'8px'}}
               type="text" 
               name ='enSource' 
@@ -268,7 +282,7 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
       </div>
 
       
-      <button className="btn btn-outline-info" onClick = {handleSubmit}>
+      <button className="btn btn-sm btn-block btn-outline-primary" onClick = {handleSubmit}>
       {t('complete')}
       </button>
     </form>

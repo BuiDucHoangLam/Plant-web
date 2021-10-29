@@ -31,7 +31,7 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
   
 
   return (
-    <form onSubmit = {handleSubmit} style ={{background:'none'}}>
+    <form className ="form__mobile" onSubmit = {handleSubmit} style ={{background:'none'}}>
       <div className="form-group">
         <label>{t('specie')}</label>
         <input 
@@ -114,9 +114,17 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
 
       {coordinates && <div id ='coordField'>
         <div className="form-group coord-form">
-          <label>{t('coordinate')}</label>
+          <div style ={{textAlign:'center'}}>{t('coordinate')}</div>
             <div className="row">
-              <div className="col-md-6">
+                <div style ={{textAlign:'center'}} className="col-md-6 l-6">
+                  <label>{t('longitude')}</label>
+                </div>
+                <div style ={{textAlign:'center'}} className="col-md-6 l-6">
+                  <label>{t('latitude')}</label>
+                </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6 l-6">
                {longitudeList && longitudeList.map(l => (
                  <input 
                   type="text" 
@@ -129,7 +137,7 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
                 />
                ))}
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 l-6">
                 {latitudeList &&
                   latitudeList.map(l => (
                     <input 
@@ -164,7 +172,7 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
 
             <div className="form-group">
               <label>{t('description')}</label>
-              <input 
+              <textarea 
                 type="text" 
                 name ='description' 
                 className = 'form-control' 
@@ -175,7 +183,7 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
 
             <div className="form-group">
               <label>{t('useValue')}</label>
-              <input 
+              <textarea 
                 type="text" 
                 name ='value' 
                 className = 'form-control' 
@@ -186,7 +194,7 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
 
             <div className="form-group">
               <label>{t('distribution')}</label>
-              <input 
+              <textarea 
                 type="text" 
                 name ='distribution' 
                 className = 'form-control' 
@@ -197,7 +205,7 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
 
             <div className="form-group">
               <label>{t('source')}</label>
-              <input 
+              <textarea 
                 type="text" 
                 name ='source' 
                 className = 'form-control' 
@@ -208,72 +216,80 @@ const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,
         </div>
 
         <div className="col-md-6">
-        <div style ={{textAlign:'center'}}>{t('vietnam')}</div>
-
-            <div className="form-group">
-        <label> </label>
-             
-              <input 
-               style = {{marginTop:'8px'}}
-                type="text" 
-                name ='enName' 
-                className = 'form-control' 
-                value ={enName} 
-                onChange  = {handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-        <label> </label>
+        <div style ={{textAlign:'center'}}>{t('english')} </div>
+         
+          <div className="form-group">
+            <label> </label>
+            <label className ='show-title__child'>{t('name')}</label>
             
-              <input 
-               style = {{marginTop:'8px'}}
-                type="text" 
-                name ='enDescription' 
-                className = 'form-control' 
-                value ={enDescription} 
-                onChange  = {handleChange}
-              />
-            </div>
+            <input 
+              style = {{marginTop:'8px'}}
+              type="text" 
+              name ='enName' 
+              className = 'form-control' 
+              value ={enName} 
+              onChange  = {handleChange}
+            />
+         
+      </div>
 
-            <div className="form-group">
+      <div className="form-group">
         <label> </label>
-            
-              <input 
-               style = {{marginTop:'8px'}}
-                type="text" 
-                name ='enValue' 
-                className = 'form-control' 
-                value ={enValue} 
-                onChange  = {handleChange}
-              />
-            </div>
+        <label className ='show-title__child'>{t('description')}</label>
+        <textarea 
+              style = {{marginTop:'8px'}}
+              type="text" 
+          name ='enDescription' 
+          className = 'form-control' 
+          value ={enDescription} 
+          onChange  = {handleChange}
+        />
+      </div>
 
-            <div className="form-group">
-        <label> </label>
-              
-              <input 
-               style = {{marginTop:'8px'}}
-                type="text" 
-                name ='enDistribution' 
-                className = 'form-control' 
-                value ={enDistribution} 
-                onChange  = {handleChange}
-              />
-            </div>
+      <div className="form-group">     
+          
+            <label> </label>
+            <label className ='show-title__child'>{t('useValue')}</label>
+            <textarea 
+              style = {{marginTop:'8px'}}
+              type="text" 
+              name ='enValue' 
+              className = 'form-control' 
+              value ={enValue} 
+              onChange  = {handleChange}
+            />
+          
+      </div>
 
-            <div className="form-group">
-        <label> </label>
-              
-              <input 
-               style = {{marginTop:'8px'}}
-                type="text" 
-                name ='enSource' 
-                className = 'form-control' 
-                value ={enSource} 
-                onChange  = {handleChange}
-              />
-            </div>
+      <div className="form-group">
+       
+            <label> </label>
+            <label className ='show-title__child'>{t('distribution')}</label>
+            <textarea 
+              style = {{marginTop:'8px'}}
+              type="text" 
+              name ='enDistribution' 
+              className = 'form-control' 
+              value ={enDistribution} 
+              onChange  = {handleChange}
+            />
+         
+      </div>
+     
+     <div className="form-group">
+     
+            <label> </label>
+            <label className ='show-title__child'>{t('source')}</label>
+            <textarea 
+              style = {{marginTop:'8px'}}
+              type="text" 
+              name ='enSource' 
+              className = 'form-control' 
+              value ={enSource} 
+              onChange  = {handleChange}
+            />
+         
+      </div>
         </div>
       </div>
 

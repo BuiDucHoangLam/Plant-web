@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 const Nav = () => {
   const {t} = useTranslation()
   return (
-    <nav>
+    
       <ul className = "nav flex-column">
         <li className="nav-link">
           <Link to="/admin/dashboard">{t('dashboard')}</Link>
@@ -23,12 +23,12 @@ const Nav = () => {
         <li className="nav-link">
           <Link to="/admin/specie">{t('specie')}</Link>
         </li>
-        <li className="nav-link">
+        <li className="nav-link nav-password__child">
           <Link to="/admin/password">{t('password')}</Link>
         </li>
       </ul>
 
-    </nav>
+    
   )
 }
 

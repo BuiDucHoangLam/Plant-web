@@ -7,6 +7,9 @@ import {getFamiliaListGenus, getListFamilia} from '../../../api/familia'
 import FileUpload from '../../../component/form/FileUpload'
 import {LoadingOutlined} from '@ant-design/icons'
 import { useTranslation } from "react-i18next";
+import { Link } from 'react-router-dom'
+import '../../../index.css'
+import '../../../css/responsive.css'
 
 import {useSelector} from 'react-redux'
 import {toast} from 'react-toastify'
@@ -245,7 +248,7 @@ const SpecieCreate = () => {
 
   const handleAddCoord = () => {
     const html = `<div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 l-6">
       <input 
         type="text" 
         name = 'longitudeList'
@@ -253,7 +256,7 @@ const SpecieCreate = () => {
        
       />  
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 l-6">
       <input 
         type="text" 
         name = 'latitudeList'
@@ -270,19 +273,41 @@ const SpecieCreate = () => {
   }
 
   return (
-    <div className="container-fluid" style ={{marginTop:'200px'}}>
-    <div className = "row">
-      <div className ="col-md-2">
-        <Nav />
-      </div>
+    <div className="container-fluid bg-main" style ={{marginTop:'200px'}}>
+    <div className = "row bg-child">
+    <div className ="col-md-1 col__ml--2 l-0">
+            <Nav />
+          </div>
+          <div className ="l-12 nav-admin__child">
+            <ul >
+              <li>
+                <Link to="/admin/dashboard">{t('dashboard')}</Link>
+              </li>
+              
+              <li>
+                <Link to="/admin/ordo">{t('ordo')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/familia">{t('familia')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/genus">{t('genus')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/specie">{t('specie')}</Link>
+              </li>
+            
+            </ul>
+          </div>
         
-      <div className ='col-md-10'>
-       
+      <div className ='col-md-11 l-12'>
+        <br />
         {loading ? <LoadingOutlined className ='text-danger' /> : <h3  style ={{textAlign:'center'}}>{t('createSpecie')}</h3>}
         <hr />
      
-        <div className="row">
-          <div className="col-md-4">
+        <div className="row"  style ={{textAlign:'center'}}>
+          <div className="col-md-4 l-6">
+            
             <FileUpload 
               values ={values}
               setValues ={setValues}
@@ -291,7 +316,7 @@ const SpecieCreate = () => {
               children = {`imagesBackground`}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 l-6">
             <FileUpload 
               values ={values}
               setValues ={setValues}
@@ -300,7 +325,7 @@ const SpecieCreate = () => {
               setLoading = {setLoading}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 l-6">
             <FileUpload 
               values ={values}
               setValues ={setValues}
@@ -310,9 +335,7 @@ const SpecieCreate = () => {
     
             />
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-4 l-6">
             <FileUpload 
               values ={values}
               setValues ={setValues}
@@ -322,7 +345,7 @@ const SpecieCreate = () => {
               
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 l-6">
             <FileUpload 
               values ={values}
               setValues ={setValues}
@@ -332,7 +355,7 @@ const SpecieCreate = () => {
            
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 l-6">
             <FileUpload 
               values ={values}
               setValues ={setValues}
@@ -343,6 +366,7 @@ const SpecieCreate = () => {
             />
           </div>
         </div>
+        
 
         <SpecieCreateForm
           handleSubmit = {handleSubmit}

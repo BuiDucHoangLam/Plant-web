@@ -6,6 +6,8 @@ import OrdoForm from '../../../component/form/OrdoForm';
 import { toast } from 'react-toastify';
 import Nav from '../../../component/Nav';
 import { useTranslation } from "react-i18next";
+import { Link } from 'react-router-dom'
+import '../../../index.css'
 
 const initialValue = {
   name:'',
@@ -57,22 +59,46 @@ const OrdoEdit = ({history,match}) => {
   }
 
   return (
-    <div className="container-fluid" style ={{marginTop:'200px'}}>
-      <div className = "row">
-        <div className ="col-md-2">
-          <Nav />
-        </div>
-        <div className = "col"> 
+    <div className="container-fluid bg-main" style ={{marginTop:'200px'}}>
+      <div className = "row bg-child">
+      <div className ="col-md-1 col__ml--2 l-0">
+            <Nav />
+          </div>
+          <div className ="l-12 nav-admin__child">
+            <ul >
+              <li>
+                <Link to="/admin/dashboard">{t('dashboard')}</Link>
+              </li>
+              
+              <li>
+                <Link to="/admin/ordo">{t('ordo')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/familia">{t('familia')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/genus">{t('genus')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/specie">{t('specie')}</Link>
+              </li>
+            
+            </ul>
+          </div>
+        <div className = "col-md-11"> 
+        <br />
           {loading 
           ? <h3 className='text'>Loading ...</h3> 
           : <h3 style ={{textAlign:'center'}}>Sửa bộ</h3>
           }
-          <ImageUpload
-            values ={values}
-            setLoading = {setLoading}
-            setValues = {setValues}
-            name = {t('chooseImageBackground')}
-          />
+          <div className ='image-upload__div'>
+            <ImageUpload
+              values ={values}
+              setLoading = {setLoading}
+              setValues = {setValues}
+              name = {t('chooseImageBackground')}
+            />
+          </div>
           <OrdoForm 
             onSubmit = {handleSubmit}
             values = {values}

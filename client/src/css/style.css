@@ -439,6 +439,8 @@ a.readmore_bt {
 }
 
 .logo {
+  width: 70%;
+  transform: translate(-40px, -40px);
   float: left;
   position: relative;
 }
@@ -1617,7 +1619,7 @@ input[type="radio"] .styled:checked + label::after {
 }
 .titlepage {
   text-align: center;
-
+  position: relative;
 }
 .titlepage h2 {
   padding: 0px 0px 36px 0px;
@@ -1904,6 +1906,9 @@ img.zoom {
 }
 .contact {
   background: #fff;
+  width: 75%;
+  margin: 0 auto;
+  margin-bottom: 40px;
  
 }
 .paddimg-right {
@@ -2180,4 +2185,20 @@ ul.location_icon span {
      width: 400px;
      height: 200px;
      border: 1px solid;
+}
+
+.menu-phone {
+  display: none;
+}
+
+.social-icon {
+  padding:0 15px 0 12px;
+}
+
+.menu-top__child {
+  display: none;
+}
+
+.nav-admin__child {
+  display: none;
 }

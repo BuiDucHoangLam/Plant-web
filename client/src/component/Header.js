@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react'
 import logo from '../images/logo.png'
 import search_icon from '../images/search_icon.png'
 import LoginBar from './LoginBar';
+import {MenuOutlined} from '@ant-design/icons'
 import { useDispatch,useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
@@ -11,12 +12,14 @@ import 'firebase/compat/firestore';
 import { useTranslation } from "react-i18next";
 import i18next from 'i18next';
 import cookies from 'js-cookie'
-
-import '../css/responsive.css'
-import '../css/style.css'
+import { Button, Modal, Card } from "react-bootstrap";
 
 import '../index.css'
+import '../css/style.css'
 import 'flag-icon-css/css/flag-icon.min.css'
+import '../css/responsive.css'
+import icon from '../images/icon-menu.png'
+import university from '../images/university.png'
 
 const language = [
   {
@@ -38,12 +41,12 @@ const Header = () => {
   const {user } = useSelector(state => ({...state}))
   const currLangCode = cookies.get('i18next') || 'vn'
   const currLang = language.find(l => l.code === currLangCode)
- 
+  const [show, setShow] = useState(false);
+
   useEffect(() => {
     document.body.dir = currLang.dir || 'ltr'
   },[currLang])
-  const [href,setHref] = useState(window.location.href.split('/').slice(-1)[0])
-  console.log(href);
+  const href = window.location.href.split('/').slice(-1)[0]
 
   const GlobeIcon = ({ width = 24, height = 24 }) => (
     <svg
@@ -67,25 +70,54 @@ const Header = () => {
     history.push('/login')
   }
 
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => {
+   
+    setShow(true);
+  };
 
   return (
     <div>
   {/* <!-- end loader --> */}
-      <div>
+      
           {/* <!-- header inner --> */}
   
           <div className="header">
 
             <div className="container">
+                <div className="row" style ={{width:'100%'}}>
+                  <div className="menu-top__child l-12">
+                  <img style ={{width:'56px',height:'56px'}} src={icon} alt="#" onClick ={handleShow} />
+                    
+                    <div className="logo-menu__child"> <a href="/"><img src={university} alt="#" /></a> </div>
+
+                    <div className="dropdown" style ={{marginTop:'10px'}}>
+                        <span className ='menu-top-lang__child'><GlobeIcon/></span>
+                        
+                        <div className="dropdown-content">
+                        {language.map(({code,name,country_code}) => (
+                            <div style ={{float:'left'}} key = {country_code}><a >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a></div>
+                          ))}
+                        </div>
+                        
+                      </div>
+                  </div>
+
+                </div>
                 <div className="row" style ={{marginBottom:'-20px'}}>
-                  <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                   
+                  <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 l-0">
                       <div className="menu-area">
                         <div className="limit-box">
                             <nav className="main-menu">
                               <ul className="menu-area-main" >
-                              <div class="dropdown">
+                              
+                                                            
+                              <div className="dropdown">
                                 <span style ={{width:'35px',height:'35px',marginRight:'10px'}}><GlobeIcon/></span>
-                                <div class="dropdown-content">
+                                <div className="dropdown-content">
                                 {language.map(({code,name,country_code}) => (
                                     <div style ={{float:'left'}} key = {country_code}><a >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a></div>
                                   ))}
@@ -95,10 +127,10 @@ const Header = () => {
                                   {/* {language.map(({code,name,country_code}) => (
                                     <li key = {country_code}><a >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a></li>
                                   ))}  */}
-                                 {(!user) ? <><li key = 'login'> <a href="/login">{t('login')}</a> </li>
-                                  <li key = 'register'> <a href="/register">{t('register')}</a> </li> </> 
+                                 {(!user) ? <><li className ={href === 'login' && 'active'} key = 'login'> <a href="/login">{t('login')}</a> </li>
+                                  <li className ={href === 'register' && 'active'} key = 'register'> <a href="/register">{t('register')}</a> </li> </> 
                                   :<> 
-                                   <li key = 'dashboard'> <Link to='/admin/dashboard'><span className ='dashboard'>{t('dashboard')}</span></Link>  </li>
+                                   <li className ={href === 'dashboard' && 'active'} key = 'dashboard'> <Link to='/admin/dashboard'><span className ='dashboard'>{t('dashboard')}</span></Link>  </li>
                                   <li key = 'name'> <span className ='login'>{user.name}</span>  </li>
                                   <li key = 'logout' onClick = {logout}> <span className ='login'>{t('logout')}</span>  </li> 
                                   </>}
@@ -110,25 +142,28 @@ const Header = () => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                  <div className="col-xl-3 col-lg-3 col-md-1 col-sm-4 l-0 col logo_section">
                       <div className="full">
                         <div className="center-desk">
-                            <div style ={{width: '70%',transform: 'translate(-105px, -35px)'}} className="logo"> <a href="index.html"><img src={logo} alt="#" /></a> </div>
+                            <div className="logo"> <a href="/"><img src={logo} alt="#" /></a> </div>
                         </div>
                       </div>
                   </div>
-                  <div className="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                  <div className="col-xl-9 col-lg-9 col-md-11 col-sm-4 l-0">
                       <div className="menu-area">
                         <div className="limit-box">
                             <nav className="main-menu">
                               <ul className="menu-area-main">
                                   <li className ={!href && 'active'}> <a href="/">{t('home')}</a> </li>
+                                  
                                   <li className ={href === 'about' && 'active'}> <a href="/about">{t('about')}</a> </li>
+                                  <li className ={href === 'plants' && 'active'}> <a href="/plants">{t('info')}</a> </li>
+                                 
                                   <li className ={href === 'statistics' && 'active'}><a href="/statistics">{t('statistics')}</a></li>
                                                                                            
-                                  <div class="dropdown">
+                                  <div className="dropdown">
                                     <span className ={(href === 'search' || href ==='search-image') ? 'dropdown__span--active' : 'dropdown__span'} >{t('search')}</span>
-                                    <div className="dropdown-content" style ={{marginTop:'-20px'}}>
+                                    <div className="dropdown-content" style ={{marginTop:'-15px'}}>
                                       <div className ={href === 'search' ? 'dropdown__span-item--active' : 'dropdown__span-item'}><a href="/search">{t('info')}</a></div>
                                     </div>
                                     <div className={"dropdown-content"} style ={{marginTop:'30px'}}>
@@ -150,7 +185,49 @@ const Header = () => {
             </div>
           </div>
           {/* <!-- end header inner --> */}
-      </div>
+          <Modal show={show} onHide={handleClose} style ={{width:'80%'}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Menu - {user && user.name}</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+            {/* <nav className="main-menu"> */}
+              <ul className ='menu-mobile'>
+                  <li className ={!href && 'active'}> <a href="/">{t('home')}</a> </li>
+                  {(!user) ? <><li className ={href === 'login' && 'active'} key = 'login'> <a href="/login">{t('login')}</a> </li>
+                      <li className ={href === 'register' && 'active'} key = 'register'> <a href="/register">{t('register')}</a> </li> </> 
+                      :<> 
+                        <li className ={href === 'dashboard' && 'active'} key = 'dashboard'> <Link to='/admin/dashboard'>{t('dashboard')}</Link>  </li>
+                     
+                      <li key = 'logout' onClick = {logout}> <a href ='#'>{t('logout')} </a>  </li> 
+                      </>}
+                  <li className ={href === 'about' && 'active'}> <a href="/about">{t('about')}</a> </li>
+                  <li className ={href === 'plants' && 'active'}> <a href="/plants">{t('info')}</a> </li>
+                  
+                  <li className ={href === 'statistics' && 'active'}><a href="/statistics">{t('statistics')}</a></li>
+                                                                            
+                  
+                  <li className ={href === 'search' && 'active' }><a href="/search">{t('search')} {t('info')}</a></li>
+                
+                
+                  <li className ={href === 'search-image' && 'active' }><a href="/search-image"> {t('search')} {t('picture')}</a></li>
+                   
+                  {/* <li className ={href === 'search' ? 'dropdown-content active' : 'dropdown-content'}><a href="/search">{t('search')}</a></li>
+                  <li className ={href === 'search-image' ? 'dropdown-content active' : ''}><a href="/search-image">{t('search')}</a></li> */}
+                
+                  <li className ={href === 'help' && 'active'}><a href="/help">{t('help')}</a></li>
+            
+                  
+              </ul>
+            {/* </nav> */}
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick = {handleClose}>Close</Button>
+              <Button variant="primary" onClick = {handleClose}>Save changes</Button>
+            </Modal.Footer>
+          </Modal>
+      
     </div>
   )
 }

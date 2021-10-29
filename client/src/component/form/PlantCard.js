@@ -5,21 +5,17 @@ import { Link } from 'react-router-dom'
 
 const {Meta} = Card
 
-
-const SpecieCard = ({specie,handleRemove}) => {
-  const {name,vnName,description,slug} = specie
+const PlantCard = ({specie}) => {
+  const {name,vnName,description,slug,type} = specie
   
   return (
     <Card
       cover ={
-        <Link to = {`/details-specie/${slug}`} style ={{display:'flex',justifyContent:'center'}}>
+        <Link to = {type === 'specie' ? `/details-specie/${slug}` :  `/details-${type}/${slug}`} style ={{display:'flex',justifyContent:'center'}}>
           {specie.images && <img src = {Object.values(specie.images).flat().length && Object.values(specie.images).flat()[0].url} alt ='img' style ={{height:'150px',objectFit:'cover'}} className ='m-2'/>}
         </Link>
       }
-      actions ={[
-        <Link to ={`/admin/specie/${slug}`}> <EditOutlined className ='text-warning'/> </Link>,
-        <DeleteOutlined style ={{marginTop:'19px'}} className ='text-danger' onClick ={() => handleRemove(slug)} />
-      ]}
+      
     >
       <div style ={{
         overflow: 'hidden',
@@ -31,15 +27,14 @@ const SpecieCard = ({specie,handleRemove}) => {
         textOverflow: 'ellipsis',
         marginBottom:'8px'
       }}>{name}</div>
-     <div style ={{height:'12vh'}}>
-     <Meta 
-        title = {vnName}
-        description = {`${description && description.substring(0,60)}...`}
-        
-      />
-     </div>
+      <div style ={{height:'12vh'}}>
+        <Meta 
+          title = {vnName}
+          description = {`${description && description.substring(0,60)}...`}
+        />
+      </div>
     </Card>
   )
 }
 
-export default SpecieCard
+export default PlantCard

@@ -50,8 +50,13 @@ const DetailsRoot = ({match}) => {
 
   return (
    <div style={{marginTop: '120px',backgroundImage:`url(${image})`,paddingTop:'1px',paddingBottom:'1px'}}>
-      <div className="main-layout" style = {{width:'75%',margin:'80px auto',backgroundColor:'white',borderRadius:'20px'}}>
+      <div className="main-layout plants__child" style = {{width:'75%',margin:'80px auto',backgroundColor:'white',borderRadius:'20px',background: 'rgba(255, 255, 255, .9)'}}>
       <div id="main-contener" style ={{margin:'20px'}}>
+      <div class="titlepage" style ={{paddingTop:'20px'}}>
+            <div className ='class-tt'>{t('infoDetails')}</div>
+            <hr />
+      
+                  </div>
         <div className="intro-di">
           <div className="intro-details">
             <strong>{type === 'genus' ? t('genus')  : (type === 'familia') ?  t('familia') : t('ordo') } </strong> <br/>

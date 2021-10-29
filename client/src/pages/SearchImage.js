@@ -21,19 +21,12 @@ import { Button, Modal, Card } from "react-bootstrap";
 
 import "../index.css";
 
-import p1 from "../images/p1.jfif";
-import p2 from "../images/p2.jfif";
-import p3 from "../images/p3.jfif";
-import p4 from "../images/p4.jfif";
-import c1 from "../images/cam1.jpg";
-import c2 from "../images/cam2.jfif";
-import c3 from "../images/cam3.jpg";
-import h1 from "../images/h1.jfif";
-import h2 from "../images/h2.jfif";
-import h3 from "../images/h3.jpg";
-import g1 from "../images/g1.jpg";
-import g2 from "../images/g2.jpg";
-import g3 from "../images/g3.jpg";
+import icon_background from '../images/icon_background.png'
+import icon_flower from '../images/icon_flower.png'
+import icon_clove from '../images/icon_clove.png'
+import icon_fruit from '../images/icon_fruit.png'
+import icon_leaf from '../images/icon_leaf.png'
+import icon_seed from '../images/icon_seed.png'
 
 const SearchImage = () => {
   const [slug, setSlug] = useState([]);
@@ -56,8 +49,9 @@ const SearchImage = () => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const [name, setName] = useState("");
+  const tabs = document.querySelectorAll('.operations__tab');
+   const tabsContent = document.querySelectorAll('.operations__content');
+  
 
   const [imageStatus, setImageStatus] = useState("Choose file to upload.");
 
@@ -123,32 +117,188 @@ const SearchImage = () => {
     setShow(false);
   };
   const handleShow = () => {
+    setShow(false)
     handleImageSubmit()
     setShow(true);
   };
 
+  const handleOperationClick = (e) => {
+    const clicked = e.target.closest('.operations__tab');
+    handleClose()
+    setImageURL('')
+    // Guard clause
+    if (!clicked) return;
+    else {
+       // Remove active classes
+       tabs.forEach(t => t.classList.remove('operations__tab--active'));
+       tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+
+       // Activate tab
+       clicked.classList.add('operations__tab--active');
+
+       // Activate content area
+       document
+          .querySelector(`.operations__content--${clicked.dataset.tab}`)
+          .classList.add('operations__content--active');
+    }
+    
+ }  
+
   return (
     <div className="main-layout search-image__hinhnen">
       <div className="container" style={{ marginTop: "150px" }}>
-        <div style={{ height: "100vh" }}>
+        <div className ='wrapper-search__child' style={{ height: "100vh" }}>
           <div className="search-image__header__text-box">
             <h1 className="search-image__heading-primary">
               <span>Tìm bằng hình ảnh</span>
             </h1>
-            <form className="search-image__form search-image__form-search-by-image">
-              <img src={imageURL} style={{ height:'200%' }} />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={fileUpload}
-              />
+            <div class="operations">
+            <div class="operations__tab-container" style ={{marginLeft:'24px'}} onClick = {handleOperationClick}>
+                <button
+                  class="btn operations__tab operations__tab--1 operations__tab--active"
+                  data-tab="1"
+                >
+                  <img style ={{height:'50px',width:'50px'}} src ={icon_background} alt='bg' />
+                </button>
+                <button class="btn operations__tab operations__tab--2" data-tab="2">
+                <img style ={{height:'50px',width:'50px'}} src ={icon_clove} alt='bg' />
+                </button>
+                <button class="btn operations__tab operations__tab--3" data-tab="3">
+                <img style ={{height:'50px',width:'50px'}} src ={icon_flower} alt='bg' />
+                </button>
+                <button class="btn operations__tab operations__tab--4" data-tab="4">
+                <img style ={{height:'50px',width:'50px'}} src ={icon_fruit} alt='bg' />
+                </button>
+                <button class="btn operations__tab operations__tab--5" data-tab="5">
+                <img style ={{height:'50px',width:'50px'}} src ={icon_leaf} alt='bg' />
+                </button>
+                <button class="btn operations__tab operations__tab--6" data-tab="6">
+                <img style ={{height:'50px',width:'50px'}} src ={icon_seed} alt='bg' />
+                </button>
+                
+            </div>
+            <div className="operations__content operations__content--1 operations__content--active">
+              <form className="search-image__form search-image__form-search-by-image">
+                <img src={imageURL} style={{ height:'100%' }} />
+                <input
+                  
+                  type="file"
+                  accept="image/*"
+                  onChange={fileUpload}
+                />
 
-              {imageStatus != null ? <p>{imageStatus}</p> : null}
+                {imageStatus != null ? <p>{imageStatus}</p> : null}
 
-              <button type="button" onClick={handleShow}>
-                Upload
-              </button>
-            </form>
+                <button type="button" onClick={handleShow}>
+                  Upload
+                </button>
+              </form>
+            </div>
+            <div className="operations__content operations__content--1 operations__content--active">
+              <form className="search-image__form search-image__form-search-by-image">
+                <img src={imageURL} style={{ height:'100%' }} />
+                <input
+                  
+                  type="file"
+                  accept="image/*"
+                  onChange={fileUpload}
+                />
+
+                {imageStatus != null ? <p>{imageStatus}</p> : null}
+
+                <button type="button" onClick={handleShow}>
+                  Upload
+                </button>
+              </form>
+            </div>
+            <div className="operations__content operations__content--2">
+              <form className="search-image__form search-image__form-search-by-image">
+                <img src={imageURL} style={{ height:'100%' }} />
+                <input
+                  
+                  type="file"
+                  accept="image/*"
+                  onChange={fileUpload}
+                />
+
+                {imageStatus != null ? <p>{imageStatus}</p> : null}
+
+                <button type="button" onClick={handleShow}>
+                  Upload
+                </button>
+              </form>
+            </div>
+            <div className="operations__content operations__content--3">
+              <form className="search-image__form search-image__form-search-by-image">
+                <img src={imageURL} style={{ height:'100%' }} />
+                <input
+                  
+                  type="file"
+                  accept="image/*"
+                  onChange={fileUpload}
+                />
+
+                {imageStatus != null ? <p>{imageStatus}</p> : null}
+
+                <button type="button" onClick={handleShow}>
+                  Upload
+                </button>
+              </form>
+            </div>
+            <div className="operations__content operations__content--4">
+              <form className="search-image__form search-image__form-search-by-image">
+                <img src={imageURL} style={{ height:'100%' }} />
+                <input
+                  
+                  type="file"
+                  accept="image/*"
+                  onChange={fileUpload}
+                />
+
+                {imageStatus != null ? <p>{imageStatus}</p> : null}
+
+                <button type="button" onClick={handleShow}>
+                  Upload
+                </button>
+              </form>
+            </div>
+            <div className="operations__content operations__content--5">
+              <form className="search-image__form search-image__form-search-by-image">
+                <img src={imageURL} style={{ height:'100%' }} />
+                <input
+                  
+                  type="file"
+                  accept="image/*"
+                  onChange={fileUpload}
+                />
+
+                {imageStatus != null ? <p>{imageStatus}</p> : null}
+
+                <button type="button" onClick={handleShow}>
+                  Upload
+                </button>
+              </form>
+            </div>
+            <div className="operations__content operations__content--6">
+              <form className="search-image__form search-image__form-search-by-image">
+                <img src={imageURL} style={{ height:'100%' }} />
+                <input
+                  
+                  type="file"
+                  accept="image/*"
+                  onChange={fileUpload}
+                />
+
+                {imageStatus != null ? <p>{imageStatus}</p> : null}
+
+                <button type="button" onClick={handleShow}>
+                  Upload
+                </button>
+              </form>
+            </div>
+            
+            
+          </div>
           </div>
         </div>
       </div>
@@ -172,6 +322,7 @@ const SearchImage = () => {
                 style={{ marginBottom: "16px" }}
               />
               <Card.Text>
+                {JSON.stringify(flower)}
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>

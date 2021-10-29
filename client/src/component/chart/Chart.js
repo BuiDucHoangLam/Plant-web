@@ -1,7 +1,7 @@
 import React, {Component, useState} from 'react';
 import {Bar, Line, Pie} from 'react-chartjs-2';
 
-const Chart = ({displayTitle,displayLegend,legendPosition,chartData}) => {
+const Chart = ({type,displayTitle,displayLegend,legendPosition,chartData}) => {
   // constructor(props){
   //   super(props);
   //   this.state = {
@@ -20,8 +20,8 @@ const Chart = ({displayTitle,displayLegend,legendPosition,chartData}) => {
 
 
     return (
-      <div className="chart">
-        <Bar
+       <div className="chart">
+        {type === 'bar' ? <Bar
           data={chartData}
           options={{
             title:{
@@ -35,7 +35,39 @@ const Chart = ({displayTitle,displayLegend,legendPosition,chartData}) => {
             }
           }}
         />
-
+          
+        : type === 'line'
+        ? <Line
+            data={chartData}
+            options={{
+              title:{
+                display:displayTitle,
+                
+                fontSize:25
+              },
+              legend:{
+                display:displayLegend,
+                position:legendPosition
+              }
+            }}
+          />
+        : <Pie
+            data={chartData}
+            options={{
+              title:{
+                display:displayTitle,
+                
+                fontSize:25
+              },
+              legend:{
+                display:displayLegend,
+                position:legendPosition
+              }
+            }}
+          />
+        }
+      </div>
+    )
          
 
         {/* <Line
@@ -66,9 +98,8 @@ const Chart = ({displayTitle,displayLegend,legendPosition,chartData}) => {
               position:this.props.legendPosition
             }
           }}
-        /> */}
-      </div>
-    )
+        />  */}
+    
   
 }
 

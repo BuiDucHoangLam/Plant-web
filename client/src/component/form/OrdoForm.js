@@ -10,7 +10,7 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
   const {t} = useTranslation()
   
   return (
-    <form style ={{background:'none'}} onSubmit={onSubmit}>
+    <form className ="form__mobile" style ={{background:'none'}} onSubmit={onSubmit}>
       <div className="form-group">
         <label>{t('insertName')}</label>
         <input 
@@ -31,7 +31,7 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
       <div className="form-group">
       
           <label>{t('description')}</label>
-          <input 
+          <textarea 
             name='description'
             type='text' 
             className='form-control' 
@@ -46,7 +46,7 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
       <div className="form-group">
       
           <label>{t('distribution')}</label>
-          <input 
+          <textarea 
             name='distribution'
             type='text' 
             className='form-control' 
@@ -60,9 +60,9 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
       </div>
       <div className="form-group">
           <label>{t('useValue')}</label>
-          <input 
+          <textarea 
             name='value'
-            type='text' 
+            type='textarea' 
             className='form-control' 
             value={value} 
             onChange={change}
@@ -77,7 +77,7 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
         
       <div className="form-group">
             <label> </label>
-          <input 
+          <textarea 
               style = {{marginTop:'8px'}}
             name='enDescription'
             type='text' 
@@ -91,7 +91,7 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
       </div>
       <div className="form-group">
             <label> </label>
-          <input 
+          <textarea 
               style = {{marginTop:'8px'}}
             name='enDistribution'
             type='text' 
@@ -105,7 +105,7 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
       </div>
       <div className="form-group">
             <label> </label>
-          <input 
+          <textarea 
               style = {{marginTop:'8px'}}
             name='enValue'
             type='text' 
@@ -121,7 +121,7 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
       </div>
       
     <br/>
-    <button onClick ={onSubmit} type="submit" className="btn btn-raised">
+    <button onClick ={onSubmit} type="submit" className="btn btn-sm btn-block btn-outline-primary">
       {functionality}
     </button>
   </form>

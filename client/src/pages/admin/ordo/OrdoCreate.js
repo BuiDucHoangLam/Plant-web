@@ -9,6 +9,7 @@ import {EditOutlined,DeleteOutlined} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useTranslation } from "react-i18next";
+import '../../../index.css'
 
 const initialValue = {
   name:'',
@@ -92,22 +93,46 @@ const OrdoCreate = () => {
   }
 
   return (
-    <div className="container-fluid" style ={{marginTop:'200px'}}>
-      <div className = "row">
-        <div className ="col-md-2">
-          <Nav />
-        </div>
-        <div className = "col"> 
+    <div className="container-fluid bg-main" style ={{marginTop:'200px'}}>
+      <div className = "row bg-child">
+      <div className ="col-md-1 col__ml--2 l-0">
+            <Nav />
+          </div>
+          <div className ="l-12 nav-admin__child">
+            <ul >
+              <li>
+                <Link to="/admin/dashboard">{t('dashboard')}</Link>
+              </li>
+              
+              <li>
+                <Link to="/admin/ordo">{t('ordo')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/familia">{t('familia')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/genus">{t('genus')}</Link>
+              </li>
+              <li>
+                <Link to="/admin/specie">{t('specie')}</Link>
+              </li>
+            
+            </ul>
+          </div>
+        <div className = "col-md-11"> 
+        <br />
           {loading 
           ? <h3 className='text'>Loading ...</h3> 
           : <h3 style ={{textAlign:'center'}}>{t('createOrdo')}</h3>
           }
-          <ImageUpload 
-            values ={values}
-            setValues ={setValues}
-            name = {t('chooseImageBackground')}
-            setLoading = {setLoading}
-          />
+          <div className ='image-upload__div'>
+            <ImageUpload 
+              values ={values}
+              setValues ={setValues}
+              name = {t('chooseImageBackground')}
+              setLoading = {setLoading}
+            />
+          </div>
           <OrdoForm 
             onSubmit = {handleSubmit}
             values = {values}

@@ -7,7 +7,8 @@ export const getResultRecognize = async (file) => {
   data.append('file',file)
   return await axios({
     method:"post",
-    url:'https://plant-list-project.herokuapp.com/predict',
-    data:data
+    url:'https://plant-list-flask.herokuapp.com/predict',
+    data:data,
+    headers: { "Content-Type": "multipart/form-data" },
   })
 }

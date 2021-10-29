@@ -19,7 +19,7 @@ import SpecieEdit from './pages/admin/specie/SpecieEdit'
 import OrdoEdit from './pages/admin/ordo/OrdoEdit'
 import FamiliaEdit from './pages/admin/familia/FamiliaEdit'
 import GenusEdit from './pages/admin/genus/GenusEdit'
-import Plans from './pages/Plans';
+import Plants from './pages/Plants';
 import DetailsRoot from './pages/DetailsRoot';
 import FileExplorer from './component/tree/FileExplorer'
 import About from './pages/About';
@@ -97,7 +97,7 @@ const App = () => {
           <Route exact path = '/help' component ={Help} />
           <Route path = '/details-specie/:slug' component ={Details} />
           <Route exact path = '/details-:type/:slug' component ={DetailsRoot} />
-          <Route path = '/plant' component ={Plans} />
+          <Route exact path = '/plants' component ={Plants} />
           <Route exact path = '/login' component ={Login} />
           <Route exact path = '/register' component ={Register} />
           <Route exact path = '/register/complete' component ={RegisterComplete} />
@@ -114,7 +114,6 @@ const App = () => {
           <AdminRoute exact path = '/admin/ordo/:slug' component ={OrdoEdit} />
           <AdminRoute exact path = '/admin/familia/:slug' component ={FamiliaEdit} />
           <AdminRoute exact path = '/admin/genus/:slug' component ={GenusEdit} />
-          <AdminRoute exact path = '/admin/plans' component ={Plans} />
 
         </Switch>
       <Footer/>

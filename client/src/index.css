@@ -44,8 +44,8 @@
 
 .dropdown:hover .dropdown-content {
   display: block;
-  margin-top: 5px;
-  margin-left: -15px;
+    top: 80%;
+    left: -60%;
 }
 
 .class-tt {
@@ -59,7 +59,6 @@
   max-width: 100rem;
   margin: 3.5rem auto 0 auto;
 
-  background-color: #fff;
 }
 
 .operations__tab-container {
@@ -68,7 +67,7 @@
 }
 
 .operations__tab {
-  margin-right: 2.5rem;
+  /* margin-right: 2.5rem; */
   transform: translateY(-50%);
 }
 
@@ -97,6 +96,8 @@
 
 .operations__tab--active {
   transform: translateY(-66%);
+  background-color: #77aa5f;
+  border:aqua 3px solid;
 }
 
 .operations__content {
@@ -196,4 +197,101 @@
   color: #3b3b3b;
 
   text-transform: uppercase;
+}
+
+.paginationBtn {
+  margin: 24px auto 40px auto;
+  width: 80%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.paginationBtn a {
+  padding: 10px;
+  margin: 8px;
+  border-radius: 5px;
+  border: 1px solid #76de6d;
+  color: #76de6d;
+  cursor: pointer;
+}
+
+.paginationBtn a:hover {
+  color: white;
+  background-color: #76de6d;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: #76de6d;
+}
+
+.paginationDisabled a {
+  cursor: none;
+  background-color: #3b3b3b;
+  color: white;
+}
+
+.bg-main {
+  margin-top: 120px;
+  background-image: url("./images/image.png");
+  background-size: cover;
+  padding: 1px;
+}
+
+
+.bg-child {
+  width: 80%;
+  margin: 80px auto !important;
+  padding: 50px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .94);
+}
+
+.image-upload__div {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  margin-bottom: -22px;
+}
+
+.col__ml--2 {
+  margin-left: -45px;
+}
+
+.select__parent {
+  padding: 0 30px;
+}
+
+.nav {
+  margin-left: -44px;
+}
+
+.menu-phone {
+  display: none;
+}
+
+.explorer__phone-show {
+  margin:10px 0 40px 100px;
+ 
+}
+
+.show-title__child {
+  display: none;
+}
+
+.plants__child {
+  margin: 48px auto !important;
+    padding: 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    width: 75%;
+}
+
+.change__language {
+  padding: 16px 26px;
+  
+
+
 }

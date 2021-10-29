@@ -12,6 +12,10 @@ export const getSpecies = async () => {
   return await axios.get(`${process.env.REACT_APP_API}/species`)
 }
 
+export const getSearch = async (plant) => {
+  return await axios.post(`${process.env.REACT_APP_API}/plants-search`,plant)
+}
+
 export const getSpecie = async (slug) => {
   return await axios.get(`${process.env.REACT_APP_API}/specie/${slug}`)
 }

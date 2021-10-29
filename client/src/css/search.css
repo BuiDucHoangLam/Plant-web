@@ -409,12 +409,8 @@ ul.dandev_attach_view li input {
   position: relative;
 } */
 .search-image__hinhnen {
-  background-image: linear-gradient(
-      to right bottom,
-      rgba(126, 213, 111, 0.8),
-      rgba(40, 180, 133, 0.8)
-    ),
-    url("https://tse3.mm.bing.net/th?id=OIP.S3Tda372liP-exy5o0l5FQHaEK&pid=Api");
+  background-image: 
+    url("../images/image.png");
   background-size: cover;
 }
 
@@ -422,23 +418,25 @@ ul.dandev_attach_view li input {
   color: #000;
   backface-visibility: hidden;
   margin: 5px 20px 0 20px;
+  padding-top: 10px;
   z-index: 999;
 }
 
 .search-image__header__text-box {
   border-radius: 20px;
   position: absolute;
-  top: 60%;
+  top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   background-color: #fff;
-  width: 80vw;
-  height: 50vh;
+  width: 70vw;
+  height: 80vh;
+
 }
 .search-image__form {
   position: absolute;
-  top: 32%;
+  top: 62%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 60%;

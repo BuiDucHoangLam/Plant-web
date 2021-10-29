@@ -2,6 +2,7 @@ const Ordo = require('../model/ordo')
 const Genus = require('../model/genus')
 const slugify = require('slugify')
 const Specie = require('../model/specie')
+const mongoose = require('mongoose')
 
 exports.list = async (req,res) => {
   const genus = await Genus.find({})
@@ -17,7 +18,10 @@ exports.read = async (req,res) => {
 }
 
 exports.readById = async (req,res) => {
-  const genus = await Genus.findOne({_id:req.params._id})
+  const _id = mongoose.Types.ObjectId(req.params._id)
+  // console.log('idgenus',typeof(_id),_id,typeof(req.params._id),req.params._id);
+
+  const genus = await Genus.findById(_id)
   .exec()
   res.json(genus)
 }

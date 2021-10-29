@@ -6,22 +6,25 @@ import GoogleMap from '../component/form/GoogleMap'
 import {useTranslation} from 'react-i18next'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
+import {PDFDownloadLink,PDFViewer} from '@react-pdf/renderer'
 import image from '../images/image.png'
+import PlantDocument from '../component/pdf/PlantDocument'
 
 import '../css/styleDetail.css'
 import '../css/style.css'
 import '../css/bootstrap.min.css'
 import '../index.css'
 import '../css/carousel.css'
+import '../css/responsive.css'
 
 import plant1 from '../images/plant1.jpg'
 import plant2 from '../images/plant2.jpg'
 import plant3 from '../images/plant3.jpg'
-import icon_background from '../images/icon_background.jpg'
-import icon_flower from '../images/icon_flower.jpg'
+import icon_background from '../images/icon_background.png'
+import icon_flower from '../images/icon_flower.png'
 import icon_clove from '../images/icon_clove.png'
-import icon_fruit from '../images/icon_fruit.jpg'
-import icon_leaf from '../images/icon_leaf.jpg'
+import icon_fruit from '../images/icon_fruit.png'
+import icon_leaf from '../images/icon_leaf.png'
 import icon_seed from '../images/icon_seed.png'
 
 const Details = ({match}) => {
@@ -70,6 +73,18 @@ const Details = ({match}) => {
       getGenusById(specie.genus).then(res => setGenus(res.data))
    }
 
+   const showDownloadLink = (specie) => {
+      return <PDFDownloadLink 
+         document = {
+            <PlantDocument specie = {specie} />
+         }
+         fileName ='plant.pdf'
+         className ='btn btn-sm btn-block btn-outline-primary'
+      >
+          Download PDF
+      </PDFDownloadLink>
+   }
+
   useEffect(() => {
      loadGenus()
   },[specie])
@@ -79,9 +94,15 @@ const Details = ({match}) => {
 
   return (
     <div style={{marginTop: '120px',backgroundImage:`url(${image})`,paddingTop:'1px',paddingBottom:'1px'}}>
-       <div className="main-layout" style = {{width:'75%',margin:'80px auto',backgroundColor:'white',borderRadius:'20px'}}>
+       <div className="main-layout plants__child" style = {{width:'75%',margin:'80px auto',backgroundColor:'white',borderRadius:'20px',background: 'rgba(255, 255, 255, .9)'}}>
       <div id="main-contener" style ={{margin:'20px'}}>
-    
+         <div class="titlepage" style ={{paddingTop:'20px'}}>
+            <div className ='class-tt'>{t('infoDetails')}</div>
+            <div >{showDownloadLink(specie)}</div>
+            {/* style ={{position:'absolute',top:'30%',right:'0'}} */}
+            <hr />
+      
+                  </div>
          <div className="intro-di">
             <div className="intro-details">
                <strong>{t('vnName')}: </strong> <br/>
@@ -97,8 +118,8 @@ const Details = ({match}) => {
                <div> <strong>{t('synonyms')} </strong> <br/>
                <div style={{paddingRight: '1em'}}>{t('have')} {specie.synonyms.length} {t('synonyms')} </div>
                {specie.synonyms.map(s => <div key ={s}>{s}</div>)} </div>}
-           
-
+                  <br />
+               <hr />
                <div class="operations">
                   <div class="operations__tab-container" onClick = {handleOperationClick}>
                      <button
@@ -215,7 +236,7 @@ const Details = ({match}) => {
       </div>
 
 
-  <div className ="nav-bar" style ={{marginTop:'450px',padding:'0 20px'}}>
+  <div className ="nav-bar" style ={{marginTop:'500px',padding:'0 20px'}}>
     <ul className="nav-items">
         
       <li className="nav-li"><a href="#descriptions">{t('description')}</a></li>
@@ -229,7 +250,7 @@ const Details = ({match}) => {
   <div id="descriptions" className="plants">
     <div className="container">
        <div className="row">
-          <div className="col-md-12 ">
+          <div className="col-md-12 l-12">
              <div className="titlepage">
                 <div className ='class-tt'>{t('description')}</div>
                 <hr />
