@@ -120,6 +120,7 @@ const Login = () => {
     setLoading(true)
     console.log(email,password);
     try {
+      
       const result = await auth.signInWithEmailAndPassword(email,password)
       const {user} = result
       const idTokenResult = await user.getIdTokenResult()

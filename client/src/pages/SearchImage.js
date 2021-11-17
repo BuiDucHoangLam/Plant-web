@@ -152,27 +152,27 @@ const SearchImage = () => {
             <h1 className="search-image__heading-primary">
               <span>Tìm bằng hình ảnh</span>
             </h1>
-            <div class="operations">
-            <div class="operations__tab-container" style ={{marginLeft:'24px'}} onClick = {handleOperationClick}>
+            <div className="operations">
+            <div className="operations__tab-container" style ={{marginLeft:'24px'}} onClick = {handleOperationClick}>
                 <button
-                  class="btn operations__tab operations__tab--1 operations__tab--active"
+                  className="btn operations__tab operations__tab--1 operations__tab--active"
                   data-tab="1"
                 >
                   <img style ={{height:'50px',width:'50px'}} src ={icon_background} alt='bg' />
                 </button>
-                <button class="btn operations__tab operations__tab--2" data-tab="2">
+                <button className="btn operations__tab operations__tab--2" data-tab="2">
                 <img style ={{height:'50px',width:'50px'}} src ={icon_clove} alt='bg' />
                 </button>
-                <button class="btn operations__tab operations__tab--3" data-tab="3">
+                <button className="btn operations__tab operations__tab--3" data-tab="3">
                 <img style ={{height:'50px',width:'50px'}} src ={icon_flower} alt='bg' />
                 </button>
-                <button class="btn operations__tab operations__tab--4" data-tab="4">
+                <button className="btn operations__tab operations__tab--4" data-tab="4">
                 <img style ={{height:'50px',width:'50px'}} src ={icon_fruit} alt='bg' />
                 </button>
-                <button class="btn operations__tab operations__tab--5" data-tab="5">
+                <button className="btn operations__tab operations__tab--5" data-tab="5">
                 <img style ={{height:'50px',width:'50px'}} src ={icon_leaf} alt='bg' />
                 </button>
-                <button class="btn operations__tab operations__tab--6" data-tab="6">
+                <button className="btn operations__tab operations__tab--6" data-tab="6">
                 <img style ={{height:'50px',width:'50px'}} src ={icon_seed} alt='bg' />
                 </button>
                 

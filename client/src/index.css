@@ -44,8 +44,8 @@
 
 .dropdown:hover .dropdown-content {
   display: block;
-    top: 80%;
-    left: -60%;
+    top: 180%;
+    left: 0%;
 }
 
 .class-tt {

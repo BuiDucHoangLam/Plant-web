@@ -333,6 +333,8 @@ const Details = ({match}) => {
       <div style ={{padding:'20px'}}>
       {(specie.coordinates && specie.coordinates.length > 0) && <GoogleMap
          coordinates ={specie.coordinates}
+         varClick = {true}
+         
       />}
       </div>
    </div>

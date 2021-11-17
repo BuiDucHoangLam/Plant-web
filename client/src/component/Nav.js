@@ -23,9 +23,7 @@ const Nav = () => {
         <li className="nav-link">
           <Link to="/admin/specie">{t('specie')}</Link>
         </li>
-        <li className="nav-link nav-password__child">
-          <Link to="/admin/password">{t('password')}</Link>
-        </li>
+       
       </ul>
 
     

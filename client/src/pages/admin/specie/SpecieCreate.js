@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState,useCallback} from 'react'
 import Nav from '../../../component/Nav'
 import {createSpecie} from '../../../api/specie'
 import {getGenus,getListGenus} from '../../../api/genus'
@@ -66,8 +66,8 @@ const SpecieCreate = () => {
   const [loading,setLoading] = useState(false)
   const [arrLong,setArrLong] = useState([])
   const [arrLat,setArrLat] = useState([])
-
-
+  const [markers,setMarkers] = useState([])
+  const [selected,setSelected] = useState(null)
   const {user} = useSelector(state => ({...state}))
   const {t} = useTranslation()
   const i = 0
@@ -97,6 +97,12 @@ const SpecieCreate = () => {
       setValues({...values,familiaList:res.data})
     })
   }
+
+  const changeSixty = (num) => {
+    if(num > 60)
+      return num - 60
+    return num
+  }
   
   const handleSubmit = async e => {
     e.preventDefault()
@@ -108,13 +114,13 @@ const SpecieCreate = () => {
     document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
       const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
       if(arr && arr.length > 0) array1.push(arr)
-      const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      const long = Number(arr[0]) + (Number(arr[1])/60) + Number(arr[2])/3600
       if(long) array3.push(long)
     })
     document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
       const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
       if(arr && arr.length > 0) array2.push(arr)
-      const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      const lat = Number(arr[0]) + (Number(arr[1])/60) + Number(arr[2])/3600
       if(lat) array4.push(lat)
     })
     console.log(array3,array4);
@@ -170,6 +176,18 @@ const SpecieCreate = () => {
     console.log(e.target.name,e.target.value);
   }
 
+  const onMapClick = useCallback((e) => {
+    console.log(e);
+    setSelected(null)
+    setMarkers(current => [...current,{
+      lat:e.latLng.lat(),
+      lng:e.latLng.lng(),
+    
+    }])
+   
+    console.log(markers);
+  },[])
+
   const transToArray = a => {
     let kq = []
     let rs = []
@@ -204,9 +222,6 @@ const SpecieCreate = () => {
     setValues({...values,latitude:e.target.value})
   }
 
-  const handleCoordinatesChange = () => {
-    
-  }
 
   const combineArray = (a,b) => {
     let c = []
@@ -218,7 +233,7 @@ const SpecieCreate = () => {
     return c
   }
 
-  const handleSaveCoord = async () => {
+  const handleSaveCoord = useCallback(() => {
     let array1 = []
     let array2  = []
     let array3  = []
@@ -227,24 +242,22 @@ const SpecieCreate = () => {
     document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
       const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
       if(arr && arr.length > 0) array1.push(arr)
-      const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      const long = {lng:Number(arr[0]) + changeSixty(Number(arr[1])/60) + Number(arr[2])/3600}
       if(long) array3.push(long)
     })
     document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
       const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
       if(arr && arr.length > 0) array2.push(arr)
-      const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      const lat = {lat:Number(arr[0]) + changeSixty(Number(arr[1])/60) + Number(arr[2])/3600}
       if(lat) array4.push(lat)
     })
  
-    await setValues({...values,longitudeList:[...array1],
-      latitudeList:array2,
-      coordinates:combineArray(array3,array4)})
-
+    console.log(combineArray(array3,array4));
+    setMarkers(combineArray(array3,array4))
 
     const results = {...values,coordinates:combineArray(array3,array4)}
     console.log(results);
-  }
+  },[])  
 
   const handleAddCoord = () => {
     const html = `<div class="row">
@@ -266,8 +279,8 @@ const SpecieCreate = () => {
     </div>
   </div>  `
   
- 
-    document.getElementById('addCoord').insertAdjacentHTML('beforebegin',html)
+    handleSaveCoord()
+    document.getElementById('add-field').insertAdjacentHTML('beforebegin',html)
 
     
   }
@@ -379,11 +392,17 @@ const SpecieCreate = () => {
           genusOptions = {genusOptions}
           familiaOptions = {familiaOptions}
           handleSynonymsChange = {handleSynonymsChange}
-          handleCoordinatesChange ={handleCoordinatesChange}
+
           handleLatitudeChange = {handleLatitudeChange}
           handleLongitudeChange = {handleLongitudeChange}
           handleAddCoord  ={handleAddCoord}
           index = {i}
+          handleSaveCoord = {handleSaveCoord}
+          coordinates = {values.coordinates}
+          onMapClick = {onMapClick}
+          markers = {markers}
+          selected = {selected}
+          setSelected = {setSelected}
         />
       </div>
     </div>

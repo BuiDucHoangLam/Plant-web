@@ -123,28 +123,10 @@ const SpecieEdit = ({match}) => {
     return c
   }
 
-  const handleSaveCoord = async () => {
-    let array1 = []
-    let array2  = []
-    let array3  = []
-    let array4  = []
-     
-    document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
-      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
-      if(arr && arr.length > 0) array1.push(arr)
-      const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
-      if(long) array3.push(long)
-    })
-    document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
-      const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
-      if(arr && arr.length > 0) array2.push(arr)
-      const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
-      if(lat) array4.push(lat)
-    })
-    console.log(array3,array4);
-    await setValues({...values,longitudeList:[...array1],
-      latitudeList:[...array2],
-      coordinates:combineArray(array3,array4)})
+  const changeSixty = (num) => {
+    if(num > 60)
+      return num - 60
+    return num
   }
   
   const handleSubmit = async e => {
@@ -157,13 +139,13 @@ const SpecieEdit = ({match}) => {
     document.querySelectorAll('input[name="longitudeList"]').forEach(item => {
       const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
       if(arr && arr.length > 0) array1.push(arr)
-      const long = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      const long = Number(arr[0]) + changeSixty(Number(arr[1])/60) + Number(arr[2])/3600
       if(long) array3.push(long)
     })
     document.querySelectorAll('input[name="latitudeList"]').forEach(item => {
       const arr = item.value.trimStart().trimEnd().split(' ').filter(el => el !== '')
       if(arr && arr.length > 0) array2.push(arr)
-      const lat = Number(arr[0]) + Number(arr[1])/60 + Number(arr[2])/3600
+      const lat = Number(arr[0]) + changeSixty(Number(arr[1])/60) + Number(arr[2])/3600
       if(lat) array4.push(lat)
     })
     console.log(array3,array4);

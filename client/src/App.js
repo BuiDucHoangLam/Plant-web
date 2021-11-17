@@ -24,6 +24,8 @@ import DetailsRoot from './pages/DetailsRoot';
 import FileExplorer from './component/tree/FileExplorer'
 import About from './pages/About';
 import SearchImage from './pages/SearchImage';
+import Map from './component/googleMap/Map';
+import PasswordForgot from './auth/PasswordForgot';
 
 import Login from './auth/Login'
 import Register from './auth/Register'
@@ -85,7 +87,7 @@ const App = () => {
     </div>
     }>
       
-      {/* <LoginBar /> */}
+
       <Header/>
       <ToastContainer/>
         <Switch>
@@ -101,6 +103,7 @@ const App = () => {
           <Route exact path = '/login' component ={Login} />
           <Route exact path = '/register' component ={Register} />
           <Route exact path = '/register/complete' component ={RegisterComplete} />
+          <Route exact path = '/map' component ={Map} />
           
           <Route exact path = '/tree' component ={FileExplorer} />
         
@@ -114,6 +117,8 @@ const App = () => {
           <AdminRoute exact path = '/admin/ordo/:slug' component ={OrdoEdit} />
           <AdminRoute exact path = '/admin/familia/:slug' component ={FamiliaEdit} />
           <AdminRoute exact path = '/admin/genus/:slug' component ={GenusEdit} />
+          <Route exact path = '/forgot/password' component ={PasswordForgot} />
+          
 
         </Switch>
       <Footer/>

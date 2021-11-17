@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { createSpecie } from '../../api/specie'
 import { useTranslation } from "react-i18next";
+import GoogleMap from './GoogleMap';
+import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons'
 
 const SpecieCreateForm = ({handleChange,handleSubmit,values,
   handleFamiliaChange,showGenus,genusOptions,handleOrdoChange,
   familiaOptions,showFamilia,handleSynonymsChange,
-  handleAddCoord }) => {
+  handleAddCoord,handleSaveCoord,onMapClick,markers,selected,setSelected }) => {
   const {t} = useTranslation()
+  const [map,setMap] = useState(false)
 
   const {
     name,
@@ -22,10 +25,15 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
     value,
     distribution,
     source,
+    coordinates
     } = values
 
-  
-
+  const handleToggle = () => {
+    handleSaveCoord()
+    if(map) setMap(false)
+    else setMap(true)
+    
+  }
   return (
     <form className ="form__mobile" onSubmit = {handleSubmit} style ={{background:'none'}}>
       <div className="form-group">
@@ -127,10 +135,23 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
                 />  
               </div>
             </div>
-          <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div>
+          <div id ='add-field' style ={{display:'flex',justifyContent:'space-between'}}>
+            <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div>
+            {/* <div className="btn btn-outline-info" id ='addCoord' onClick ={handleToggle} >{map ? <ArrowUpOutlined/> : <ArrowDownOutlined/> }</div> */}
+          </div>
         </div> 
 
       </div>
+
+      {/* {map && <GoogleMap 
+        coordinates = {coordinates}
+        varClick = {true}
+        onMapClick = {onMapClick}
+        markers = {markers}
+        selected = {selected}
+        setSelected = {setSelected}
+      />} */}
+
 
       <div className="row">
         <div className="col-md-6">
