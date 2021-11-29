@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react'
 import Nav from '../../../component/Nav'
 import OrdoForm from '../../../component/form/OrdoForm'
 import {createFamilia,getFamilia,getListFamilia,deleteFamilia,getFamiliaListGenus} from '../../../api/familia'
+import { singleFileRemove } from '../../../api/image'
 import LocalSearch from '../../../component/form/LocalSearch'
 import { getListOrdo } from '../../../api/ordo'
 import { toast } from 'react-toastify'
@@ -9,7 +10,7 @@ import {EditOutlined,DeleteOutlined} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getGenus } from '../../../api/genus'
-import ImageUpload from '../../../component/form/ImageUpload'
+import ImageUploadLocal from '../../../component/form/ImageUploadLocal'
 import { useTranslation } from "react-i18next";
 import '../../../index.css'
 
@@ -55,14 +56,26 @@ const FamiliaCreate = () => {
     loadOrdos()
   },[])
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+    );
+    setValues(initialState)
+  };
+
   const handleRemove = async (slug) => {
     if(window.confirm(`${t('reallyDeleteFamilia')} ${slug}?`)) {
       
       getFamilia(slug).then(res => getFamiliaListGenus(res.data._id).then(rs => {
         if(rs.data && rs.data.length > 0) {
-          toast.error(`${t('failDeleteFamilia')} '${rs.data.length}'`)
+          toast.error(`${t('failDeleteFamilia')} ${t('because')} ${rs.data.length} ${t('genus')} ${t('children')}`)
           
         } else {
+          getFamilia(slug).then(res => {
+            if(res.data.images.length > 0) {
+              res.data.images.map(item => singleFileRemove(item.fileName))
+            }  
+          })
           deleteFamilia(user.token,slug).then(res => {
             setLoading(true)
             console.log(res);
@@ -86,6 +99,8 @@ const FamiliaCreate = () => {
       setLoading(false)
       loadFamilias()
       toast.success(`Thêm họ ${values.name} thành công!`)
+      handleReset()
+      window.location.reload()
     }).catch(err => {
       console.log(err);
       toast.error(`Không thể thêm họ ${values.name}!`)
@@ -153,7 +168,7 @@ const FamiliaCreate = () => {
             </select>
           </div>
           <div className ='image-upload__div'>
-            <ImageUpload
+            <ImageUploadLocal
               values ={values}
               setValues= {setValues}
               setLoading = {setLoading}

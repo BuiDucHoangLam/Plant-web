@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {getOrdo,updateOrdo} from '../../../api/ordo'
 import { useSelector } from 'react-redux';
-import ImageUpload from '../../../component/form/ImageUpload'
+import ImageUploadLocal from '../../../component/form/ImageUploadLocal'
 import OrdoForm from '../../../component/form/OrdoForm';
 import { toast } from 'react-toastify';
 import Nav from '../../../component/Nav';
@@ -40,9 +40,17 @@ const OrdoEdit = ({history,match}) => {
     })
   }
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+    );
+    setValues(initialValue)
+  };
+
   const handleSubmit = e => {
     e.preventDefault()
     updateOrdo(user.token,slug,values).then(res => {
+      handleReset()
       console.log(res.data);
       toast.success(`Cập nhật thành công bộ với tên mới: ${values.name}`)
       setTimeout(() => history.push('/admin/ordo'),2000)
@@ -92,7 +100,7 @@ const OrdoEdit = ({history,match}) => {
           : <h3 style ={{textAlign:'center'}}>Sửa bộ</h3>
           }
           <div className ='image-upload__div'>
-            <ImageUpload
+            <ImageUploadLocal
               values ={values}
               setLoading = {setLoading}
               setValues = {setValues}

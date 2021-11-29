@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Nav from '../../component/Nav'
-import { getSpecies,removeSpecie } from '../../api/specie'
+import { getSpecies,removeSpecie,getSpecie } from '../../api/specie'
+import {singleFileRemove} from '../../api/image'
 import SpecieCard from '../../component/form/SpecieCard'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
@@ -24,7 +25,7 @@ const Dashboard = () => {
 
   const loadSpeciesList = () => {
     getSpecies().then(res => {
-      console.log(res.data);
+     
       setSpecies(res.data)
     })
   }
@@ -35,10 +36,30 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadSpeciesList()
-  },[])
+  },[species])
 
   const handleRemove = (slug) => {
     if(window.confirm(`${t('reallyDeleteSpecie')} ${slug}?`)){
+      getSpecie(slug).then(res => {
+        if(res.data.images.imagesBackground.length > 0) {
+          res.data.images.imagesBackground.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesClove.length > 0) {
+          res.data.images.imagesClove.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesFlower.length > 0) {
+          res.data.images.imagesFlower.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesFruit.length > 0) {
+          res.data.images.imagesFruit.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesLeave.length > 0) {
+          res.data.images.imagesLeave.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesSeed.length > 0) {
+          res.data.images.imagesSeed.map(item => singleFileRemove(item.fileName))
+        } 
+      })
       removeSpecie(user.token,slug).then(res => {
         console.log(res.data);
         loadSpeciesList()

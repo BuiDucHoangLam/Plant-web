@@ -2,8 +2,11 @@ import React,{useEffect, useState} from 'react'
 import Nav from '../../../component/Nav'
 import OrdoForm from '../../../component/form/OrdoForm'
 import {createOrdo,getListOrdo,getOrdo,deleteOrdo,getOrdoListFamilia} from '../../../api/ordo'
+import { singleFileRemove } from '../../../api/image'
 import LocalSearch from '../../../component/form/LocalSearch'
-import ImageUpload from '../../../component/form/ImageUpload'
+// import ImageUpload from '../../../component/form/ImageUpload'
+import ImageUploadLocal from '../../../component/form/ImageUploadLocal'
+import { getMultipleFiles } from '../../../api/image'
 import { toast } from 'react-toastify'
 import {EditOutlined,DeleteOutlined} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
@@ -22,6 +25,12 @@ const initialValue = {
   enValue:'',
 }
 
+function refreshState() {
+  return new Promise(resolve => {
+    setTimeout(resolve, 1000);
+  });
+}
+
 const OrdoCreate = () => {
   const [values,setValues] = useState(initialValue)
   const [loading,setLoading] = useState('')
@@ -34,12 +43,20 @@ const OrdoCreate = () => {
 
   const {user} = useSelector(state => ({...state}))
 
+  const handleReset = () => {
+   
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+    );
+    setValues({...initialValue})
+  };
 
   const loadOrdos = () => {
     getListOrdo().then(res => setOrdos([...res.data.map(item => ({...item,type:'ordo'}))]))
   }
 
   useEffect(() => {
+    
     loadOrdos()
     
   },[ordos])
@@ -50,10 +67,15 @@ const OrdoCreate = () => {
         console.log('data',rs.data.length,'type',typeof(rs.data));
         if(rs.data && rs.data.length > 0) {
         
-          toast.error(`${t('failDeleteOrdo')} ${rs.data.length}`)
+          toast.error(`${t('failDeleteOrdo')} ${t('because')} ${rs.data.length} ${t('familia')} ${t('children')} `)
         
         } else{
             setLoading(true)
+            getOrdo(slug).then(res => {
+              if(res.data.images.length > 0) {
+                res.data.images.map(item => singleFileRemove(item.fileName))
+              }  
+            })
             deleteOrdo(user.token,slug).then(res => {
             console.log(res);
             setLoading(false)
@@ -73,10 +95,11 @@ const OrdoCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     createOrdo(user.token,values).then(res => {
+      loadOrdos()
       console.log(res);
       setLoading(false)
-      loadOrdos()
       toast.success(`Thêm bộ ${values.name} thành công!`)
+      window.location.reload()
     }).catch(err => {
       console.log(err);
       toast.error(`Không thể thêm bộ ${values.name}!`)
@@ -85,6 +108,16 @@ const OrdoCreate = () => {
 
   const searched = keyword => ordos => {
     return ordos.name.toLowerCase().includes(keyword)
+  }
+
+  const getMultipleFilesList = async () => {
+    try {
+        const fileslist = await getMultipleFiles();
+        setValues({...values,img:fileslist})
+        console.log(fileslist);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handleChange = e => {
@@ -126,14 +159,23 @@ const OrdoCreate = () => {
           : <h3 style ={{textAlign:'center'}}>{t('createOrdo')}</h3>
           }
           <div className ='image-upload__div'>
-            <ImageUpload 
+            {/* <ImageUpload 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageBackground')}
               setLoading = {setLoading}
+            /> */}
+            <ImageUploadLocal 
+              values ={values}
+              setValues ={setValues}
+              name = {t('chooseImageBackground')}
+              setLoading = {setLoading}
+
             />
           </div>
+            
           <OrdoForm 
+            
             onSubmit = {handleSubmit}
             values = {values}
             change = {handleChange}

@@ -4,9 +4,10 @@ import {createSpecie,getSpecie,editSpecie} from '../../../api/specie'
 import {getGenus,getListGenus} from '../../../api/genus'
 import {getOrdoListFamilia,getListOrdo} from '../../../api/ordo'
 import {getFamiliaListGenus, getListFamilia} from '../../../api/familia'
-import FileUpload from '../../../component/form/FileUpload'
+import FileUploadLocal from '../../../component/form/FileUploadLocal'
 import {LoadingOutlined} from '@ant-design/icons'
 import { useTranslation } from "react-i18next";
+import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import '../../../index.css'
 import '../../../css/responsive.css'
@@ -60,6 +61,7 @@ const SpecieEdit = ({match}) => {
   const [showGenus,setShowGenus] = useState(false)
   const [showFamilia,setShowFamilia] = useState(false)
   const [loading,setLoading] = useState(false)
+  const history = useHistory()
 
   const {slug} = match.params
   console.log(slug);
@@ -158,7 +160,7 @@ const SpecieEdit = ({match}) => {
     editSpecie(user.token,slug,results).then(res => {
       console.log(res.data);
       window.alert('Thành công!')
-      window.location.reload()
+      history.push('/admin/dashboard')
     }).catch(err => {
       console.log(err);
       // if(err.response.status === 400) toast.error(err.response.data)
@@ -312,7 +314,7 @@ const SpecieEdit = ({match}) => {
        
         <div className="row" style ={{textAlign:'center'}}>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageBackground')}
@@ -321,7 +323,7 @@ const SpecieEdit = ({match}) => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageFlower')}
@@ -330,7 +332,7 @@ const SpecieEdit = ({match}) => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageLeave')}
@@ -340,7 +342,7 @@ const SpecieEdit = ({match}) => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageFruit')}
@@ -350,7 +352,7 @@ const SpecieEdit = ({match}) => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageSeed')}
@@ -360,7 +362,7 @@ const SpecieEdit = ({match}) => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageClove')}

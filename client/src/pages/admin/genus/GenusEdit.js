@@ -6,7 +6,7 @@ import { getGenus,updateGenus } from '../../../api/genus'
 import { getOrdo,getListOrdo,getOrdoListFamilia } from '../../../api/ordo'
 import { getFamilia,getListFamilia } from '../../../api/familia'
 import { toast } from 'react-toastify'
-import ImageUpload from '../../../component/form/ImageUpload'
+import ImageUploadLocal from '../../../component/form/ImageUploadLocal'
 import { useTranslation } from "react-i18next";
 import { Link } from 'react-router-dom'
 import '../../../index.css'
@@ -66,9 +66,17 @@ const GenusEdit = ({history,match}) => {
 
   },[values.ordo])
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+    );
+    setValues(initialState)
+  };
+
   const handleSubmit = e => {
     e.preventDefault()
     updateGenus(user.token,slug,values).then(res => {
+      handleReset()
       console.log(res.data);
       toast.success(`Cập nhật thành công!`)
       setTimeout(() => history.push('/admin/genus'),2000)
@@ -159,7 +167,7 @@ const GenusEdit = ({history,match}) => {
             </select>
           </div>
           <div className ='image-upload__div'>
-            <ImageUpload
+            <ImageUploadLocal
               values ={values}
               setValues= {setValues}
               setLoading = {setLoading}

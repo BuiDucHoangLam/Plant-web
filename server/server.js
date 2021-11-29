@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const {readdirSync} = require('fs')
+const path = require('path')
 require('dotenv').config()
 
 const app = express()
@@ -17,6 +18,7 @@ mongoose.connect(process.env.DATABASE,{
 
 app.use(bodyParser.json({limit: '50mb', extended: true}))
 app.use(cors())
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 readdirSync('./route')
 .map(r=> 

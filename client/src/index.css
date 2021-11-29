@@ -44,9 +44,16 @@
 
 .dropdown:hover .dropdown-content {
   display: block;
+    top: 85%;
+    left: 0%;
+}
+
+.dropdown:hover .dropdown-content__search {
+  display: block;
     top: 180%;
     left: 0%;
 }
+
 
 .class-tt {
   font-weight: 500;

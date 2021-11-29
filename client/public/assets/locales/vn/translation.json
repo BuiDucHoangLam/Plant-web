@@ -115,6 +115,7 @@
   "longitude":"Kinh độ",
   "latitude":"Vĩ độ",
   "infoDetails":"Thông tin chi tiết",
-  "statisticsOfPlants":"Thống kê số lượng"
-
+  "statisticsOfPlants":"Thống kê số lượng",
+  "because":"bởi nó chứa",
+  "children":"con"
 }

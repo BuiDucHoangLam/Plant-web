@@ -17,9 +17,6 @@ import '../index.css'
 import '../css/carousel.css'
 import '../css/responsive.css'
 
-import plant1 from '../images/plant1.jpg'
-import plant2 from '../images/plant2.jpg'
-import plant3 from '../images/plant3.jpg'
 import icon_background from '../images/icon_background.png'
 import icon_flower from '../images/icon_flower.png'
 import icon_clove from '../images/icon_clove.png'
@@ -153,7 +150,7 @@ const Details = ({match}) => {
                      infiniteLoop
                      className ='into-images'
                   >
-                     {specie.images['imagesBackground'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     {specie.images['imagesBackground'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={`${process.env.REACT_APP_LOCAL}${i.url}`} key = {i.public_id}/>)}
                      
                   </Carousel>
                   </div>
@@ -167,7 +164,7 @@ const Details = ({match}) => {
                      infiniteLoop
                      className ='into-images'
                   >
-                     {specie.images['imagesClove'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     {specie.images['imagesClove'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={`${process.env.REACT_APP_LOCAL}${i.url}`} key = {i.public_id}/>)}
                      
                   </Carousel>
                   </div>
@@ -181,7 +178,7 @@ const Details = ({match}) => {
                      infiniteLoop
                      className ='into-images'
                   >
-                     {specie.images['imagesFlower'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     {specie.images['imagesFlower'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={`${process.env.REACT_APP_LOCAL}${i.url}`} key = {i.public_id}/>)}
                      
                   </Carousel>
                   </div>
@@ -195,7 +192,7 @@ const Details = ({match}) => {
                      infiniteLoop
                      className ='into-images'
                   >
-                     {specie.images['imagesFruit'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     {specie.images['imagesFruit'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={`${process.env.REACT_APP_LOCAL}${i.url}`} key = {i.public_id}/>)}
                      
                   </Carousel>
                   </div>
@@ -209,7 +206,7 @@ const Details = ({match}) => {
                      infiniteLoop
                      className ='into-images'
                   >
-                     {specie.images['imagesLeave'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     {specie.images['imagesLeave'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={`${process.env.REACT_APP_LOCAL}${i.url}`} key = {i.public_id}/>)}
                      
                   </Carousel>
                   </div>
@@ -223,7 +220,7 @@ const Details = ({match}) => {
                      infiniteLoop
                      className ='into-images'
                   >
-                     {specie.images['imagesSeed'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={i.url} key = {i.public_id}/>)}
+                     {specie.images['imagesSeed'].map(i => <img style={{width: '1000px',height: '350px'}} alt ={i.public_id} src ={`${process.env.REACT_APP_LOCAL}${i.url}`} key = {i.public_id}/>)}
                      
                   </Carousel>
                   </div>

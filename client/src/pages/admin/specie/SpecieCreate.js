@@ -4,7 +4,7 @@ import {createSpecie} from '../../../api/specie'
 import {getGenus,getListGenus} from '../../../api/genus'
 import {getOrdoListFamilia,getListOrdo} from '../../../api/ordo'
 import {getFamiliaListGenus, getListFamilia} from '../../../api/familia'
-import FileUpload from '../../../component/form/FileUpload'
+import FileUploadLocal from '../../../component/form/FileUploadLocal'
 import {LoadingOutlined} from '@ant-design/icons'
 import { useTranslation } from "react-i18next";
 import { Link } from 'react-router-dom'
@@ -321,7 +321,7 @@ const SpecieCreate = () => {
         <div className="row"  style ={{textAlign:'center'}}>
           <div className="col-md-4 l-6">
             
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageBackground')}
@@ -330,7 +330,7 @@ const SpecieCreate = () => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageFlower')}
@@ -339,7 +339,7 @@ const SpecieCreate = () => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageLeave')}
@@ -349,7 +349,7 @@ const SpecieCreate = () => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageFruit')}
@@ -359,7 +359,7 @@ const SpecieCreate = () => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageSeed')}
@@ -369,7 +369,7 @@ const SpecieCreate = () => {
             />
           </div>
           <div className="col-md-4 l-6">
-            <FileUpload 
+            <FileUploadLocal 
               values ={values}
               setValues ={setValues}
               name = {t('chooseImageClove')}

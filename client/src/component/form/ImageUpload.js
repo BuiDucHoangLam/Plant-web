@@ -1,6 +1,6 @@
 import React from 'react'
 import Resizer from 'react-image-file-resizer'
-import {uploadImageCloudinary,removeImageCloudinary} from '../../api/cloudinary'
+import {removeImageCloudinary} from '../../api/cloudinary'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { Avatar,Badge } from 'antd'
@@ -24,7 +24,7 @@ const ImageUpload = ({values,  setValues,  setLoading, name}) => {
           100,
           0,
           (uri) => {
-            // console.log(uri);
+            console.log(uri);
             axios.post(`${process.env.REACT_APP_API}/upload-image`,
             {image:uri},
             {

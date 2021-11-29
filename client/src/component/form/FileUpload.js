@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Resizer from 'react-image-file-resizer'
-import {uploadImageCloudinary,removeImageCloudinary} from '../../api/cloudinary'
+import {removeImageCloudinary} from '../../api/cloudinary'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { Avatar,Badge } from 'antd'
@@ -8,13 +8,11 @@ import { Avatar,Badge } from 'antd'
 const FileUpload = ({values,  setValues,  setLoading, name,children}) => {
 
   const {user} = useSelector(state => ({...state}))
-    // console.log('value',children,'type',typeof(children));
   const fileUploadAndResize = (e) => {
     console.log(e.target.files);
     // resize
     const files = e.target.files
     const allUploadedFiles = values.images[children]
-    // const allUploadedFiles = values.images[children]
     console.log(allUploadedFiles);
     if(files) {
       for(let i = 0;i < files.length;i++){
@@ -26,7 +24,7 @@ const FileUpload = ({values,  setValues,  setLoading, name,children}) => {
           100,
           0,
           (uri) => {
-            // console.log(uri);
+    
             axios.post(`${process.env.REACT_APP_API}/upload-image`,
             {image:uri},
             {

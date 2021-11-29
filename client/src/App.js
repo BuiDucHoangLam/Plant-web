@@ -1,8 +1,5 @@
 import React,{lazy,Suspense, useEffect} from 'react'
 import {Switch,Route} from 'react-router-dom'
-import { useTranslation, initReactI18next } from "react-i18next";
-import i18next from 'i18next';
-import cookies from 'js-cookie'
 
 import Footer from './component/Footer'
 import Home from './pages/Home'
@@ -26,6 +23,7 @@ import About from './pages/About';
 import SearchImage from './pages/SearchImage';
 import Map from './component/googleMap/Map';
 import PasswordForgot from './auth/PasswordForgot';
+import OrdoHome from './pages/ordo/OrdoHome'
 
 import Login from './auth/Login'
 import Register from './auth/Register'
@@ -43,9 +41,6 @@ import './css/style.css'
 
 const Header =lazy(() => import ('./component/Header'))
 const Details =lazy(() => import ('./pages/Details'))
-const LoginBar = lazy(() => import('./component/LoginBar'))
-
-
 
 const App = () => {
   const dispatch = useDispatch()
@@ -110,6 +105,7 @@ const App = () => {
 
           <AdminRoute exact path = '/admin/dashboard' component ={Dashboard} />
           <AdminRoute exact path = '/admin/ordo' component ={OrdoCreate} />
+          <AdminRoute exact path = '/admin/ordo-home' component ={OrdoHome} />
           <AdminRoute exact path = '/admin/familia' component ={FamiliaCreate} />
           <AdminRoute exact path = '/admin/genus' component ={GenusCreate} />
           <AdminRoute exact path = '/admin/specie' component ={SpecieCreate} />

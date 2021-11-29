@@ -28,6 +28,7 @@ const ordoSchema = mongoose.Schema({
   images: {
     type:Array,
   },
+  
   distribution:{
     type:String,
     maxLength:2000,

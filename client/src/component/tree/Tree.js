@@ -5,11 +5,9 @@ import { getListFamilia,createFamilia,deleteFamilia } from '../../api/familia';
 import { getListOrdo,createOrdo,deleteOrdo } from '../../api/ordo';
 import { getListGenus,createGenus,deleteGenus } from '../../api/genus';
 import { getSpecies,createSpecie,removeSpecie } from '../../api/specie';
-import { DeleteOutlined,EditOutlined,FileAddOutlined,FolderAddOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import TreeNode from './TreeNode';
-import { withTranslation } from 'react-i18next';
 import '../../index.css'
 import '../../css/responsive.css'
 
@@ -61,63 +59,63 @@ class Tree extends Component {
   };
 
   handleRemoveOrdo = async (slug) => {
-    if(window.confirm(`haha ${slug}?`)) {
+    if(window.confirm(`Delete ordo ${slug}?`)) {
       this.setState({loading:true})
       deleteOrdo(this.props.user.token,slug).then(res => {
         console.log(res);
         this.setState({loading:false})
         this.renderData()
-        toast.info(`haha '${res.data.name}'`)
+        toast.info(`Success '${res.data.name}'`)
         
       }).catch(err => {
         console.log('Delete ordo',err);
-        toast.error(`haha '${err}'`)
+        toast.error(`Failed '${err}'`)
       })
     }
   }
 
   handleRemoveFamilia = async (slug) => {
-    if(window.confirm(`haha ${slug}?`)) {
+    if(window.confirm(`Delete familia ${slug}?`)) {
       this.setState({loading:true})
       deleteFamilia(this.props.user.token,slug).then(res => {
         console.log(res);
         this.setState({loading:false})
         this.renderData()
-        toast.info(`haha '${res.data.name}'`)
+        toast.info(`Success '${res.data.name}'`)
         
       }).catch(err => {
         console.log('Delete ordo',err);
-        toast.error(`haha '${err}'`)
+        toast.error(`Failed '${err}'`)
       })
     }
   }
 
   handleRemoveSpecie = (slug) => {
-    if(window.confirm(`haha ${slug}?`)){
+    if(window.confirm(`Delete specie ${slug}?`)){
       removeSpecie(this.props.user.token,slug).then(res => {
         console.log(res.data);
         this.renderData()
         
-        toast.info(`haha ${res.data.name}`)
+        toast.info(`Success ${res.data.name}`)
       }).catch(err => {
-        console.log('xóa loài',err);
+        console.log('Delete specie',err);
         toast.error(`${'failDeleteSpecie'}`)
       })
     }
   }
 
   handleRemoveGenus = async (slug) => {
-    if(window.confirm(`haha ${slug}?`)) {
+    if(window.confirm(`Delete genus ${slug}?`)) {
       this.setState({loading:true})
       deleteGenus(this.props.user.token,slug).then(res => {
         console.log(res);
         this.renderData()
         this.setState({loading:false})
-        toast.info(`haha '${res.data.name}'`)
+        toast.info(`Success '${res.data.name}'`)
        
       }).catch(err => {
         console.log('Delete genus',err);
-        toast.error(`haha '${err}'`)
+        toast.error(`Failed '${err}'`)
       })
     }
   }
@@ -125,7 +123,6 @@ class Tree extends Component {
   handleAdd = (node) => {
     const divBar = document.querySelector(`.div-${node.style}-${node.name}`)
     const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
-    const addBar = document.querySelector(`.btn-${node.style}-${node.name}`)
     console.log('input',inputBar.value);
     if(divBar.style.display === 'none') {
       divBar.style.display = 'flex'
@@ -189,7 +186,7 @@ class Tree extends Component {
 
                   let rsArray = []
                   let arr = []
-                  const {results,obj} = this.state
+                  const {results} = this.state
                   results.map(item => {
                     if(item.style === 'specie'){
                       item.path = `/root/${item.ordo?._id}/${item.familia?._id}/${item.genus?._id}/${item?._id}`
@@ -215,6 +212,7 @@ class Tree extends Component {
                       item.loop = item.path.split('/')
                       rsArray.push(item)
                     }
+                    return rsArray
                   })
 
                   // rsArray = results
@@ -232,7 +230,7 @@ class Tree extends Component {
                   }]
 
                   ordoList.map(ordo => {
-                    root[0].children.push(ordo.path)
+                    return root[0].children.push(ordo.path)
                   })  
 
                   ordoList.map(ordo => {
@@ -392,4 +390,4 @@ Tree.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-export default  connect(mapStateToProps,null)(Tree)
+export default connect(mapStateToProps,null)(Tree)

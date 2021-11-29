@@ -1,6 +1,5 @@
 import React from 'react'
 import {Card} from 'antd'
-import {EditOutlined,DeleteOutlined} from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
 const {Meta} = Card
@@ -12,7 +11,7 @@ const PlantCard = ({specie}) => {
     <Card
       cover ={
         <Link to = {type === 'specie' ? `/details-specie/${slug}` :  `/details-${type}/${slug}`} style ={{display:'flex',justifyContent:'center'}}>
-          {specie.images && <img src = {Object.values(specie.images).flat().length && Object.values(specie.images).flat()[0].url} alt ='img' style ={{height:'150px',objectFit:'cover'}} className ='m-2'/>}
+          {specie.images && <img src = {Object.values(specie.images).flat().length && `${process.env.REACT_APP_LOCAL}${Object.values(specie.images).flat()[0].url}`} alt ='img' style ={{height:'150px',objectFit:'cover'}} className ='m-2'/>}
         </Link>
       }
       

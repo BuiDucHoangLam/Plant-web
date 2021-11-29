@@ -3,13 +3,14 @@ import Nav from '../../../component/Nav'
 import OrdoForm from '../../../component/form/OrdoForm'
 import {getFamilia,getListFamilia} from '../../../api/familia'
 import {getListGenus,getGenus,deleteGenus, createGenus,getGenusListSpecies} from '../../../api/genus'
+import { singleFileRemove } from '../../../api/image'
 import LocalSearch from '../../../component/form/LocalSearch'
 import { getListOrdo,getOrdo,getOrdoListFamilia } from '../../../api/ordo'
 import { toast } from 'react-toastify'
 import {EditOutlined,DeleteOutlined} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import ImageUpload from '../../../component/form/ImageUpload'
+import ImageUploadLocal from '../../../component/form/ImageUploadLocal'
 import { useTranslation } from "react-i18next";
 import '../../../index.css'
 
@@ -57,16 +58,28 @@ const GenusCreate = () => {
     loadGenusList()
   },[])
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+    );
+    setValues(initialState)
+  };
+
   const handleRemove = async (slug) => {
     if(window.confirm(`${t('reallyDeleteGenus')} ${slug}?`)) {
      
       getGenus(slug).then(res => getGenusListSpecies(res.data._id).then(rs => {
         console.log(rs.data);
         if(rs.data && rs.data.length > 0) {
-          toast.error(`${t('failDeleteGenus')} '${rs.length}'`)
+          toast.error(`${t('failDeleteGenus')} ${t('because')} ${rs.data.length} ${t('specie')} ${t('children')}`)
           
         } else {
           setLoading(true)
+          getGenus(slug).then(res => {
+            if(res.data.images.length > 0) {
+              res.data.images.map(item => singleFileRemove(item.fileName))
+            }  
+          })
           deleteGenus(user.token,slug).then(res => {
             console.log(res);
             setLoading(false)
@@ -89,6 +102,8 @@ const GenusCreate = () => {
       setLoading(false)
       loadGenusList()
       toast.success(`Thêm chi ${values.name} thành công!`)
+      handleReset()
+      window.location.reload()
     }).catch(err => {
       console.log(err);
       // toast.error(`Không thể thêm chi ${values.name}!`)
@@ -193,7 +208,7 @@ const GenusCreate = () => {
             disabled
           /> */}
           <div className ='image-upload__div'>
-            <ImageUpload
+            <ImageUploadLocal
               values ={values}
               setValues= {setValues}
               setLoading = {setLoading}

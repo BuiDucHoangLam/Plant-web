@@ -31,6 +31,7 @@ const Home = () => {
            showArrows={true}
            autoPlay
            infiniteLoop
+           showThumbs={false}
            id="main_slider" className="carousel slide" data-ride="carousel"
          >
                <div className="carousel-item active">
@@ -92,7 +93,7 @@ const Home = () => {
                         </div>
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 l-12">
                            <div className="img-box">
-                              <figure className="circleexam"><img src={image5} alt="img"/></figure>
+                              <figure className="circleexam"><img src={Bidens_flwr} alt="img"/></figure>
                            </div>
                         </div>
                      </div>
@@ -108,13 +109,16 @@ const Home = () => {
     
       
       <div className="container-fluid margin-r-l">
-          { (species && species.length >= 4) && <div className="row">
+          { (species && species.length >= 4 && Object.values(species[0].images).flat()[0].url 
+          && Object.values(species[1].images).flat()[0].url
+          && Object.values(species[2].images).flat()[0].url
+          && Object.values(species[3].images).flat()[0].url) && <div className="row">
             
             <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 thumb l-6">
                <div className="Gallery-box Gallery_g">
                   <figure>
-                     
-                     <img src={Object.values(species[0].images).flat()[0].url} className="zoom img-fluid "  alt="" />
+                  `
+                     <img src={`${process.env.REACT_APP_LOCAL}${Object.values(species[0].images).flat()[0].url}`} className="zoom img-fluid "  alt="" />
                      
                      <span className="hoverle">
                      <a href={`/details-specie/${species[0].slug}`} >
@@ -128,7 +132,7 @@ const Home = () => {
                <div className="Gallery-box Gallery_g">
                   <figure>
                      
-                     <img src={Object.values(species[1].images).flat()[0].url} className="zoom img-fluid "  alt="" />
+                     <img src={`${process.env.REACT_APP_LOCAL}${Object.values(species[1].images).flat()[0].url}`} className="zoom img-fluid "  alt="" />
                      
                      <span className="hoverle">
                      <a href={`/details-specie/${species[1].slug}`} >
@@ -142,7 +146,7 @@ const Home = () => {
                <div className="Gallery-box Gallery_g">
                   <figure>
                      
-                     <img src={Object.values(species[2].images).flat()[0].url} className="zoom img-fluid "  alt="" />
+                     <img src={`${process.env.REACT_APP_LOCAL}${Object.values(species[2].images).flat()[0].url}`} className="zoom img-fluid "  alt="" />
                      
                      <span className="hoverle">
                      <a href={`/details-specie/${species[2].slug}`} >
@@ -156,7 +160,7 @@ const Home = () => {
                <div className="Gallery-box Gallery_g">
                   <figure>
                      
-                     <img src={Object.values(species[3].images).flat()[0].url} className="zoom img-fluid "  alt="" />
+                     <img src={`${process.env.REACT_APP_LOCAL}${Object.values(species[3].images).flat()[0].url}`} className="zoom img-fluid "  alt="" />
                      
                      <span className="hoverle">
                      <a href={`/details-specie/${species[3].slug}`} >

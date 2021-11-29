@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { createSpecie } from '../../api/specie'
 import { useTranslation } from "react-i18next";
 import GoogleMap from './GoogleMap';
-import {ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons'
 
 const SpecieCreateForm = ({handleChange,handleSubmit,values,
   handleFamiliaChange,showGenus,genusOptions,handleOrdoChange,
@@ -134,6 +132,7 @@ const SpecieCreateForm = ({handleChange,handleSubmit,values,
                   className = 'form-control' 
                 />  
               </div>
+          
             </div>
           <div id ='add-field' style ={{display:'flex',justifyContent:'space-between'}}>
             <div className="btn btn-outline-info" id ='addCoord' onClick ={handleAddCoord} > + </div>

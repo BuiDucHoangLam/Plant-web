@@ -1,8 +1,5 @@
 import React,{useEffect, useState} from 'react'
 import logo from '../images/logo.png'
-import search_icon from '../images/search_icon.png'
-import LoginBar from './LoginBar';
-import {MenuOutlined} from '@ant-design/icons'
 import { useDispatch,useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
@@ -12,7 +9,7 @@ import 'firebase/compat/firestore';
 import { useTranslation } from "react-i18next";
 import i18next from 'i18next';
 import cookies from 'js-cookie'
-import { Button, Modal, Card } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 
 import '../index.css'
 import '../css/style.css'
@@ -91,14 +88,14 @@ const Header = () => {
                   <div className="menu-top__child l-12">
                   <img style ={{width:'56px',height:'56px'}} src={icon} alt="#" onClick ={handleShow} />
                     
-                    <div className="logo-menu__child"> <a href="/"><img src={university} alt="#" /></a> </div>
+                    <div className="logo-menu__child"> <div><img src={university} alt="#" /></div> </div>
 
                     <div className="dropdown" style ={{marginTop:'10px'}}>
                         <span className ='menu-top-lang__child'><GlobeIcon/></span>
                         
                         <div className="dropdown-content">
                         {language.map(({code,name,country_code}) => (
-                            <div style ={{float:'left'}} key = {country_code}><a >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a></div>
+                            <div style ={{float:'left'}} key = {country_code}><div >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</div></div>
                           ))}
                         </div>
                         
@@ -119,7 +116,7 @@ const Header = () => {
                                 <span style ={{width:'35px',height:'35px',marginRight:'10px'}}><GlobeIcon/></span>
                                 <div className="dropdown-content">
                                 {language.map(({code,name,country_code}) => (
-                                    <div style ={{float:'left'}} key = {country_code}><a >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a></div>
+                                    <div style ={{float:'left'}} key = {country_code}><div >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</div></div>
                                   ))}
                                 </div>
                                 
@@ -127,10 +124,10 @@ const Header = () => {
                                   {/* {language.map(({code,name,country_code}) => (
                                     <li key = {country_code}><a >{<button onClick ={() => i18next.changeLanguage(code)} disabled ={code ===currLangCode} className="dropdown-item"> <span className ={`flag-icon flag-icon-${country_code} mx-2`}></span> {name}</button>}</a></li>
                                   ))}  */}
-                                 {(!user) ? <><li className ={href === 'login' && 'active'} key = 'login'> <a href="/login">{t('login')}</a> </li>
-                                  <li className ={href === 'register' && 'active'} key = 'register'> <a href="/register">{t('register')}</a> </li> </> 
+                                 {(!user) ? <><li className ={href === 'login' ? 'active' : undefined} key = 'login'> <Link to="/login">{t('login')}</Link> </li>
+                                  <li className ={href === 'register' ? 'active' : undefined} key = 'register'> <Link to="/register">{t('register')}</Link> </li> </> 
                                   :<> 
-                                   <li className ={href === 'dashboard' && 'active'} key = 'dashboard'> <Link to='/admin/dashboard'><span className ='dashboard'>{t('dashboard')}</span></Link>  </li>
+                                   {(user.role === 'admin') && <li className ={href === 'dashboard' ? 'active' : undefined} key = 'dashboard'> <Link to='/admin/dashboard'><span className ='dashboard'>{t('dashboard')}</span></Link>  </li>}
                                   <li key = 'name'> <span className ='login'>{user.name}</span>  </li>
                                   <li key = 'logout' onClick = {logout}> <span className ='login'>{t('logout')}</span>  </li> 
                                   </>}
@@ -145,7 +142,7 @@ const Header = () => {
                   <div className="col-xl-3 col-lg-3 col-md-1 col-sm-4 l-0 col logo_section">
                       <div className="full">
                         <div className="center-desk">
-                            <div className="logo"> <a href="/"><img src={logo} alt="#" /></a> </div>
+                            <div className="logo"> <Link to="/"><img src={logo} alt="#" /></Link> </div>
                         </div>
                       </div>
                   </div>
@@ -154,26 +151,24 @@ const Header = () => {
                         <div className="limit-box">
                             <nav className="main-menu">
                               <ul className="menu-area-main">
-                                  <li className ={!href && 'active'}> <a href="/">{t('home')}</a> </li>
+                                  <li className ={!href ? 'active' : undefined}> <Link to="/">{t('home')}</Link> </li>
                                   
-                                  <li className ={href === 'about' && 'active'}> <a href="/about">{t('about')}</a> </li>
-                                  <li className ={href === 'plants' && 'active'}> <a href="/plants">{t('info')}</a> </li>
+                                  <li className ={href === 'about' ? 'active' : undefined}> <Link to="/about">{t('about')}</Link> </li>
+                                  <li className ={href === 'plants' ? 'active' : undefined}> <Link to="/plants">{t('info')}</Link> </li>
                                  
-                                  <li className ={href === 'statistics' && 'active'}><a href="/statistics">{t('statistics')}</a></li>
+                                  <li className ={href === 'statistics' ? 'active' : undefined}><Link to="/statistics">{t('statistics')}</Link></li>
                                                                                            
                                   <div className="dropdown">
                                     <span className ={(href === 'search' || href ==='search-image') ? 'dropdown__span--active' : 'dropdown__span'} >{t('search')}</span>
-                                    <div className="dropdown-content" style ={{marginTop:'-15px'}}>
-                                      <div className ={href === 'search' ? 'dropdown__span-item--active' : 'dropdown__span-item'}><a href="/search">{t('info')}</a></div>
+                                    <div className="dropdown-content" style ={{marginTop:'15px'}}>
+                                      <div className ={href === 'search' ? 'dropdown__span-item--active' : 'dropdown__span-item'}><Link to="/search">{t('info')}</Link></div>
                                     </div>
-                                    <div className={"dropdown-content"} style ={{marginTop:'30px'}}>
-                                      <div className ={href === 'search-image' ? 'dropdown__span-item--active' : 'dropdown__span-item'}><a href="/search-image">{t('picture')}</a></div>
+                                    <div className={"dropdown-content"} style ={{marginTop:'60px'}}>
+                                      <div className ={href === 'search-image' ? 'dropdown__span-item--active' : 'dropdown__span-item'}><Link to="/search-image">{t('picture')}</Link></div>
                                     </div>
                                   </div>
-                                  {/* <li className ={href === 'search' ? 'dropdown-content active' : 'dropdown-content'}><a href="/search">{t('search')}</a></li>
-                                  <li className ={href === 'search-image' ? 'dropdown-content active' : ''}><a href="/search-image">{t('search')}</a></li> */}
-                               
-                                  <li className ={href === 'help' && 'active'}><a href="/help">{t('help')}</a></li>
+                                                             
+                                  <li className ={href === 'help' ? 'active' : undefined}><Link to="/help">{t('help')}</Link></li>
                             
                                   
                               </ul>
@@ -193,29 +188,27 @@ const Header = () => {
             <Modal.Body>
             {/* <nav className="main-menu"> */}
               <ul className ='menu-mobile'>
-                  <li className ={!href && 'active'}> <a href="/">{t('home')}</a> </li>
-                  {(!user) ? <><li className ={href === 'login' && 'active'} key = 'login'> <a href="/login">{t('login')}</a> </li>
-                      <li className ={href === 'register' && 'active'} key = 'register'> <a href="/register">{t('register')}</a> </li> </> 
+                  <li className ={!href ? 'active' : undefined}> <Link to="/">{t('home')}</Link> </li>
+                  {(!user) ? <><li className ={href === 'login' ? 'active' : undefined} key = 'login'> <Link to="/login">{t('login')}</Link> </li>
+                      <li className ={href === 'register' ? 'active' : undefined} key = 'register'> <Link to="/register">{t('register')}</Link> </li> </> 
                       :<> 
-                        <li className ={href === 'dashboard' && 'active'} key = 'dashboard'> <Link to='/admin/dashboard'>{t('dashboard')}</Link>  </li>
+                        <li className ={href === 'dashboard' ? 'active' : undefined} key = 'dashboard'> <Link to='/admin/dashboard'>{t('dashboard')}</Link>  </li>
                      
-                      <li key = 'logout' onClick = {logout}> <a href ='#'>{t('logout')} </a>  </li> 
+                      <li key = 'logout' onClick = {logout}> <Link to ='/'>{t('logout')} </Link>  </li> 
                       </>}
-                  <li className ={href === 'about' && 'active'}> <a href="/about">{t('about')}</a> </li>
-                  <li className ={href === 'plants' && 'active'}> <a href="/plants">{t('info')}</a> </li>
+                  <li className ={href === 'about' ? 'active' : undefined}> <Link to="/about">{t('about')}</Link> </li>
+                  <li className ={href === 'plants' ? 'active' : undefined}> <Link t="/plants">{t('info')}</Link> </li>
                   
-                  <li className ={href === 'statistics' && 'active'}><a href="/statistics">{t('statistics')}</a></li>
+                  <li className ={href === 'statistics' ? 'active' : undefined}><Link to="/statistics">{t('statistics')}</Link></li>
                                                                             
                   
-                  <li className ={href === 'search' && 'active' }><a href="/search">{t('search')} {t('info')}</a></li>
+                  <li className ={href === 'search' ? 'active' : undefined }><Link to="/search">{t('search')} {t('info')}</Link></li>
                 
                 
-                  <li className ={href === 'search-image' && 'active' }><a href="/search-image"> {t('search')} {t('picture')}</a></li>
-                   
-                  {/* <li className ={href === 'search' ? 'dropdown-content active' : 'dropdown-content'}><a href="/search">{t('search')}</a></li>
-                  <li className ={href === 'search-image' ? 'dropdown-content active' : ''}><a href="/search-image">{t('search')}</a></li> */}
+                  <li className ={href === 'search-image' ? 'active' : undefined }><Link to="/search-image"> {t('search')} {t('picture')}</Link></li>
+                  
                 
-                  <li className ={href === 'help' && 'active'}><a href="/help">{t('help')}</a></li>
+                  <li className ={href === 'help' ? 'active' : undefined}><Link to="/help">{t('help')}</Link></li>
             
                   
               </ul>

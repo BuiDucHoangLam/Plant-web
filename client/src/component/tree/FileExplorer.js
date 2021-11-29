@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Tree from './Tree';
-import { Link } from 'react-router-dom';
 
 const StyledFileExplorer = styled.div`
 
@@ -26,8 +25,6 @@ export default class FileExplorer extends Component {
   }
 
   render() {
-    const { selectedFile } = this.state;
-
     return (
       <StyledFileExplorer>
         <TreeWrapper>

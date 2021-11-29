@@ -31,10 +31,10 @@ const Footer = () => {
                             <div className="headinga">
                               <h3>{t('socialNetwork')}</h3>
                               <ul className="location_icon">   
-                                <li > <a className ='social-icon' href="#"><img src={facebook}/></a></li>
-                                <li> <a className ='social-icon'  href="#"><img src={Twitter}/></a></li>
-                                <li> <a className ='social-icon'  href="#"><img src={linkedin}/></a></li>
-                                <li> <a className ='social-icon'  href="#"><img src={instagram}/></a></li>
+                                <li > <a className ='social-icon' href="/#"><img alt='img' src={facebook}/></a></li>
+                                <li> <a className ='social-icon'  href="/#"><img alt='img' src={Twitter}/></a></li>
+                                <li> <a className ='social-icon'  href="/#"><img alt='img' src={linkedin}/></a></li>
+                                <li> <a className ='social-icon'  href="/#"><img alt='img' src={instagram}/></a></li>
                             </ul>
                             </div>
                           </div>
@@ -47,15 +47,15 @@ const Footer = () => {
                                                 <div>
                                               <div style = {{display:'flex',textAlign:'center'}}>
                                               {/* <div className="col-md-6"> */}
-                                                  <li style = {{padding:'0',display:'flex'}}> <a  style = {{paddingLeft:'12px',paddingRight:'15px'}} href="#">{t('home')}</a></li>
-                                                  <li style = {{padding:'0',display:'flex'}}> <a  style = {{paddingLeft:'12px',paddingRight:'15px'}} href="#">{t('about')}</a></li>
+                                                  <li style = {{padding:'0',display:'flex'}}> <a  style = {{paddingLeft:'12px',paddingRight:'15px'}} href="/#">{t('home')}</a></li>
+                                                  <li style = {{padding:'0',display:'flex'}}> <a  style = {{paddingLeft:'12px',paddingRight:'15px'}} href="/#">{t('about')}</a></li>
                                                  
                                               </div>
                                               {/* <div className="col-md-6"> */}
                                               <div style = {{display:'flex'}}>
                                                   
-                                                  <li  style = {{padding:'0',display:'flex'}} > <a  style = {{paddingLeft:'12px',paddingRight:'15px'}} href="#">{t('info')}</a></li>
-                                                  <li style = {{padding:'0',display:'flex'}}> <a  style = {{paddingLeft:'12px',paddingRight:'15px'}} href="#">{t('help')}</a></li>
+                                                  <li  style = {{padding:'0',display:'flex'}} > <a  style = {{paddingLeft:'12px',paddingRight:'15px'}} href="/#">{t('info')}</a></li>
+                                                  <li style = {{padding:'0',display:'flex'}}> <a  style = {{paddingLeft:'12px',paddingRight:'15px'}} href="/#">{t('help')}</a></li>
                                               </div>
                                               </div>
                                           </div>

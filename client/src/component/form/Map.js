@@ -1,7 +1,6 @@
-import React,{useState,useCallback} from 'react'
-import { withGoogleMap, withScriptjs, GoogleMap,Marker,InfoWindow } from "react-google-maps"
+import React from 'react'
+import { withGoogleMap, withScriptjs, GoogleMap,Marker } from "react-google-maps"
 import {} from '../../icon/flower-pot.png'
-import {formatRelative} from 'date-fns'
 
 const Map =  ({coordinates,zoom,varClick = null,onMapClick,markers,selected,setSelected}) => {
 

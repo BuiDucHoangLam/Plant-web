@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import Nav from '../../../component/Nav'
 import OrdoForm from '../../../component/form/OrdoForm'
-import ImageUpload from '../../../component/form/ImageUpload'
+import ImageUploadLocal from '../../../component/form/ImageUploadLocal'
 import { useTranslation } from "react-i18next";
 import { Link } from 'react-router-dom'
 import '../../../index.css'
@@ -49,9 +49,17 @@ const FamiliaEdit = ({history,match}) => {
     loadFamilia()
   },[])
 
+  const handleReset = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+    );
+    setValues(initialState)
+  };
+
   const handleSubmit = e => {
     e.preventDefault()
     updateFamilia(user.token,slug,values).then(res => {
+      handleReset()
       console.log(res.data);
       toast.success(`Cập nhật thành công!`)
       setTimeout(() => history.push('/admin/familia'),2000)
@@ -120,7 +128,7 @@ const FamiliaEdit = ({history,match}) => {
               </select>
             </div>
             <div className ='image-upload__div'>
-            <ImageUpload
+            <ImageUploadLocal
               values ={values}
               setValues= {setValues}
               setLoading = {setLoading}

@@ -1,5 +1,4 @@
 import React from 'react'
-import { createSpecie } from '../../api/specie'
 import { useTranslation } from "react-i18next";
 
 const SpecieEditForm = ({handleChange,handleSubmit,values,handleFamiliaChange,

@@ -19,7 +19,9 @@
     "firebase-admin": "^9.11.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.7",
+    "multer": "^1.4.3",
     "nodemon": "^2.0.12",
+    "path": "^0.12.7",
     "slugify": "^1.6.0"
   }
 }

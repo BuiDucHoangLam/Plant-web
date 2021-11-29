@@ -10,7 +10,7 @@ const OrdoForm = ({onSubmit,values,functionality,change}) => {
   const {t} = useTranslation()
   
   return (
-    <form className ="form__mobile" style ={{background:'none'}} onSubmit={onSubmit}>
+    <form className ="form__mobile" style ={{background:'none'}} onSubmit={onSubmit} id='form__base'>
       <div className="form-group">
         <label>{t('insertName')}</label>
         <input 
