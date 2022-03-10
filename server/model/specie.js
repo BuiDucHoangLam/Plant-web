@@ -61,6 +61,9 @@ const specieSchema = mongoose.Schema({
   coordinates:{
     type:Array,
   },
+  coordinatesList:{
+    type:Array,
+  },
   longitudeList:{
     type:Array,
   },

@@ -55,7 +55,7 @@ const Help = () => {
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <h4 style={{fontSize: '24px', fontWeight: 'bold'}}>Characteristic:</h4>
+                            <h4 style={{fontSize: '24px', fontWeight: 'bold'}}>{t('characteristics')}:</h4>
                             <div class="help-name">
                               <ul>
                                   <li>{t('background')}</li>

@@ -140,9 +140,9 @@ const Search = () => {
         <div className="main-layout search-image__hinhnen">
         <div className="container" style={{ marginTop: "150px" }}>
             
-          <div className ='wrapper-search__child' style={{ height: "80vh" }}>
+          <div className ='wrapper-search__child' style={{ height: "70vh" }}>
               
-            <div className="search-image__header__text-box">
+            <div className="search-image__header__text-box__normal ">
               <h1 className="search-image__heading-primary">
                 <div>{t('searchByName')}</div>
                 <hr />

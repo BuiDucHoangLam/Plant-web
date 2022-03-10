@@ -117,5 +117,12 @@
   "infoDetails":"Details",
   "statisticsOfPlants":"Statistics of plants quantities",
   "because":"because it contains",
-  "children":"children"
+  "children":"children",
+  "north":"North",
+  "center":"Center",
+  "south":"South",
+  "statisticsDistribution":"Distribution statistics",
+  "statisticsQuantities":"Quantities statistics",
+
+  "quantities":"Quantities"
 }

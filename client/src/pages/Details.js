@@ -87,7 +87,8 @@ const Details = ({match}) => {
   },[specie])
 
   console.log('specie',specie);
-  console.log('genus',genus);
+  console.log(specie.coordinates);
+
 
   return (
     <div style={{marginTop: '120px',backgroundImage:`url(${image})`,paddingTop:'1px',paddingBottom:'1px'}}>

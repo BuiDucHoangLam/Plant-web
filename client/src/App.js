@@ -114,6 +114,7 @@ const App = () => {
           <AdminRoute exact path = '/admin/familia/:slug' component ={FamiliaEdit} />
           <AdminRoute exact path = '/admin/genus/:slug' component ={GenusEdit} />
           <Route exact path = '/forgot/password' component ={PasswordForgot} />
+        
           
 
         </Switch>

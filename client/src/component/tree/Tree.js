@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import values from 'lodash/values';
 import PropTypes from 'prop-types';
-import { getListFamilia,createFamilia,deleteFamilia } from '../../api/familia';
-import { getListOrdo,createOrdo,deleteOrdo } from '../../api/ordo';
-import { getListGenus,createGenus,deleteGenus } from '../../api/genus';
-import { getSpecies,createSpecie,removeSpecie } from '../../api/specie';
+import { singleFileRemove } from '../../api/image';
+import { getListFamilia, createFamilia, deleteFamilia, getFamilia, getFamiliaListGenus } from '../../api/familia';
+import { getListOrdo, createOrdo, deleteOrdo, getOrdo, getOrdoListFamilia } from '../../api/ordo';
+import { getListGenus, createGenus, deleteGenus, getGenus, getGenusListSpecies } from '../../api/genus';
+import { getSpecies, createSpecie, removeSpecie, getSpecie } from '../../api/specie';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import TreeNode from './TreeNode';
@@ -53,78 +54,170 @@ const data = {
 class Tree extends Component {
   state = {
     nodes: data,
-    results:[],
-    obj:{},
-    loading:false
+    results: [],
+    obj: {},
+    loading: false
   };
 
   handleRemoveOrdo = async (slug) => {
-    if(window.confirm(`Delete ordo ${slug}?`)) {
-      this.setState({loading:true})
-      deleteOrdo(this.props.user.token,slug).then(res => {
-        console.log(res);
-        this.setState({loading:false})
-        this.renderData()
-        toast.info(`Success '${res.data.name}'`)
-        
-      }).catch(err => {
-        console.log('Delete ordo',err);
-        toast.error(`Failed '${err}'`)
-      })
+    if (window.confirm(`Delete ordo ${slug}?`)) {
+      getOrdo(slug).then(res => getOrdoListFamilia(res.data._id).then(rs => {
+        console.log('data', rs.data.length, 'type', typeof (rs.data));
+        if (rs.data && rs.data.length > 0) {
+
+          toast.error(`Không thể xóa do tồn tại ${rs.data.length} Họ thuộc Bộ này `)
+
+        } else {
+          this.setState({ loading: true })
+          getOrdo(slug).then(res => {
+            if (res.data.images.length > 0) {
+              res.data.images.map(item => singleFileRemove(item.fileName))
+            }
+          })
+          deleteOrdo(this.props.user.token, slug).then(res => {
+            console.log(res);
+            this.setState({ loading: false })
+            this.renderData()
+            toast.info(`Xóa thành công bộ '${res.data.name}'`)
+
+          }).catch(err => {
+            console.log('Xóa thất bại', err);
+            toast.error(`Failed '${err}'`)
+          })
+        }
+
+      }))
+      // this.setState({loading:true})
+      // deleteOrdo(this.props.user.token,slug).then(res => {
+      //   console.log(res);
+      //   this.setState({loading:false})
+      //   this.renderData()
+      //   toast.info(`Success '${res.data.name}'`)
+
+      // }).catch(err => {
+      //   console.log('Delete ordo',err);
+      //   toast.error(`Failed '${err}'`)
+      // })
     }
   }
 
   handleRemoveFamilia = async (slug) => {
-    if(window.confirm(`Delete familia ${slug}?`)) {
-      this.setState({loading:true})
-      deleteFamilia(this.props.user.token,slug).then(res => {
-        console.log(res);
-        this.setState({loading:false})
-        this.renderData()
-        toast.info(`Success '${res.data.name}'`)
-        
-      }).catch(err => {
-        console.log('Delete ordo',err);
-        toast.error(`Failed '${err}'`)
-      })
+    if (window.confirm(`Delete familia ${slug}?`)) {
+      getFamilia(slug).then(res => getFamiliaListGenus(res.data._id).then(rs => {
+        if (rs.data && rs.data.length > 0) {
+          toast.error(`Không thể xóa do tồn tại ${rs.data.length} Chi thuộc Họ này`)
+
+        } else {
+          getFamilia(slug).then(res => {
+            if (res.data.images.length > 0) {
+              res.data.images.map(item => singleFileRemove(item.fileName))
+            }
+          })
+          deleteFamilia(this.props.user.token, slug).then(res => {
+            console.log(res);
+            this.setState({ loading: false })
+            this.renderData()
+            toast.info(`Xóa thành công họ '${res.data.name}'`)
+
+          }).catch(err => {
+            console.log('Xóa thất bại', err);
+            toast.error(`Failed '${err}'`)
+          })
+        }
+      }))
+      // this.setState({ loading: true })
+      // deleteFamilia(this.props.user.token, slug).then(res => {
+      //   console.log(res);
+      //   this.setState({ loading: false })
+      //   this.renderData()
+      //   toast.info(`Success '${res.data.name}'`)
+
+      // }).catch(err => {
+      //   console.log('Delete ordo', err);
+      //   toast.error(`Failed '${err}'`)
+      // })
     }
   }
 
   handleRemoveSpecie = (slug) => {
-    if(window.confirm(`Delete specie ${slug}?`)){
-      removeSpecie(this.props.user.token,slug).then(res => {
+    if (window.confirm(`Delete specie ${slug}?`)) {
+      getSpecie(slug).then(res => {
+        if(res.data.images.imagesBackground.length > 0) {
+          res.data.images.imagesBackground.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesClove.length > 0) {
+          res.data.images.imagesClove.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesFlower.length > 0) {
+          res.data.images.imagesFlower.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesFruit.length > 0) {
+          res.data.images.imagesFruit.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesLeave.length > 0) {
+          res.data.images.imagesLeave.map(item => singleFileRemove(item.fileName))
+        } 
+        if(res.data.images.imagesSeed.length > 0) {
+          res.data.images.imagesSeed.map(item => singleFileRemove(item.fileName))
+        } 
+      })
+      removeSpecie(this.props.user.token, slug).then(res => {
         console.log(res.data);
         this.renderData()
-        
-        toast.info(`Success ${res.data.name}`)
+
+        toast.info(`Xóa thành công loài ${res.data.name}`)
       }).catch(err => {
-        console.log('Delete specie',err);
+        console.log('Xóa thất bại', err);
         toast.error(`${'failDeleteSpecie'}`)
       })
     }
   }
 
   handleRemoveGenus = async (slug) => {
-    if(window.confirm(`Delete genus ${slug}?`)) {
-      this.setState({loading:true})
-      deleteGenus(this.props.user.token,slug).then(res => {
-        console.log(res);
-        this.renderData()
-        this.setState({loading:false})
-        toast.info(`Success '${res.data.name}'`)
-       
-      }).catch(err => {
-        console.log('Delete genus',err);
-        toast.error(`Failed '${err}'`)
-      })
+    if (window.confirm(`Delete genus ${slug}?`)) {
+      this.setState({ loading: true })
+      getGenus(slug).then(res => getGenusListSpecies(res.data._id).then(rs => {
+        console.log(rs.data);
+        if (rs.data && rs.data.length > 0) {
+          toast.error(`Không thể xóa do tồn tại ${rs.data.length} Loài thuộc Chi này`)
+
+        } else {
+          this.setState({ loading: true })
+          getGenus(slug).then(res => {
+            if (res.data.images.length > 0) {
+              res.data.images.map(item => singleFileRemove(item.fileName))
+            }
+          })
+          deleteGenus(this.props.user.token, slug).then(res => {
+            console.log(res);
+            this.renderData()
+            this.setState({ loading: false })
+            toast.info(`Xóa thành công chi '${res.data.name}'`)
+
+          }).catch(err => {
+            console.log('Xóa thất bại', err);
+            toast.error(`Failed '${err}'`)
+          })
+        }
+      }))
+      // deleteGenus(this.props.user.token, slug).then(res => {
+      //   console.log(res);
+      //   this.renderData()
+      //   this.setState({ loading: false })
+      //   toast.info(`Success '${res.data.name}'`)
+
+      // }).catch(err => {
+      //   console.log('Delete genus', err);
+      //   toast.error(`Failed '${err}'`)
+      // })
     }
   }
 
   handleAdd = (node) => {
     const divBar = document.querySelector(`.div-${node.style}-${node.name}`)
     const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
-    console.log('input',inputBar.value);
-    if(divBar.style.display === 'none') {
+    console.log('input', inputBar.value);
+    if (divBar.style.display === 'none') {
       divBar.style.display = 'flex'
     } else {
       divBar.style.display = 'none'
@@ -134,40 +227,40 @@ class Tree extends Component {
   handleSubmit = (node) => {
     const inputBar = document.querySelector(`.insert-value-${node.style}-${node.name}`)
     const divBar = document.querySelector(`.div-${node.style}-${node.name}`)
-    
+
     const save = document.querySelector(`.submit-${node.style}-${node.name}`)
-    if(node.style === 'ordo') {
-      const obj = {name:inputBar.value,ordo:node._id}
+    if (node.style === 'ordo') {
+      const obj = { name: inputBar.value, ordo: node._id }
       console.log(obj);
-      createFamilia(this.props.user.token,obj).then(res => {
+      createFamilia(this.props.user.token, obj).then(res => {
         divBar.style.display = 'none'
 
         this.renderData()
-        console.log('familia',res.data);
+        console.log('familia', res.data);
       }).catch(err => console.log(err))
-    } else if(node.style === 'root'){
-      const obj = {name:inputBar.value}
+    } else if (node.style === 'root') {
+      const obj = { name: inputBar.value }
       console.log(obj);
-      createOrdo(this.props.user.token,obj).then(res => {
+      createOrdo(this.props.user.token, obj).then(res => {
         divBar.style.display = 'none'
         this.renderData()
-        console.log('ordo',res.data);
+        console.log('ordo', res.data);
       }).catch(err => console.log(err))
-    } else if(node.style === 'familia') {
-      const obj = {name:inputBar.value,ordo:node.ordo,familia:node._id}
+    } else if (node.style === 'familia') {
+      const obj = { name: inputBar.value, ordo: node.ordo, familia: node._id }
       console.log(obj);
-      createGenus(this.props.user.token,obj).then(res => {
+      createGenus(this.props.user.token, obj).then(res => {
         divBar.style.display = 'none'
         this.renderData()
-        console.log('genus',res.data);
+        console.log('genus', res.data);
       }).catch(err => console.log(err))
-    } else if(node.style === 'genus') {
-      const obj = {name:inputBar.value,ordo:node.ordo,familia:node.familia,genus:node._id}
+    } else if (node.style === 'genus') {
+      const obj = { name: inputBar.value, ordo: node.ordo, familia: node.familia, genus: node._id }
       console.log(obj);
-      createSpecie(this.props.user.token,obj).then(res => {
+      createSpecie(this.props.user.token, obj).then(res => {
         divBar.style.display = 'none'
         this.renderData()
-        console.log('ordo',res.data);
+        console.log('ordo', res.data);
       }).catch(err => console.log(err))
     }
     console.log(save);
@@ -176,103 +269,105 @@ class Tree extends Component {
   renderData = () => {
     getListOrdo().then(resO => {
       getListFamilia().then(resF => {
-          getListGenus().then(resG => {
-              getSpecies().then(resS => {
-                  this.setState({results:[...resO.data.map(item => ({...item,style:'ordo'})),
-                  ...resF.data.map(item => ({...item,style:'familia'})),
-                  ...resG.data.map(item => ({...item,style:'genus'})),
-                  ...resS.data.map(item => ({...item,style:'specie'}))
-                  ]})
-
-                  let rsArray = []
-                  let arr = []
-                  const {results} = this.state
-                  results.map(item => {
-                    if(item.style === 'specie'){
-                      item.path = `/root/${item.ordo?._id}/${item.familia?._id}/${item.genus?._id}/${item?._id}`
-                      item.type = 'file'
-                      item.loop = item.path.split('/')
-                      rsArray.push(item)
-                    }
-                    else if(item.style === 'genus'){
-                      item.path = `/root/${item.ordo}/${item.familia}/${item._id}`
-                      item.type = 'folder'
-                      item.loop = item.path.split('/')
-                      rsArray.push(item)
-                    }
-                    else if(item.style === 'familia'){
-                      item.path = `/root/${item.ordo}/${item._id}`
-                      item.type = 'folder'
-                      item.loop = item.path.split('/')
-                      rsArray.push(item)
-                    }
-                    else {
-                      item.path = `/root/${item._id}`
-                      item.type = 'folder'
-                      item.loop = item.path.split('/')
-                      rsArray.push(item)
-                    }
-                    return rsArray
-                  })
-
-                  // rsArray = results
-                  const genusList = this.genusLoop(rsArray)
-                  const familiaList = this.familiaLoop(rsArray)
-                  const specieList = this.specieLoop(rsArray)
-                  const ordoList = this.ordoLoop(rsArray)
-                  const root = [{
-                    name:'Plants',
-                    path: '/root',
-                    type: 'folder',
-                    isRoot: true,
-                    style:'root',
-                    children: []
-                  }]
-
-                  ordoList.map(ordo => {
-                    return root[0].children.push(ordo.path)
-                  })  
-
-                  ordoList.map(ordo => {
-                    let arr = []
-                    familiaList.map(familia => {
-                      if(ordo.loop[2] === familia.loop[2]) {
-                        arr.push(familia.path)
-                        ordo.children = arr
-                      }
-                    })
-                  })
-
-                  familiaList.map(familia => {
-                    let arr = []
-                    genusList.map(genus => {
-                      if(familia.loop[3] === genus.loop[3]) {
-                        arr.push(genus.path)
-                        familia.children = arr
-                      }
-                    })
-                  })
-
-                  genusList.map(genus => {
-                    let arr = []
-                    specieList.map(specie => {
-                      if(genus.loop[4] === specie.loop[4]) {
-                        arr.push(specie.path)
-                        genus.children = arr
-                      }
-                    })
-                  })
-
-                  arr = [...ordoList,...familiaList,...genusList,...specieList,...root]
-                  
-                  const nodes = this.convertArrayToObject(arr,'path')
-                  console.log('results',results,'rsArr',rsArray,'a',nodes);
-                  console.log('ordo',ordoList,'genus',genusList,'familia',familiaList,'specie',specieList);
-                  console.log(this.state);
-                  this.setState({nodes}) 
-                })
+        getListGenus().then(resG => {
+          getSpecies().then(resS => {
+            this.setState({
+              results: [...resO.data.map(item => ({ ...item, style: 'ordo' })),
+              ...resF.data.map(item => ({ ...item, style: 'familia' })),
+              ...resG.data.map(item => ({ ...item, style: 'genus' })),
+              ...resS.data.map(item => ({ ...item, style: 'specie' }))
+              ]
             })
+
+            let rsArray = []
+            let arr = []
+            const { results } = this.state
+            results.map(item => {
+              if (item.style === 'specie') {
+                item.path = `/root/${item.ordo?._id}/${item.familia?._id}/${item.genus?._id}/${item?._id}`
+                item.type = 'file'
+                item.loop = item.path.split('/')
+                rsArray.push(item)
+              }
+              else if (item.style === 'genus') {
+                item.path = `/root/${item.ordo}/${item.familia}/${item._id}`
+                item.type = 'folder'
+                item.loop = item.path.split('/')
+                rsArray.push(item)
+              }
+              else if (item.style === 'familia') {
+                item.path = `/root/${item.ordo}/${item._id}`
+                item.type = 'folder'
+                item.loop = item.path.split('/')
+                rsArray.push(item)
+              }
+              else {
+                item.path = `/root/${item._id}`
+                item.type = 'folder'
+                item.loop = item.path.split('/')
+                rsArray.push(item)
+              }
+              return rsArray
+            })
+
+            // rsArray = results
+            const genusList = this.genusLoop(rsArray)
+            const familiaList = this.familiaLoop(rsArray)
+            const specieList = this.specieLoop(rsArray)
+            const ordoList = this.ordoLoop(rsArray)
+            const root = [{
+              name: 'Plants',
+              path: '/root',
+              type: 'folder',
+              isRoot: true,
+              style: 'root',
+              children: []
+            }]
+
+            ordoList.map(ordo => {
+              return root[0].children.push(ordo.path)
+            })
+
+            ordoList.map(ordo => {
+              let arr = []
+              familiaList.map(familia => {
+                if (ordo.loop[2] === familia.loop[2]) {
+                  arr.push(familia.path)
+                  ordo.children = arr
+                }
+              })
+            })
+
+            familiaList.map(familia => {
+              let arr = []
+              genusList.map(genus => {
+                if (familia.loop[3] === genus.loop[3]) {
+                  arr.push(genus.path)
+                  familia.children = arr
+                }
+              })
+            })
+
+            genusList.map(genus => {
+              let arr = []
+              specieList.map(specie => {
+                if (genus.loop[4] === specie.loop[4]) {
+                  arr.push(specie.path)
+                  genus.children = arr
+                }
+              })
+            })
+
+            arr = [...ordoList, ...familiaList, ...genusList, ...specieList, ...root]
+
+            const nodes = this.convertArrayToObject(arr, 'path')
+            console.log('results', results, 'rsArr', rsArray, 'a', nodes);
+            console.log('ordo', ordoList, 'genus', genusList, 'familia', familiaList, 'specie', specieList);
+            console.log(this.state);
+            this.setState({ nodes })
+          })
         })
+      })
     })
   }
 
@@ -289,13 +384,13 @@ class Tree extends Component {
       };
     }, initialValue);
   };
-    
-  
+
+
 
   getRootNodes = () => {
     // const nodes = this.renderData()
     const { nodes } = this.state;
-   
+
     return values(nodes).filter(node => node.isRoot === true);
   }
 
@@ -304,7 +399,7 @@ class Tree extends Component {
     // const nodes = this.renderData()
     if (!node.children) return [];
     return node.children.map(path => nodes[path]);
-  }  
+  }
 
   onToggle = (node) => {
     const { nodes } = this.state;
@@ -317,11 +412,11 @@ class Tree extends Component {
     onSelect(node);
   }
 
- ordoLoop = arr => {
+  ordoLoop = arr => {
     let a = []
     arr.map(item => {
-      if(item.style === 'ordo')
-      a.push(item)
+      if (item.style === 'ordo')
+        a.push(item)
     })
     return a
   }
@@ -329,8 +424,8 @@ class Tree extends Component {
   genusLoop = arr => {
     let a = []
     arr.map(item => {
-      if(item.style === 'genus')
-      a.push(item)
+      if (item.style === 'genus')
+        a.push(item)
     })
     return a
   }
@@ -338,8 +433,8 @@ class Tree extends Component {
   familiaLoop = arr => {
     let a = []
     arr.map(item => {
-      if(item.style === 'familia')
-      a.push(item)
+      if (item.style === 'familia')
+        a.push(item)
     })
     return a
   }
@@ -347,8 +442,8 @@ class Tree extends Component {
   specieLoop = arr => {
     let a = []
     arr.map(item => {
-      if(item.style === 'specie')
-      a.push(item)
+      if (item.style === 'specie')
+        a.push(item)
     })
     return a
   }
@@ -356,25 +451,25 @@ class Tree extends Component {
   render() {
     console.log(this.props);
     const rootNodes = this.getRootNodes();
-   
-     return (
-      
+
+    return (
+
       <div className='explorer__phone-show'>
-       
-       
+
+
         {rootNodes.map(node => (
-          <TreeNode 
-            key = {node.path}
+          <TreeNode
+            key={node.path}
             node={node}
             getChildNodes={this.getChildNodes}
             onToggle={this.onToggle}
             onNodeSelect={this.onNodeSelect}
-            handleRemoveOrdo = {this.handleRemoveOrdo}
-            handleRemoveFamilia = {this.handleRemoveFamilia}
-            handleRemoveSpecie = {this.handleRemoveSpecie}
-            handleRemoveGenus = {this.handleRemoveGenus}
-            handleAdd = {this.handleAdd}
-            handleSubmit = {this.handleSubmit}
+            handleRemoveOrdo={this.handleRemoveOrdo}
+            handleRemoveFamilia={this.handleRemoveFamilia}
+            handleRemoveSpecie={this.handleRemoveSpecie}
+            handleRemoveGenus={this.handleRemoveGenus}
+            handleAdd={this.handleAdd}
+            handleSubmit={this.handleSubmit}
           />
         ))}
       </div>
@@ -383,11 +478,11 @@ class Tree extends Component {
 }
 
 const mapStateToProps = state => ({
-  user:state.user,
+  user: state.user,
 })
 
 Tree.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps,null)(Tree)
+export default connect(mapStateToProps, null)(Tree)

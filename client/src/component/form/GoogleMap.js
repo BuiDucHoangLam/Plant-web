@@ -6,8 +6,6 @@ const GoogleMap = ({coordinates,zoom,varClick,onMapClick,markers,selected,setSel
   const key = 'AIzaSyDIc3u_Pdmfhxb7Ti-3riE6IoCRHbPxeEM'
   console.log(coordinates);
 
-  
-
   return (
     <Map 
       coordinates = {coordinates}

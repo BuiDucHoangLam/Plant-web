@@ -14,13 +14,13 @@ const Map =  ({coordinates,zoom,varClick = null,onMapClick,markers,selected,setS
     <div>
       <GoogleMap
           defaultZoom={zoom ? zoom : 6}
-          defaultCenter={coordinates && coordinates.length > 0 ? {lat: coordinates[0][0] , lng: coordinates[0][1]} : center}
+          defaultCenter={coordinates && coordinates.length > 0 ? {lat: coordinates[0].latitude , lng: coordinates[0].longitude} : center}
           onClick = {varClick && onMapClick}
         >
           {coordinates.map((coord,index) => {
             return <Marker
               key ={index}
-              position={{ lat: coord[0] , lng: coord[1] }}
+              position={{ lat: coord['latitude'] , lng: coord['longitude'] }}
             
           />
           }) }

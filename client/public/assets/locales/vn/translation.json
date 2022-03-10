@@ -117,5 +117,11 @@
   "infoDetails":"Thông tin chi tiết",
   "statisticsOfPlants":"Thống kê số lượng",
   "because":"bởi nó chứa",
-  "children":"con"
+  "children":"con",
+  "north":"Miền bắc",
+  "center":"Miền trung",
+  "south":"Miền nam",
+  "statisticsDistribution":"Thống kê phân bố vùng",
+  "statisticsQuantities":"Thống kê số lượng",
+  "quantities":"Số lượng"
 }

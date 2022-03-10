@@ -104,7 +104,7 @@
     /* Search Image */
     .search-image__header__text-box {
         top: 48% !important;
-        height: 56vh !important;
+        height: 40vh;
     }
 
     /* admin Dashboard */
