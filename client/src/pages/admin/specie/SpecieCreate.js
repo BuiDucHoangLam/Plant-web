@@ -146,14 +146,15 @@ const SpecieCreate = () => {
 
     const results = { ...values, coordinates: array3, coordinatesList: coordinatesList }
 
-    createSpecie(user.token, results).then(res => {
-      console.log(res.data);
-      window.alert('Thành công!')
-      window.location.reload()
-    }).catch(err => {
-      console.log(err);
-      toast.error(err.response.data.err)
-    })
+    console.log(results);
+    // createSpecie(user.token, results).then(res => {
+    //   console.log(res.data);
+    //   window.alert('Thành công!')
+    //   window.location.reload()
+    // }).catch(err => {
+    //   console.log(err);
+    //   toast.error(err.response.data.err)
+    // })
   }
 
   const handleChange = e => {

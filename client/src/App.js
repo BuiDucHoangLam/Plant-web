@@ -50,7 +50,6 @@ const App = () => {
     const unsubscribe = auth.onAuthStateChanged(async (user)=> {
       
       if(user) {
-        console.log(user);
         const idTokenResult = await user.getIdTokenResult()
 
         // Use current instead of createOrUpdate to prevent losing info
@@ -67,7 +66,6 @@ const App = () => {
             }
           })
         }).catch(err => {
-          console.log(err);
         })
        
       }

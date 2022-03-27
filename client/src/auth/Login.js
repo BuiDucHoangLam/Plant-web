@@ -91,7 +91,6 @@ const Login = () => {
       const {user} = res
       const idTokenResult = await user.getIdTokenResult()
       createOrUpdateUser(idTokenResult.token).then(res => {
-        console.log(res);
         dispatch({
           type:'LOGGED_IN_USER',
           payload: {
@@ -104,12 +103,10 @@ const Login = () => {
         })
         redirectRole(res.data.role)
       }).catch(
-        err => console.log(err)
       )
       toast.success(`${t('loginGoogleSuccess')}`)
       // history.push('/')
     }).catch(error => {
-      console.log('err',error);
       toast.error(`${t('loginGoogleFailed')}`)
       setLoading(false)
     })
@@ -118,13 +115,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    console.log(email,password);
     try {
       
       const result = await auth.signInWithEmailAndPassword(email,password)
       const {user} = result
       const idTokenResult = await user.getIdTokenResult()
-      console.log(result);
 
       createOrUpdateUser(idTokenResult.token).then(res => {
         dispatch({
@@ -140,13 +135,11 @@ const Login = () => {
         redirectRole(res.data.role)
 
       }).catch(
-        err => console.log(err)
       )
       
       toast.success(`${t('loginEmailSuccess')}`)
       // history.push('/')
     } catch (error) {
-      console.log('err',error);
       toast.error(`${t('loginEmailFailed')}`)
       setLoading(false)
     }

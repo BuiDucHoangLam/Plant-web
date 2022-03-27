@@ -18,7 +18,6 @@ const PasswordChange = ({history}) => {
   const handleSubmit = async e => {
     e.preventDefault()
     setLoading(true)
-    console.log(process.env);
 
     const config = {
       url:process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT_URL,
@@ -34,7 +33,6 @@ const PasswordChange = ({history}) => {
       .catch((error)=>{
         setLoading(false)
         toast.error(error.message)
-        console.log("forgot pass",error);
       })
   }
 

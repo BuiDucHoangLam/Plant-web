@@ -25,7 +25,6 @@ const RegisterComplete = ({history}) => {
         let user =auth.currentUser
         await user.updatePassword(password)
         const idTokenResult = user.getIdTokenResult()
-        console.log('user',user,'id',idTokenResult);
         createOrUpdateUser(idTokenResult.token).then(res => {
           dispatch({
             type:'LOGGED_IN_USER',

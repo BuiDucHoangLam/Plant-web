@@ -1,7 +1,5 @@
 import React from 'react'
-import Resizer from 'react-image-file-resizer'
-import { singleFileUpload,multipleFilesUpload,getSingleFiles,singleFileRemove } from '../../api/image' 
-import { useSelector } from 'react-redux'
+import { singleFileUpload,singleFileRemove } from '../../api/image' 
 import { Avatar,Badge } from 'antd'
 
 const FileUploadLocal = ({values,  setValues,  setLoading, name,children}) => {
@@ -14,17 +12,14 @@ const FileUploadLocal = ({values,  setValues,  setLoading, name,children}) => {
   }
 
   const fileUploadAndResize = async (e) => {
-    console.log(e.target.files);
     // resize
     const files = e.target.files
     const allUploadedFiles = values.images[children]
-    console.log(allUploadedFiles);
     if(files) {
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
         await singleFileUpload(formData, singleFileOptions).then(res => {
-          console.log(res.data._id,res.data.fileName,res.data.filePath);
           const item = {public_id:res.data._id,fileName:res.data.fileName,url:res.data.filePath}
           allUploadedFiles.push(item)
         })                   
@@ -38,7 +33,6 @@ const FileUploadLocal = ({values,  setValues,  setLoading, name,children}) => {
 
   const handleImageRemove = (fileName) => {
     setLoading(true)
-    console.log('remove image',fileName);
     singleFileRemove(fileName)
     .then(res => {
       setLoading(false)
@@ -50,7 +44,6 @@ const FileUploadLocal = ({values,  setValues,  setLoading, name,children}) => {
       setValues({...values,...images,...images[children] = filteredImages})
     })
     .catch(err=> {
-      console.log('Remove error',err);
       setLoading(false)
 
     })

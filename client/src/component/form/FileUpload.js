@@ -9,11 +9,9 @@ const FileUpload = ({values,  setValues,  setLoading, name,children}) => {
 
   const {user} = useSelector(state => ({...state}))
   const fileUploadAndResize = (e) => {
-    console.log(e.target.files);
     // resize
     const files = e.target.files
     const allUploadedFiles = values.images[children]
-    console.log(allUploadedFiles);
     if(files) {
       for(let i = 0;i < files.length;i++){
         Resizer.imageFileResizer(
@@ -32,15 +30,12 @@ const FileUpload = ({values,  setValues,  setLoading, name,children}) => {
                 authtoken:user ? user.token : '',
               },
             }).then(res => {
-              console.log('upload image cloudinary',res.data);
               setLoading(false)
               allUploadedFiles.push(res.data)
               setValues({...values,...values.images,children:[...allUploadedFiles]})
-              console.log(allUploadedFiles);
               
             }).catch(err => {
               setLoading(false)
-              console.log('upload cloudinary failed ',err );
             })
         },'base64')
       }
@@ -52,7 +47,6 @@ const FileUpload = ({values,  setValues,  setLoading, name,children}) => {
 
   const handleImageRemove = (id) => {
     setLoading(true)
-    console.log('remove image',id);
     removeImageCloudinary(user.token,id)
     .then(res => {
       setLoading(false)
@@ -62,10 +56,8 @@ const FileUpload = ({values,  setValues,  setLoading, name,children}) => {
       })
 
       setValues({...values,...images,...images[children] = filteredImages})
-      console.log(filteredImages);
     })
     .catch(err=> {
-      console.log('Remove error',err);
       setLoading(false)
 
     })

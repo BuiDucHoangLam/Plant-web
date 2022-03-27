@@ -4,6 +4,7 @@ import {} from '../../icon/flower-pot.png'
 
 const Map =  ({coordinates,zoom,varClick = null,onMapClick,markers,selected,setSelected}) => {
 
+  console.log('coordinates',coordinates);
   // },[])
   const center = {
     lat: 11.936230,
@@ -14,6 +15,7 @@ const Map =  ({coordinates,zoom,varClick = null,onMapClick,markers,selected,setS
     <div>
       <GoogleMap
           defaultZoom={zoom ? zoom : 6}
+          // defaultCenter={center}
           defaultCenter={coordinates && coordinates.length > 0 ? {lat: coordinates[0].latitude , lng: coordinates[0].longitude} : center}
           onClick = {varClick && onMapClick}
         >

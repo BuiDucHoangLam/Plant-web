@@ -10,7 +10,6 @@ const ImageUpload = ({values,  setValues,  setLoading, name}) => {
   const {user} = useSelector(state => ({...state}))
   
   const fileUploadAndResize = (e) => {
-    console.log(e.target.files);
     // resize
     const files = e.target.files
     const allUploadedFiles = values.images
@@ -24,7 +23,6 @@ const ImageUpload = ({values,  setValues,  setLoading, name}) => {
           100,
           0,
           (uri) => {
-            console.log(uri);
             axios.post(`${process.env.REACT_APP_API}/upload-image`,
             {image:uri},
             {
@@ -32,13 +30,11 @@ const ImageUpload = ({values,  setValues,  setLoading, name}) => {
                 authtoken:user ? user.token : '',
               },
             }).then(res => {
-              console.log('upload image cloudinary',res.data);
               setLoading(false)
               allUploadedFiles.push(res.data)
               setValues({...values,images:allUploadedFiles})
             }).catch(err => {
               setLoading(false)
-              console.log('upload cloudinary failed ',err );
             })
         },'base64')
       }
@@ -50,7 +46,6 @@ const ImageUpload = ({values,  setValues,  setLoading, name}) => {
 
   const handleImageRemove = (id) => {
     setLoading(true)
-    console.log('remove image',id);
     removeImageCloudinary(user.token,id)
     .then(res => {
       setLoading(false)
@@ -62,7 +57,6 @@ const ImageUpload = ({values,  setValues,  setLoading, name}) => {
       setValues({...values,images:filteredImages})
     })
     .catch(err=> {
-      console.log('Remove error',err);
       setLoading(false)
 
     })

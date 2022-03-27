@@ -13,8 +13,8 @@ mongoose.connect(process.env.DATABASE,{
   useFindAndModify:false,
   useNewUrlParser:true,
   useUnifiedTopology:true,
-}).then(()=> console.log('DB connect success'))
-.catch(err => console.log('DB connect error',err))
+}).then()
+.catch()
 
 app.use(bodyParser.json({limit: '50mb', extended: true}))
 app.use(cors())

@@ -1,8 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Card,Tooltip } from 'antd'
+import { Card } from 'antd'
 import { Link } from 'react-router-dom'
-import plant1 from '../images/plant1.jpg'
 const {Meta} = Card
 
 const CardPlant = ({plant}) => {

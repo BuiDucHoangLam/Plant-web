@@ -94,7 +94,7 @@ const Details = ({match}) => {
     <div style={{marginTop: '120px',backgroundImage:`url(${image})`,paddingTop:'1px',paddingBottom:'1px'}}>
        <div className="main-layout plants__child" style = {{width:'75%',margin:'80px auto',backgroundColor:'white',borderRadius:'20px',background: 'rgba(255, 255, 255, .9)'}}>
       <div id="main-contener" style ={{margin:'20px'}}>
-         <div class="titlepage" style ={{paddingTop:'20px'}}>
+         <div className="titlepage" style ={{paddingTop:'20px'}}>
             <div className ='class-tt'>{t('infoDetails')}</div>
             <div >{showDownloadLink(specie)}</div>
             {/* style ={{position:'absolute',top:'30%',right:'0'}} */}
@@ -118,27 +118,27 @@ const Details = ({match}) => {
                {specie.synonyms.map(s => <div key ={s}>{s}</div>)} </div>}
                   <br />
                <hr />
-               <div class="operations">
-                  <div class="operations__tab-container" onClick = {handleOperationClick}>
+               <div className="operations">
+                  <div className="operations__tab-container" onClick = {handleOperationClick}>
                      <button
-                        class="btn operations__tab operations__tab--1 operations__tab--active"
+                        className="btn operations__tab operations__tab--1 operations__tab--active"
                         data-tab="1"
                      >
                         <img style ={{height:'50px',width:'50px'}} src ={icon_background} alt='bg' />
                      </button>
-                     <button class="btn operations__tab operations__tab--2" data-tab="2">
+                     <button className="btn operations__tab operations__tab--2" data-tab="2">
                      <img style ={{height:'50px',width:'50px'}} src ={icon_clove} alt='bg' />
                      </button>
-                     <button class="btn operations__tab operations__tab--3" data-tab="3">
+                     <button className="btn operations__tab operations__tab--3" data-tab="3">
                      <img style ={{height:'50px',width:'50px'}} src ={icon_flower} alt='bg' />
                      </button>
-                     <button class="btn operations__tab operations__tab--4" data-tab="4">
+                     <button className="btn operations__tab operations__tab--4" data-tab="4">
                      <img style ={{height:'50px',width:'50px'}} src ={icon_fruit} alt='bg' />
                      </button>
-                     <button class="btn operations__tab operations__tab--5" data-tab="5">
+                     <button className="btn operations__tab operations__tab--5" data-tab="5">
                      <img style ={{height:'50px',width:'50px'}} src ={icon_leaf} alt='bg' />
                      </button>
-                     <button class="btn operations__tab operations__tab--6" data-tab="6">
+                     <button className="btn operations__tab operations__tab--6" data-tab="6">
                      <img style ={{height:'50px',width:'50px'}} src ={icon_seed} alt='bg' />
                      </button>
                      

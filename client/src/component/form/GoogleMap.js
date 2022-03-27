@@ -4,7 +4,6 @@ import Map from './Map'
 
 const GoogleMap = ({coordinates,zoom,varClick,onMapClick,markers,selected,setSelected}) => {
   const key = 'AIzaSyDIc3u_Pdmfhxb7Ti-3riE6IoCRHbPxeEM'
-  console.log(coordinates);
 
   return (
     <Map 

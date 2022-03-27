@@ -1,8 +1,6 @@
 import React from 'react'
-import Resizer from 'react-image-file-resizer'
-import { singleFileUpload,multipleFilesUpload,getSingleFiles,singleFileRemove } from '../../api/image' 
+import { singleFileUpload,singleFileRemove } from '../../api/image' 
 import axios from 'axios'
-import { useSelector } from 'react-redux'
 import { Avatar,Badge } from 'antd'
 
 const ImageUploadLocal = ({values,  setValues,  setLoading, name,handleReset}) => {
@@ -15,7 +13,6 @@ const ImageUploadLocal = ({values,  setValues,  setLoading, name,handleReset}) =
   }
 
   const fileUploadAndResize = async (e) => {
-    console.log(e.target.files);
     // resize
     const files = e.target.files
     const allUploadedFiles = values.images
@@ -24,7 +21,6 @@ const ImageUploadLocal = ({values,  setValues,  setLoading, name,handleReset}) =
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
         await singleFileUpload(formData, singleFileOptions).then(res => {
-          console.log(res.data._id,res.data.fileName,res.data.filePath);
           const item = {public_id:res.data._id,fileName:res.data.fileName,url:res.data.filePath}
           allUploadedFiles.push(item)
         })                   
@@ -36,7 +32,6 @@ const ImageUploadLocal = ({values,  setValues,  setLoading, name,handleReset}) =
 
   const handleImageRemove = (fileName) => {
     setLoading(true)
-    console.log('remove image',fileName);
     singleFileRemove(fileName)
     .then(res => {
       setLoading(false)
